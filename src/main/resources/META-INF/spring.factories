@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  com.github.daniel.shuy.oauth2.keycloak.KeycloakOAuth2EnvironmentPostProcessor
