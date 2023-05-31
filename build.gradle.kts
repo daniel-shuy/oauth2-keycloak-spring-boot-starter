@@ -123,6 +123,11 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.springframework.boot:spring-boot-starter-oauth2-client")
+    compileOnly("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    compileOnly("org.springframework.boot:spring-boot-starter-web")
+    compileOnly("org.springframework.boot:spring-boot-starter-webflux")
+
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
