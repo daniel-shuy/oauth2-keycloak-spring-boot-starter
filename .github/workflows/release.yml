@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - hotfix/*
+      - release/*
+  workflow_dispatch:  # allow Action to be run manually
+
+env:
+  BRANCH: ${{ github.ref_name }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:  # required to publish to GitHub Packages
+      contents: read
+      packages: write
+    steps:
+      - name: Validate branch
+        if: startsWith(env.BRANCH, 'hotfix/') != true && startsWith(env.BRANCH, 'release/') != true
+        run: echo "::error ::Can only release from Hotfix/Release branch"
+
+      - id: get_version_from_branch
+        name: Get version from branch
+        run: echo "version=${BRANCH##*/}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout with GIT
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Publish package
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: >-
+            release
+            -Prelease.useAutomaticVersion=true
+            -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          GITHUB-TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+
+      - name: Merge to main
+        if: startsWith(env.BRANCH, 'release/')
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Delete branch
+        run: git push origin --delete $BRANCH
