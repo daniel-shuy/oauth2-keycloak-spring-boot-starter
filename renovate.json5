@@ -1,0 +1,42 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:base",
+  ],
+  rebaseWhen: "behind-base-branch",
+  prCreation: "not-pending",
+  dependencyDashboard: true,
+  automerge: true,
+  major: {
+    automerge: false,
+  },
+  packageRules: [
+    {
+      // Spring Boot version should be the lowest supported minor version
+      groupName: "Spring Boot",
+      packageNames: [
+        "org.springframework.boot",
+      ],
+      automerge: false,
+      minor: {
+        enabled: false,
+      },
+      patch: {
+        enabled: false,
+      },
+      prBodyNotes: [
+        ":warning: README.md must be updated manually",
+        "Update Kotlin version to version managed by Spring Boot"
+      ],
+    },
+    {
+      // Kotlin version depends on version managed by Spring Boot
+      groupName: "Kotlin",
+      packageNames: [
+        "org.jetbrains.kotlin.plugin.spring",
+        "org.jetbrains.kotlin.jvm",
+      ],
+      enabled: false,
+    },
+  ]
+}
