@@ -1,0 +1,17 @@
+{
+  "name": "oauth2-keycloak-spring-boot-starter",
+  "scripts": {
+    "json5-lint": "eslint . --ext json5",
+    "renovate-config-validator": "renovate-config-validator"
+  },
+  "devDependencies": {
+    "eslint": "8.42.0",
+    "eslint-plugin-json5": "0.1.4",
+    "renovate": "35.113.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daniel-shuy/oauth2-keycloak-spring-boot-starter.git"
+  },
+  "license": "MIT"
+}
