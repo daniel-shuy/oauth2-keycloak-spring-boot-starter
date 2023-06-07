@@ -1,16 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    val springBootVersion = "2.6.5" // lowest Spring Boot version that supports Gradle 8
-    val kotlinVersion = "1.6.10" // Kotlin version that is supported by Spring Boot version
-
-    id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
-    id("org.jetbrains.dokka") version "1.8.10"
-    id("net.researchgate.release") version "3.0.2"
+    id("org.springframework.boot") version Versions.springBoot apply false // don't build executable JAR
+    id("io.spring.dependency-management") version Versions.dependencyManagementPlugin
+    kotlin("jvm") version Versions.kotlin
+    kotlin("plugin.spring") version Versions.kotlin
+    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlint
+    id("org.jetbrains.dokka") version Versions.dokka
+    id("net.researchgate.release") version Versions.releasePlugin
     `maven-publish`
     signing
 }
@@ -23,17 +21,7 @@ val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(8))
-    }
-}
-
-// don't build executable JAR
-tasks {
-    bootJar {
-        enabled = false
-    }
-    jar {
-        archiveClassifier.set("")
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(Versions.java))
     }
 }
 
@@ -91,8 +79,8 @@ publishing {
             url = uri(if (isReleaseVersion) releasesRepoUrl else snapshotsRepoUrl)
 
             credentials {
-                username = System.getenv("MAVEN_USERNAME")
-                password = System.getenv("MAVEN_PASSWORD")
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_PASSWORD")
             }
         }
         maven {
@@ -121,6 +109,12 @@ signing {
 
 repositories {
     mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+    }
 }
 
 dependencies {

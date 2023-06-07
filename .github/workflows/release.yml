@@ -42,8 +42,8 @@ jobs:
             -Prelease.useAutomaticVersion=true
             -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GITHUB-TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
