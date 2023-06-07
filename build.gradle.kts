@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id("org.springframework.boot") version Versions.springBoot
+    id("org.springframework.boot") version Versions.springBoot apply false // don't build executable JAR
     id("io.spring.dependency-management") version Versions.dependencyManagementPlugin
     kotlin("jvm") version Versions.kotlin
     kotlin("plugin.spring") version Versions.kotlin
@@ -21,16 +22,6 @@ val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 kotlin {
     jvmToolchain {
         (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(Versions.java))
-    }
-}
-
-// don't build executable JAR
-tasks {
-    bootJar {
-        enabled = false
-    }
-    jar {
-        archiveClassifier.set("")
     }
 }
 
@@ -118,6 +109,12 @@ signing {
 
 repositories {
     mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+    }
 }
 
 dependencies {
