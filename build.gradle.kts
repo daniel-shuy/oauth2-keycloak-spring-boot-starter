@@ -113,7 +113,11 @@ repositories {
 
 dependencyManagement {
     imports {
-        mavenBom(SpringBootPlugin.BOM_COORDINATES)
+        mavenBom(SpringBootPlugin.BOM_COORDINATES) {
+            // Dokka 1.8.20+ requires kotlinx-coroutines-core 1.6.x,
+            // but spring-boot-dependencies 2.6.5 declares kotlin-coroutines-core 1.5.2 as a dependency management
+            bomProperty("kotlin-coroutines.version", Versions.kotlinCoroutines)
+        }
     }
 }
 
