@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    id("org.springframework.boot") version Versions.springBoot apply false // don't build executable JAR
-    id("io.spring.dependency-management") version Versions.dependencyManagementPlugin
-    kotlin("jvm") version Versions.kotlin
-    kotlin("plugin.spring") version Versions.kotlin
-    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlint
-    id("org.jetbrains.dokka") version Versions.dokka
-    id("net.researchgate.release") version Versions.releasePlugin
+    alias(libs.plugins.spring.boot) apply false // don't build executable JAR
+    alias(libs.plugins.dependency.management)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.dokka)
+    alias(libs.plugins.release)
     `maven-publish`
     signing
 }
@@ -21,7 +21,7 @@ val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(Versions.java))
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
     }
 }
 
@@ -116,19 +116,20 @@ dependencyManagement {
         mavenBom(SpringBootPlugin.BOM_COORDINATES) {
             // Dokka 1.8.20+ requires kotlinx-coroutines-core 1.6.x,
             // but spring-boot-dependencies 2.6.5 declares kotlin-coroutines-core 1.5.2 as a dependency management
-            bomProperty("kotlin-coroutines.version", Versions.kotlinCoroutines)
+            bomProperty("kotlin-coroutines.version", libs.versions.kotlinCoroutines.get())
         }
     }
 }
 
 dependencies {
-    compileOnly("org.springframework.boot:spring-boot-starter-oauth2-client")
-    compileOnly("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
-    compileOnly("org.springframework.boot:spring-boot-starter-web")
-    compileOnly("org.springframework.boot:spring-boot-starter-webflux")
+    compileOnly(libs.spring.boot.starter.oauth2.client)
+    compileOnly(libs.spring.boot.starter.oauth2.resource.server)
+    compileOnly(libs.spring.boot.starter.web)
+    compileOnly(libs.spring.boot.starter.webflux)
 
-    implementation("org.springframework.boot:spring-boot-starter")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    implementation(libs.spring.boot.starter)
+
+    testImplementation(libs.spring.boot.starter.test)
 }
 
 tasks.withType<KotlinCompile> {
