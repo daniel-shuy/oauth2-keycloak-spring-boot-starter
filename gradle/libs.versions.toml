@@ -9,6 +9,7 @@ releasePlugin = "3.0.2"
 springBoot = "2.6.5"    # lowest Spring Boot version that supports Gradle 8
 
 [libraries]
+kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
 spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
 spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client" }
 spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server" }
