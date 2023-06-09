@@ -1,19 +1,13 @@
 package com.github.daniel.shuy.oauth2.keycloak
 
-import com.github.daniel.shuy.oauth2.keycloak.converter.DefaultKeycloakJwtAuthenticationConverter
-import com.github.daniel.shuy.oauth2.keycloak.converter.DefaultKeycloakJwtAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.converter.DefaultKeycloakJwtGrantedAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.converter.KeycloakJwtAuthenticationConverter
-import com.github.daniel.shuy.oauth2.keycloak.converter.KeycloakJwtAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.converter.KeycloakJwtGrantedAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.reactive.KeycloakReactiveConfiguration
-import com.github.daniel.shuy.oauth2.keycloak.reactive.KeycloakSecurityMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.reactive.client.KeycloakReactiveOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.reactive.server.resource.KeycloakReactiveOAuth2ResourceServerConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.servlet.KeycloakRequestMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.servlet.KeycloakServletConfiguration
-import com.github.daniel.shuy.oauth2.keycloak.servlet.client.KeycloakOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.servlet.server.resource.KeycloakOAuth2ResourceServerConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguration
+import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOAuth2ClientConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.KeycloakSecurityMatcherProvider
+import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.KeycloakRequestMatcherProvider
+import com.github.daniel.shuy.oauth2.keycloak.server.resource.KeycloakResourceServerConfiguration
+import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -33,28 +27,14 @@ import org.springframework.context.annotation.Import
     matchIfMissing = true,
 )
 @Import(
-    KeycloakServletConfiguration::class,
-    KeycloakReactiveConfiguration::class,
+    KeycloakClientConfiguration::class,
+    KeycloakResourceServerConfiguration::class,
 )
 class KeycloakAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    fun keycloakJwtAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtAuthoritiesConverter =
-        DefaultKeycloakJwtAuthoritiesConverter(keycloakProperties.clientId)
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun keycloakJwtGrantedAuthoritiesConverter(
-        keycloakJwtAuthoritiesConverter: KeycloakJwtAuthoritiesConverter,
-    ): KeycloakJwtGrantedAuthoritiesConverter =
-        DefaultKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtAuthoritiesConverter)
-
-    @Bean
-    @ConditionalOnMissingBean
-    fun keycloakJwtAuthenticationConverter(
-        keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
-    ): KeycloakJwtAuthenticationConverter =
-        DefaultKeycloakJwtAuthenticationConverter(keycloakJwtGrantedAuthoritiesConverter)
+    fun keycloakJwtClaimsAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtClaimsAuthoritiesConverter =
+        DefaultKeycloakJwtClaimsAuthoritiesConverter(keycloakProperties.clientId)
 
     @Bean
     fun keycloakWebSecurityConfigurer(

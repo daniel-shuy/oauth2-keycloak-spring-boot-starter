@@ -1,14 +1,14 @@
 package com.github.daniel.shuy.oauth2.keycloak
 
-import com.github.daniel.shuy.oauth2.keycloak.reactive.KeycloakSecurityMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.reactive.client.KeycloakReactiveOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.reactive.matcher.AnyServerWebExchangeMatcher
-import com.github.daniel.shuy.oauth2.keycloak.reactive.matcher.RedirectToInteractiveLoginServerWebExchangeMatcher
-import com.github.daniel.shuy.oauth2.keycloak.reactive.server.resource.KeycloakReactiveOAuth2ResourceServerConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.servlet.KeycloakRequestMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.servlet.client.KeycloakOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.servlet.matcher.RedirectToInteractiveLoginRequestMatcher
-import com.github.daniel.shuy.oauth2.keycloak.servlet.server.resource.KeycloakOAuth2ResourceServerConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOAuth2ClientConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.AnyServerWebExchangeMatcher
+import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.KeycloakSecurityMatcherProvider
+import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.RedirectToInteractiveLoginServerWebExchangeMatcher
+import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.KeycloakRequestMatcherProvider
+import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.RedirectToInteractiveLoginRequestMatcher
+import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.config.web.server.ServerHttpSecurity
