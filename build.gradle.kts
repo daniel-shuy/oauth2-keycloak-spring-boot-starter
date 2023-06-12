@@ -17,9 +17,8 @@ description = "Spring Boot Starter for using Keycloak as the OAuth2 authorizatio
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
-    }
+    jvmToolchain(libs.versions.java.get().toInt())
+    coreLibrariesVersion = libs.versions.kotlinLib.get()
 }
 
 java {

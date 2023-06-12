@@ -29,14 +29,5 @@
         "Update Kotlin version to version managed by Spring Boot"
       ],
     },
-    {
-      // Kotlin version depends on version managed by Spring Boot
-      groupName: "Kotlin",
-      packageNames: [
-        "org.jetbrains.kotlin.plugin.spring",
-        "org.jetbrains.kotlin.jvm",
-      ],
-      enabled: false,
-    },
   ]
 }
