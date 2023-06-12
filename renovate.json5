@@ -14,7 +14,7 @@
     {
       // Spring Boot version should be the lowest supported minor version
       groupName: "Spring Boot",
-      packageNames: [
+      matchPackagePrefixes: [
         "org.springframework.boot",
       ],
       automerge: false,
