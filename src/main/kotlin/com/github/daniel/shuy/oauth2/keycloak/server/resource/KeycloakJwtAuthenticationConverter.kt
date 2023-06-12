@@ -8,13 +8,13 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 /**
  * Converts Keycloak bearer token to [AbstractAuthenticationToken].
  */
-interface KeycloakJwtAuthenticationConverter : Converter<Jwt, AbstractAuthenticationToken>
+public interface KeycloakJwtAuthenticationConverter : Converter<Jwt, AbstractAuthenticationToken>
 
 /**
  * Converts Keycloak bearer token to [AbstractAuthenticationToken] using the given
  * [KeycloakJwtGrantedAuthoritiesConverter].
  */
-open class DefaultKeycloakJwtAuthenticationConverter(
+public open class DefaultKeycloakJwtAuthenticationConverter(
     keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
 ) : JwtAuthenticationConverter(), KeycloakJwtAuthenticationConverter {
     init {

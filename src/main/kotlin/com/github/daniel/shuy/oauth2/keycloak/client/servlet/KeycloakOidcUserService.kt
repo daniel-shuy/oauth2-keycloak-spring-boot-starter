@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils
  * Maps Spring Security authorities for Keycloak [OidcUser]s using the given
  * [KeycloakOidcUserGrantedAuthoritiesConverter].
  */
-class KeycloakOidcUserService(
+public class KeycloakOidcUserService(
     private val keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter,
 ) : OidcUserService() {
     override fun loadUser(userRequest: OidcUserRequest): OidcUser {

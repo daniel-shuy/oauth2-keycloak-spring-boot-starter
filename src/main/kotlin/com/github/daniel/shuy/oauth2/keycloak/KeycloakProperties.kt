@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated
 @ConfigurationProperties(KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX)
 @ConstructorBinding
 @Validated
-data class KeycloakProperties(
+public data class KeycloakProperties(
     /**
      * Set to `false` to disable Spring Security integration with Keycloak.
      */
@@ -39,7 +39,7 @@ data class KeycloakProperties(
      */
     val bearerOnly: Boolean = false,
 ) {
-    companion object {
-        const val CONFIGURATION_PROPERTIES_PREFIX = "keycloak"
+    public companion object {
+        public const val CONFIGURATION_PROPERTIES_PREFIX: String = "keycloak"
     }
 }

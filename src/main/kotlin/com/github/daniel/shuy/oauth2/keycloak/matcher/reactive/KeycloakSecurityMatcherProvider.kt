@@ -5,4 +5,4 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 /**
  * Provider for [ServerWebExchangeMatcher] that determines if a given request is protected by Keycloak.
  */
-interface KeycloakSecurityMatcherProvider : () -> ServerWebExchangeMatcher
+public interface KeycloakSecurityMatcherProvider : () -> ServerWebExchangeMatcher

@@ -6,27 +6,27 @@ import org.springframework.core.convert.converter.Converter
 import java.util.stream.Stream
 import kotlin.streams.toList
 
-typealias JwtClaims = Map<String, Any>
+public typealias JwtClaims = Map<String, Any>
 
 /**
  * Converts Keycloak bearer token to Spring Security authorities.
  */
-interface KeycloakJwtClaimsAuthoritiesConverter : Converter<JwtClaims, Collection<String>>
+public interface KeycloakJwtClaimsAuthoritiesConverter : Converter<JwtClaims, Collection<String>>
 
 /**
  * [KeycloakJwtClaimsAuthoritiesConverter] implementation for Keycloak that maps:
  * - Keycloak Realm Roles ([CLAIM_REALM_ACCESS] roles) -> prefixed with _ROLE
  * - Keycloak Client Roles ([CLAIM_RESOURCE_ACCESS] roles) -> unchanged
  */
-open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
+public open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
     protected val keycloakResource: String,
 ) : KeycloakJwtClaimsAuthoritiesConverter {
-    companion object {
-        protected const val CLAIM_REALM_ACCESS = "realm_access"
-        protected const val CLAIM_RESOURCE_ACCESS = "resource_access"
+    public companion object {
+        protected const val CLAIM_REALM_ACCESS: String = "realm_access"
+        protected const val CLAIM_RESOURCE_ACCESS: String = "resource_access"
 
-        protected const val KEY_ROLES = "roles"
-        protected const val GRANTED_AUTHORITY_PREFIX_ROLE = "ROLE"
+        protected const val KEY_ROLES: String = "roles"
+        protected const val GRANTED_AUTHORITY_PREFIX_ROLE: String = "ROLE"
 
         protected fun rolesFromAccess(access: Map<*, *>): Collection<*> =
             access[KEY_ROLES] as? Collection<*> ?: emptyList<Any>()
