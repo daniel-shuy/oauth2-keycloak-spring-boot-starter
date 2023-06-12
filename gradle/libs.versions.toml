@@ -6,7 +6,7 @@ kotlinLib = "1.6.10"    # Kotlin version that is supported by spring-boot-depend
 kotlinPlugin = "1.8.22"
 ktlintPlugin = "11.4.0"
 releasePlugin = "3.0.2"
-springBoot = "2.6.5"    # lowest Spring Boot version that supports Gradle 8
+springBoot = "2.2.3.RELEASE"    # lowest Spring Boot version with all required features
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
