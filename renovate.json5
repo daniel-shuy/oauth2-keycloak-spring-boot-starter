@@ -17,6 +17,7 @@
       matchPackagePrefixes: [
         "org.springframework.boot",
       ],
+      allowedVersions: "/^[0-9]+\\.0\\.0$/",  // only allow major version updates
       automerge: false,
       minor: {
         enabled: false,
