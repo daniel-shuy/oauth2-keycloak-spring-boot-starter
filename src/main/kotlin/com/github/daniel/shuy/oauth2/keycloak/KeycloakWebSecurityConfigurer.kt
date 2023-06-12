@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.NegatedRequestMatcher
 /**
  * Utility class to configure web security for Keycloak.
  */
-class KeycloakWebSecurityConfigurer(
+public class KeycloakWebSecurityConfigurer(
     private val keycloakOAuth2ClientConfigurer: KeycloakOAuth2ClientConfigurer?,
     private val keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
     private val keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
@@ -40,7 +40,7 @@ class KeycloakWebSecurityConfigurer(
      * If `spring-security-oauth2-client` is not on the classpath, or if [KeycloakProperties.bearerOnly] is set to
      * `true`, the filter will be disabled.
      */
-    fun configureOAuth2Client(http: HttpSecurity) {
+    public fun configureOAuth2Client(http: HttpSecurity) {
         // spring-security-oauth2-client is not on the classpath
         if (keycloakOAuth2ClientConfigurer == null) {
             disableFilter(http)
@@ -64,7 +64,7 @@ class KeycloakWebSecurityConfigurer(
      * If `spring-security-oauth2-client` is not on the classpath, or if [KeycloakProperties.bearerOnly] is set to
      * `true`, the filter will be disabled.
      */
-    fun configureOAuth2Client(http: ServerHttpSecurity) {
+    public fun configureOAuth2Client(http: ServerHttpSecurity) {
         // spring-security-oauth2-client is not on the classpath
         if (keycloakReactiveOAuth2ClientConfigurer == null) {
             disableFilter(http)
@@ -84,7 +84,7 @@ class KeycloakWebSecurityConfigurer(
      * Configure filter as OAuth2 Resource Server:
      * - validate bearer token
      */
-    fun configureOAuth2ResourceServer(http: HttpSecurity) {
+    public fun configureOAuth2ResourceServer(http: HttpSecurity) {
         // spring-security-oauth2-resource-server is not on the classpath
         if (keycloakOAuth2ResourceServerConfigurer == null) {
             disableFilter(http)
@@ -100,7 +100,7 @@ class KeycloakWebSecurityConfigurer(
      * Configure filter as OAuth2 Resource Server:
      * - validate bearer token
      */
-    fun configureOAuth2ResourceServer(http: ServerHttpSecurity) {
+    public fun configureOAuth2ResourceServer(http: ServerHttpSecurity) {
         // spring-security-oauth2-resource-server is not on the classpath
         if (keycloakReactiveOAuth2ResourceServerConfigurer == null) {
             disableFilter(http)

@@ -6,6 +6,6 @@ import org.springframework.security.oauth2.server.resource.authentication.Reacti
 /**
  * Adapts the given [KeycloakJwtAuthenticationConverter] for reactive.
  */
-class KeycloakReactiveJwtAuthenticationConverter(
+public class KeycloakReactiveJwtAuthenticationConverter(
     keycloakJwtAuthenticationConverter: KeycloakJwtAuthenticationConverter,
 ) : ReactiveJwtAuthenticationConverterAdapter(keycloakJwtAuthenticationConverter)

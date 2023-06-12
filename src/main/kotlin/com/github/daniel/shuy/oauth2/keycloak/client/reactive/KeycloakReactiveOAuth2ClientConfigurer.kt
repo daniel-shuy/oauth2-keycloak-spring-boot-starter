@@ -8,14 +8,14 @@ import org.springframework.security.web.server.authentication.logout.ServerLogou
 /**
  * Configure filter as an OAuth2 Client for Keycloak.
  */
-interface KeycloakReactiveOAuth2ClientConfigurer {
-    fun configureOAuth2Client(http: ServerHttpSecurity)
+public interface KeycloakReactiveOAuth2ClientConfigurer {
+    public fun configureOAuth2Client(http: ServerHttpSecurity)
 }
 
 /**
  * Configure filter as an OAuth2 Client for Keycloak using `spring-security-oauth2-client`.
  */
-open class DefaultKeycloakReactiveOAuth2ClientConfigurer(
+public open class DefaultKeycloakReactiveOAuth2ClientConfigurer(
     protected val clientRegistrationRepository: ReactiveClientRegistrationRepository,
 ) : KeycloakReactiveOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: ServerHttpSecurity) {

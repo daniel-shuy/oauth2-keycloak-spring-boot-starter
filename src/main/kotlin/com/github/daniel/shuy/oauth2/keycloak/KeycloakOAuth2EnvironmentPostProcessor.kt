@@ -12,7 +12,7 @@ import org.springframework.core.env.getProperty
 /**
  * Configures [OAuth2ResourceServerProperties] and [OAuth2ClientProperties] for Keycloak using [KeycloakProperties].
  */
-object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor {
+public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor {
     private const val SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME = "keycloak"
     private const val SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME = "keycloak"
     private const val OAUTH2_AUTHORIZATION_GRANT_TYPE = "authorization_code"
@@ -47,7 +47,7 @@ object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor {
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::bearerOnly.name)}"
 
     @JvmStatic
-    fun postProcessEnvironment(environment: ConfigurableEnvironment) {
+    public fun postProcessEnvironment(environment: ConfigurableEnvironment) {
         postProcessEnvironment(environment, null)
     }
 

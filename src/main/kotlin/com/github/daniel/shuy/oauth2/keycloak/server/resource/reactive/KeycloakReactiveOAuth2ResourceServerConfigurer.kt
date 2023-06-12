@@ -5,14 +5,14 @@ import org.springframework.security.config.web.server.ServerHttpSecurity
 /**
  * Configure filter as an OAuth2 resource server for Keycloak.
  */
-interface KeycloakReactiveOAuth2ResourceServerConfigurer {
-    fun configureOAuth2ResourceServer(http: ServerHttpSecurity)
+public interface KeycloakReactiveOAuth2ResourceServerConfigurer {
+    public fun configureOAuth2ResourceServer(http: ServerHttpSecurity)
 }
 
 /**
  * Configure filter as an OAuth2 resource server for Keycloak using `spring-security-oauth2-resource-server`.
  */
-open class DefaultKeycloakReactiveOAuth2ResourceServerConfigurer(
+public open class DefaultKeycloakReactiveOAuth2ResourceServerConfigurer(
     protected val keycloakJwtAuthenticationConverter: KeycloakReactiveJwtAuthenticationConverter,
 ) : KeycloakReactiveOAuth2ResourceServerConfigurer {
     override fun configureOAuth2ResourceServer(http: ServerHttpSecurity) {

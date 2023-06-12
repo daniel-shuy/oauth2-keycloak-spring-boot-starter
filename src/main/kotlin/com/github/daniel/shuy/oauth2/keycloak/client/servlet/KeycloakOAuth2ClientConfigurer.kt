@@ -10,14 +10,14 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 /**
  * Configure filter as an OAuth2 Client for Keycloak.
  */
-interface KeycloakOAuth2ClientConfigurer {
-    fun configureOAuth2Client(http: HttpSecurity)
+public interface KeycloakOAuth2ClientConfigurer {
+    public fun configureOAuth2Client(http: HttpSecurity)
 }
 
 /**
  * Configure filter as an OAuth2 Client for Keycloak using `spring-security-oauth2-client`.
  */
-open class DefaultKeycloakOAuth2ClientConfigurer(
+public open class DefaultKeycloakOAuth2ClientConfigurer(
     protected val clientRegistrationRepository: ClientRegistrationRepository,
     protected val keycloakOidcUserService: KeycloakOidcUserService,
 ) : KeycloakOAuth2ClientConfigurer {

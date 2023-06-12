@@ -13,15 +13,15 @@ import org.springframework.security.oauth2.jwt.JwtDecoder
 /**
  * Converts [OidcUserRequest] and [OidcUser] for Keycloak to Spring Security granted authorities.
  */
-interface KeycloakOidcUserGrantedAuthoritiesConverter {
-    fun toGrantedAuthorities(userRequest: OidcUserRequest, oidcUser: OidcUser): Collection<GrantedAuthority>?
+public interface KeycloakOidcUserGrantedAuthoritiesConverter {
+    public fun toGrantedAuthorities(userRequest: OidcUserRequest, oidcUser: OidcUser): Collection<GrantedAuthority>?
 }
 
 /**
  * Converts [OidcUserRequest] and [OidcUser] for Keycloak to Spring Security granted authorities using the given
  * [JwtDecoder] and [KeycloakJwtClaimsAuthoritiesConverter].
  */
-open class DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
+public open class DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
     protected val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
 ) : KeycloakOidcUserGrantedAuthoritiesConverter {
     override fun toGrantedAuthorities(

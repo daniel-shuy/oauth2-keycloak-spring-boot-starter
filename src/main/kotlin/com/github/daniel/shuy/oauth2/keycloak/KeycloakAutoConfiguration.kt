@@ -30,21 +30,21 @@ import org.springframework.context.annotation.Import
     KeycloakClientConfiguration::class,
     KeycloakResourceServerConfiguration::class,
 )
-class KeycloakAutoConfiguration {
+public class KeycloakAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    fun keycloakJwtClaimsAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtClaimsAuthoritiesConverter =
+    public fun keycloakJwtClaimsAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtClaimsAuthoritiesConverter =
         DefaultKeycloakJwtClaimsAuthoritiesConverter(keycloakProperties.clientId)
 
     @Bean
-    fun keycloakWebSecurityConfigurer(
+    public fun keycloakWebSecurityConfigurer(
         keycloakOAuth2ClientConfigurer: KeycloakOAuth2ClientConfigurer?,
         keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
         keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
         keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
         keycloakRequestMatcherProvider: KeycloakRequestMatcherProvider?,
         keycloakSecurityMatcherProvider: KeycloakSecurityMatcherProvider?,
-    ) = KeycloakWebSecurityConfigurer(
+    ): KeycloakWebSecurityConfigurer = KeycloakWebSecurityConfigurer(
         keycloakOAuth2ClientConfigurer,
         keycloakReactiveOAuth2ClientConfigurer,
         keycloakOAuth2ResourceServerConfigurer,

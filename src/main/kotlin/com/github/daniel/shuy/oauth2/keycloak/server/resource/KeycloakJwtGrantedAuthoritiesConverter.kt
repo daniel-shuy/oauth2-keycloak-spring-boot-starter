@@ -9,15 +9,16 @@ import org.springframework.security.oauth2.jwt.Jwt
 /**
  * Converts Keycloak bearer token to Spring Security granted authorities.
  */
-interface KeycloakJwtGrantedAuthoritiesConverter : Converter<Jwt, Collection<GrantedAuthority>>
+public interface KeycloakJwtGrantedAuthoritiesConverter : Converter<Jwt, Collection<GrantedAuthority>>
 
 /**
  * Converts Keycloak bearer token to Spring Security granted authorities using the given
  * [KeycloakJwtClaimsAuthoritiesConverter].
  */
-open class DefaultKeycloakJwtGrantedAuthoritiesConverter(
+public open class DefaultKeycloakJwtGrantedAuthoritiesConverter(
     protected val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
 ) : KeycloakJwtGrantedAuthoritiesConverter {
-    override fun convert(jwt: Jwt) = keycloakJwtClaimsAuthoritiesConverter.convert(jwt.claims)
-        ?.map(::SimpleGrantedAuthority)
+    override fun convert(jwt: Jwt): List<SimpleGrantedAuthority>? =
+        keycloakJwtClaimsAuthoritiesConverter.convert(jwt.claims)
+            ?.map(::SimpleGrantedAuthority)
 }
