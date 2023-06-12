@@ -2,26 +2,24 @@
 dependencyManagementPlugin = "1.1.0"
 dokka = "1.8.20"
 java = "8"
-kotlin = "1.6.10"   # Kotlin version that is supported by Spring Boot version
-kotlinCoroutines = "1.6.4"
+kotlinLib = "1.6.10"    # Kotlin version that is supported by spring-boot-dependencies
+kotlinPlugin = "1.8.22"
 ktlintPlugin = "11.4.0"
 releasePlugin = "3.0.2"
-springBoot = "2.6.5"    # lowest Spring Boot version that supports Gradle 8
+springBoot = "2.2.3.RELEASE"    # lowest Spring Boot version with all required features
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
-spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
-spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client" }
-spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server" }
-spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
-spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
-spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter", version.ref = "springBoot" }
+spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client", version.ref = "springBoot" }
+spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server", version.ref = "springBoot" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test", version.ref = "springBoot" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "springBoot" }
+spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "springBoot" }
 
 [plugins]
-dependency-management = { id = "io.spring.dependency-management", version.ref = "dependencyManagementPlugin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinPlugin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlinPlugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
 release = { id = "net.researchgate.release", version.ref = "releasePlugin" }
-spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }

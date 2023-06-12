@@ -1,9 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    alias(libs.plugins.spring.boot) apply false // don't build executable JAR
-    alias(libs.plugins.dependency.management)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.ktlint)
@@ -20,9 +17,8 @@ description = "Spring Boot Starter for using Keycloak as the OAuth2 authorizatio
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
-    jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(libs.versions.java.get()))
-    }
+    jvmToolchain(libs.versions.java.get().toInt())
+    coreLibrariesVersion = libs.versions.kotlinLib.get()
 }
 
 java {
@@ -109,16 +105,6 @@ signing {
 
 repositories {
     mavenCentral()
-}
-
-dependencyManagement {
-    imports {
-        mavenBom(SpringBootPlugin.BOM_COORDINATES) {
-            // Dokka 1.8.20+ requires kotlinx-coroutines-core 1.6.x,
-            // but spring-boot-dependencies 2.6.5 declares kotlin-coroutines-core 1.5.2 as a dependency management
-            bomProperty("kotlin-coroutines.version", libs.versions.kotlinCoroutines.get())
-        }
-    }
 }
 
 dependencies {
