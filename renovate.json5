@@ -12,6 +12,12 @@
   },
   packageRules: [
     {
+      // Don't create PRs for Renovate package updates
+      groupName: "Renovate",
+      matchPackageNames: "renovate",
+      automergeType: "branch",
+    },
+    {
       // Spring Boot version should be the lowest supported minor version
       groupName: "Spring Boot",
       matchPackagePrefixes: [
