@@ -10,18 +10,18 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 
 - [Configuration Properties](#configuration-properties)
 - [Usage](#usage)
-  - [OAuth2 Client](#oauth2-client)
-    - [Spring MVC](#spring-mvc)
-    - [Spring WebFlux](#spring-webflux)
-  - [OAuth2 Resource Server](#oauth2-resource-server)
-    - [Spring MVC](#spring-mvc-1)
-    - [Spring WebFlux](#spring-webflux-1)
-  - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
-    - [Spring MVC](#spring-mvc-2)
-    - [Spring WebFlux](#spring-webflux-2)
+    - [OAuth2 Client](#oauth2-client)
+        - [Spring MVC](#spring-mvc)
+        - [Spring WebFlux](#spring-webflux)
+    - [OAuth2 Resource Server](#oauth2-resource-server)
+        - [Spring MVC](#spring-mvc-1)
+        - [Spring WebFlux](#spring-webflux-1)
+    - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
+        - [Spring MVC](#spring-mvc-2)
+        - [Spring WebFlux](#spring-webflux-2)
 - [Multiple Security Providers](#multiple-security-providers)
-  - [Spring MVC](#spring-mvc-3)
-  - [Spring WebFlux](#spring-webflux-3)
+    - [Spring MVC](#spring-mvc-3)
+    - [Spring WebFlux](#spring-webflux-3)
 - [Testing](#testing)
 
 ## Configuration Properties
@@ -113,12 +113,11 @@ public class WebSecurityConfig {
       throws Exception {
     keycloakWebSecurityConfigurer.configureOAuth2Client(http);
 
-    http.authorizeRequests(authorize -> authorize
-        .anyRequest()
-        .authenticated()
-    );
-
-    return http.build();
+    return http
+        .authorizeRequests(authorize -> authorize
+            .anyRequest()
+            .authenticated()
+        ).build();
   }
 }
 ```
@@ -136,12 +135,12 @@ public class WebSecurityConfig {
       throws Exception {
     keycloakWebSecurityConfigurer.configureOAuth2Client(http);
 
-    http.authorizeExchange(exchanges -> exchanges
-        .anyExchange()
-        .authenticated()
-    );
-
-    return http.build();
+    return http
+        .authorizeExchange(exchanges -> exchanges
+            .anyExchange()
+            .authenticated()
+        )
+        .build();
   }
 }
 ```
@@ -188,12 +187,12 @@ public class WebSecurityConfig {
       HttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
     keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
 
-    http.authorizeRequests(authorize -> authorize
-        .anyRequest()
-        .authenticated()
-    );
-
-    return http.build();
+    return http
+        .authorizeRequests(authorize -> authorize
+            .anyRequest()
+            .authenticated()
+        )
+        .build();
   }
 }
 ```
@@ -210,12 +209,12 @@ public class WebSecurityConfig {
       ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
     keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
 
-    http.authorizeExchange(exchanges -> exchanges
-        .anyExchange()
-        .authenticated()
-    );
-
-    return http.build();
+    return http
+        .authorizeExchange(exchanges -> exchanges
+            .anyExchange()
+            .authenticated()
+        )
+        .build();
   }
 }
 ```
@@ -342,6 +341,7 @@ Example to secure routes that begin with `/api` with Keycloak:
 ### Spring MVC
 
 ```java
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -357,6 +357,7 @@ public class WebSecurityConfig {
 ### Spring WebFlux
 
 ```java
+
 @Configuration
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
