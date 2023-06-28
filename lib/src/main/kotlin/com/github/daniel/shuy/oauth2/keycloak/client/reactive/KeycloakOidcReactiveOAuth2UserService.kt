@@ -1,6 +1,6 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.reactive
 
-import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOidcUserGrantedAuthoritiesConverter
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakOidcUserGrantedAuthoritiesConverter
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcReactiveOAuth2UserService
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser

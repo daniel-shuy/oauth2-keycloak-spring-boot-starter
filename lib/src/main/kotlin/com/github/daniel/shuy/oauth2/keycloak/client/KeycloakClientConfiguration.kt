@@ -1,10 +1,13 @@
 package com.github.daniel.shuy.oauth2.keycloak.client
 
+import com.github.daniel.shuy.oauth2.keycloak.KeycloakJwtClaimsAuthoritiesConverter
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveClientConfiguration
 import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakServletClientConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.springframework.security.oauth2.client.registration.ClientRegistration
@@ -24,4 +27,12 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
     KeycloakServletClientConfiguration::class,
     KeycloakReactiveClientConfiguration::class,
 )
-internal class KeycloakClientConfiguration
+internal class KeycloakClientConfiguration {
+    @Bean
+    @ConditionalOnMissingBean
+    fun keycloakOidcUserGrantedAuthoritiesConverter(
+        keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
+    ): KeycloakOidcUserGrantedAuthoritiesConverter = DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
+        keycloakJwtClaimsAuthoritiesConverter,
+    )
+}

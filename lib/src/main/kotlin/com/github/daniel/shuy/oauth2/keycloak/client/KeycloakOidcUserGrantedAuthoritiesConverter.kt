@@ -1,4 +1,4 @@
-package com.github.daniel.shuy.oauth2.keycloak.client.servlet
+package com.github.daniel.shuy.oauth2.keycloak.client
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakJwtClaimsAuthoritiesConverter
 import com.nimbusds.jwt.JWTParser
@@ -7,8 +7,6 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest
 import org.springframework.security.oauth2.core.oidc.user.OidcUser
 import org.springframework.security.oauth2.core.oidc.user.OidcUserAuthority
 import org.springframework.security.oauth2.jwt.JwtDecoder
-
-// TODO: move to client folder
 
 /**
  * Converts [OidcUserRequest] and [OidcUser] for Keycloak to Spring Security granted authorities.
