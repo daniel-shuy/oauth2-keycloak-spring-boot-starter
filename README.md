@@ -401,14 +401,22 @@ public class WebSecurityConfig {
 
 Because `oauth2-keycloak-spring-boot-starter` sets the `spring-security-oauth2-client` and
 `spring-security-oauth2-resource-server` configuration properties on environment initialization, when setting Keycloak
-configuration properties for a test in an `ApplicationContextInitializer` using `TestPropertyValues`, the environment
-needs to be processed again using `KeycloakOAuth2EnvironmentPostProcessor`, e.g.
+configuration properties for a test in an `ApplicationContextInitializer` using `TestPropertyValues`, the required
+configuration properties must first be configured with dummy values, and the environment needs to be processed again
+using `KeycloakOAuth2EnvironmentPostProcessor`, e.g.
 
 ```java
 
-@SpringBootTest
+@SpringBootTest(properties = {
+    "keycloak.auth-server-url=<placeholder>",
+    "keycloak.realm=" + KeycloakTest.KEYCLOAK_REALM,
+    "keycloak.client-id=" + KeycloakTest.KEYCLOAK_CLIENT_ID,
+})
 @ContextConfiguration(initializers = KeycloakTest.Initializer.class)
 class KeycloakTest {
+  protected static final String KEYCLOAK_REALM = "realm";
+  protected static final String KEYCLOAK_CLIENT_ID = "client";
+
   static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     @Override
     public void initialize(ConfigurableApplicationContext applicationContext) {
