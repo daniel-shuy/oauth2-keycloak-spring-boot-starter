@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.ktlint)
+    `java-test-fixtures`
     alias(libs.plugins.dokka)
     alias(libs.plugins.release)
     `maven-publish`
@@ -125,6 +126,17 @@ dependencies {
 
     implementation(libs.spring.boot.starter)
     implementation(libs.kotlin.reflect)
+
+    testFixturesApi(platform(testLibs.spring.boot.dependencies))
+
+    testFixturesImplementation(testLibs.spring.web)
+    testFixturesImplementation(testLibs.spring.boot.starter.validation)
+    testFixturesImplementation(testLibs.slf4j.simple)
+    testFixturesApi(testLibs.bundles.kotest)
+    testFixturesApi(testLibs.spring.boot.starter.test)
+    testFixturesApi(testLibs.testcontainers.keycloak)
+    testFixturesApi(testLibs.alkemy)
+    testFixturesApi(testLibs.selenium)
 }
 
 tasks.withType<KotlinCompile> {
