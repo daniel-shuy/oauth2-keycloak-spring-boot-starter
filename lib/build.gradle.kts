@@ -18,7 +18,7 @@ val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
     jvmToolchain(libs.versions.java.get().toInt())
-    coreLibrariesVersion = "1.6.10"
+    coreLibrariesVersion = libs.versions.kotlinLib.get()
     explicitApi()
 }
 
