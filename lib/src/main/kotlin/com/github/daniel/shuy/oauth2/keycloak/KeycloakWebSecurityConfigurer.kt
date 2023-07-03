@@ -4,9 +4,9 @@ import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOA
 import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.AnyServerWebExchangeMatcher
 import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.KeycloakSecurityMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.RedirectToInteractiveLoginServerWebExchangeMatcher
+import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.ResourceServerServerWebExchangeMatcher
 import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.KeycloakRequestMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.RedirectToInteractiveLoginRequestMatcher
+import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.ResourceServerRequestMatcher
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -47,12 +47,7 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.requestMatcher(
-            AndRequestMatcher(
-                keycloakRequestMatcher,
-                RedirectToInteractiveLoginRequestMatcher,
-            ),
-        )
+        http.requestMatcher(keycloakRequestMatcher)
         keycloakOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
@@ -71,12 +66,7 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.securityMatcher(
-            AndServerWebExchangeMatcher(
-                keycloakSecurityMatcher,
-                RedirectToInteractiveLoginServerWebExchangeMatcher,
-            ),
-        )
+        http.securityMatcher(keycloakSecurityMatcher)
         keycloakReactiveOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
@@ -91,7 +81,16 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.requestMatcher(keycloakRequestMatcher)
+        val requestMatcher = if (keycloakOAuth2ClientConfigurer != null) {
+            AndRequestMatcher(
+                keycloakRequestMatcher,
+                ResourceServerRequestMatcher,
+            )
+        } else {
+            keycloakRequestMatcher
+        }
+
+        http.requestMatcher(requestMatcher)
         keycloakOAuth2ResourceServerConfigurer.configureOAuth2ResourceServer(http)
         http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
     }
@@ -107,7 +106,16 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.securityMatcher(keycloakSecurityMatcher)
+        val securityMatcher = if (keycloakReactiveOAuth2ClientConfigurer != null) {
+            AndServerWebExchangeMatcher(
+                keycloakSecurityMatcher,
+                ResourceServerServerWebExchangeMatcher,
+            )
+        } else {
+            keycloakSecurityMatcher
+        }
+
+        http.securityMatcher(securityMatcher)
         keycloakReactiveOAuth2ResourceServerConfigurer.configureOAuth2ResourceServer(http)
     }
 

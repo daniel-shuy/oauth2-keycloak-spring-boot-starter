@@ -220,6 +220,8 @@ public class WebSecurityConfig {
 }
 ```
 
+If `spring-boot-starter-oauth2-client` is on the classpath, set `keycloak.bearer-only` to `true`.
+
 ## OAuth2 Client and Resource Server
 
 Maven:
@@ -257,7 +259,7 @@ implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-se
 Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 client, and another filter as an OAuth2 resource
 server.
 
-**IMPORTANT: The OAuth2 client filter must be defined before the resource server filter.**
+**IMPORTANT: The OAuth2 resource server filter must be defined before the client filter.**
 
 The common configuration between both filters can be separated out into another function.
 
@@ -271,18 +273,18 @@ Minimal example:
 @EnableWebSecurity
 public class WebSecurityConfig {
   @Bean
-  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
-                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
+  public SecurityFilterChain keycloakResourceServerFilterChain(
+      HttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
+    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
     configureWebSecurity(http);
     return http.build();
   }
 
   @Bean
-  public SecurityFilterChain keycloakResourceServerFilterChain(
-      HttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
+  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
+                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
+      throws Exception {
+    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
     configureWebSecurity(http);
     return http.build();
   }
@@ -304,18 +306,18 @@ public class WebSecurityConfig {
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
   @Bean
-  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
-                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
+  public SecurityWebFilterChain keycloakResourceServerFilterChain(
+      ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
+    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
     configureWebSecurity(http);
     return http.build();
   }
 
   @Bean
-  public SecurityWebFilterChain keycloakResourceServerFilterChain(
-      ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
+  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
+                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
+      throws Exception {
+    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
     configureWebSecurity(http);
     return http.build();
   }
