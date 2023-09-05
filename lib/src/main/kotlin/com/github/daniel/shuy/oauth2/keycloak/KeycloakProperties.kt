@@ -2,9 +2,11 @@ package com.github.daniel.shuy.oauth2.keycloak
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.validation.annotation.Validated
 
 @ConfigurationProperties(KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX)
 @ConstructorBinding
+@Validated
 public data class KeycloakProperties(
     /**
      * Set to `false` to disable Spring Security integration with Keycloak.

@@ -115,6 +115,7 @@ dependencies {
     compileOnly(libs.spring.boot.starter.webflux)
 
     implementation(libs.spring.boot.starter)
+    implementation(libs.spring.boot.starter.validation)
     implementation(libs.kotlin.reflect)
 
     testFixturesApi(platform(testLibs.spring.boot.dependencies))
