@@ -2,6 +2,7 @@ package com.github.daniel.shuy.oauth2.keycloak
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding
+import org.springframework.security.oauth2.jwt.JwtClaimNames
 import org.springframework.validation.annotation.Validated
 
 @ConfigurationProperties(KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX)
@@ -38,6 +39,11 @@ public data class KeycloakProperties(
      * If enabled, will not attempt to authenticate users, but only verify bearer tokens.
      */
     val bearerOnly: Boolean = false,
+
+    /**
+     * Token claim attribute to obtain as principal name. Defaults to token subject (`sub`).
+     */
+    val principalAttribute: String = JwtClaimNames.SUB,
 ) {
     public companion object {
         public const val CONFIGURATION_PROPERTIES_PREFIX: String = "keycloak"

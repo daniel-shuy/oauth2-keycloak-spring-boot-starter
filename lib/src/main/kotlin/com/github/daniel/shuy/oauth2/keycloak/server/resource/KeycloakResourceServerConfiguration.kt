@@ -1,6 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak.server.resource
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakJwtClaimsAuthoritiesConverter
+import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveResourceServerConfiguration
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakServletResourceServerConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -31,6 +32,7 @@ internal class KeycloakResourceServerConfiguration {
     @ConditionalOnMissingBean
     fun keycloakJwtAuthenticationConverter(
         keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
+        keycloakProperties: KeycloakProperties,
     ): KeycloakJwtAuthenticationConverter =
-        DefaultKeycloakJwtAuthenticationConverter(keycloakJwtGrantedAuthoritiesConverter)
+        DefaultKeycloakJwtAuthenticationConverter(keycloakJwtGrantedAuthoritiesConverter, keycloakProperties)
 }
