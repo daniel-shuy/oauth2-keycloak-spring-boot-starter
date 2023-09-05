@@ -2,6 +2,7 @@ rootProject.name = "oauth2-keycloak-spring-boot-starter"
 
 include(
     "lib",
+    "test",
     "test:both:reactive",
     "test:both:servlet",
     "test:client:reactive",
