@@ -4,7 +4,7 @@ dokka = "1.9.0"
 java = "8"
 kotlinLib = "1.6.10"    # Kotlin version that is supported by spring-boot-dependencies
 kotlinPlugin = "1.9.10"
-ktlintPlugin = "11.5.1"
+ktlintPlugin = "11.6.0"
 releasePlugin = "3.0.2"
 springBoot = "2.2.3.RELEASE"    # lowest Spring Boot version with all required features
 
