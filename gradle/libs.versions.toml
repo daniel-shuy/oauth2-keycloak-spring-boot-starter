@@ -1,6 +1,6 @@
 [versions]
 dependencyManagementPlugin = "1.1.0"
-dokka = "1.9.0"
+dokka = "1.9.10"
 java = "8"
 kotlinLib = "1.6.10"    # Kotlin version that is supported by spring-boot-dependencies
 kotlinPlugin = "1.9.10"
