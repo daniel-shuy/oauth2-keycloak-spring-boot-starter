@@ -13,25 +13,11 @@ import org.springframework.core.env.getProperty
  * Configures [OAuth2ResourceServerProperties] and [OAuth2ClientProperties] for Keycloak using [KeycloakProperties].
  */
 public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor {
-    private const val SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME = "keycloak"
-    private const val SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME = "keycloak"
     private const val OAUTH2_AUTHORIZATION_GRANT_TYPE = "authorization_code"
     private const val OAUTH2_SCOPE = "openid"
 
     private const val PROPERTY_SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_ISSUER_URI =
         "spring.security.oauth2.resourceserver.jwt.issuer-uri"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_ISSUER_URI =
-        "spring.security.oauth2.client.provider.$SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME.issuer-uri"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER =
-        "spring.security.oauth2.client.registration.$SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME.provider"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_CLIENT_ID =
-        "spring.security.oauth2.client.registration.$SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME.client-id"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_CLIENT_SECRET =
-        "spring.security.oauth2.client.registration.$SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME.client-secret"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_AUTHORIZATION_GRANT_TYPE =
-        "spring.security.oauth2.client.registration.$SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME.authorization-grant-type"
-    private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_SCOPE =
-        "spring.security.oauth2.client.registration.$SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME.scope"
 
     private val PROPERTY_ENABLED =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::enabled.name)}"
@@ -45,6 +31,10 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::clientSecret.name)}"
     private val PROPERTY_BEARER_ONLY =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::bearerOnly.name)}"
+    private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME =
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::springSecurityOauth2ClientProviderName.name)}"
+    private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME =
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::springSecurityOauth2ClientRegistrationName.name)}"
 
     @JvmStatic
     public fun postProcessEnvironment(environment: ConfigurableEnvironment) {
@@ -63,26 +53,37 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
         val clientId = environment.getRequiredProperty(PROPERTY_CLIENT_ID)
         val clientSecret = environment.getProperty(PROPERTY_CLIENT_SECRET)
         val bearerOnly = environment.getProperty<Boolean>(PROPERTY_BEARER_ONLY) ?: false
+        val providerName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME)
+        val registrationName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME)
 
         val issuerUri = "$authServerUrl/realms/$realm"
+
+        val issuerUriPropertyName = "spring.security.oauth2.client.provider.$providerName.issuer-uri"
+        val providerPropertyName = "spring.security.oauth2.client.registration.$registrationName.provider"
+        val clientIdPropertyName = "spring.security.oauth2.client.registration.$registrationName.client-id"
+        val clientSecretPropertyName = "spring.security.oauth2.client.registration.$registrationName.client-secret"
+        val authorizationGrantTypePropertyName =
+            "spring.security.oauth2.client.registration.$registrationName.authorization-grant-type"
+        val scopePropertyName = "spring.security.oauth2.client.registration.$registrationName.scope"
+
         propertySources.addFirst(
             MapPropertySource(
                 "keycloak",
                 buildMap {
                     put(PROPERTY_SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_ISSUER_URI, issuerUri)
                     if (!bearerOnly) {
-                        put(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_ISSUER_URI, issuerUri)
+                        put(issuerUriPropertyName, issuerUri)
                         put(
-                            PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER,
-                            SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME,
+                            providerPropertyName,
+                            providerName,
                         )
-                        put(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_CLIENT_ID, clientId)
-                        clientSecret?.let { put(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_CLIENT_SECRET, it) }
+                        put(clientIdPropertyName, clientId)
+                        clientSecret?.let { put(clientSecretPropertyName, it) }
                         put(
-                            PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_AUTHORIZATION_GRANT_TYPE,
+                            authorizationGrantTypePropertyName,
                             OAUTH2_AUTHORIZATION_GRANT_TYPE,
                         )
-                        put(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_SCOPE, OAUTH2_SCOPE)
+                        put(scopePropertyName, OAUTH2_SCOPE)
                     }
                 },
             ),

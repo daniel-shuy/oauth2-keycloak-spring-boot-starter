@@ -38,6 +38,16 @@ public data class KeycloakProperties(
      * If enabled, will not attempt to authenticate users, but only verify bearer tokens.
      */
     val bearerOnly: Boolean = false,
+
+    /**
+     * The name of the Spring Security OAuth2 Client Provider to register.
+     */
+    val springSecurityOauth2ClientProviderName: String = "keycloak",
+
+    /**
+     * The name of the Spring Security OAuth2 Client Registration to register.
+     */
+    val springSecurityOauth2ClientRegistrationName: String = "keycloak",
 ) {
     public companion object {
         public const val CONFIGURATION_PROPERTIES_PREFIX: String = "keycloak"
