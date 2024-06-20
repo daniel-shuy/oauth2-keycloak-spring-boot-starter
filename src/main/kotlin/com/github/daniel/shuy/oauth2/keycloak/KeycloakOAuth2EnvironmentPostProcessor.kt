@@ -48,7 +48,7 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
 
         val propertySources = environment.propertySources
 
-        val authServerUrl = environment.getRequiredProperty(PROPERTY_AUTH_SERVER_URL)
+        val authServerUrl = environment.getRequiredProperty(PROPERTY_AUTH_SERVER_URL).appendIfMissing('/')
         val realm = environment.getRequiredProperty(PROPERTY_REALM)
         val clientId = environment.getRequiredProperty(PROPERTY_CLIENT_ID)
         val clientSecret = environment.getProperty(PROPERTY_CLIENT_SECRET)
@@ -89,4 +89,6 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
             ),
         )
     }
+
+    private fun String.appendIfMissing(char: Char): String = if (this.endsWith(char)) this else "$this$char"
 }
