@@ -34,13 +34,14 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Publish package
-        uses: gradle/gradle-build-action@v3
-        with:
-          arguments: >-
-            release
-            -Prelease.useAutomaticVersion=true
-            -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Publish package with Gradle
+        run: >-
+          ./gradlew build
+          -Prelease.useAutomaticVersion=true
+          -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
