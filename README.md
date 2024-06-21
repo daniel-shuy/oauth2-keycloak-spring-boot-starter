@@ -39,15 +39,29 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 
 ## Usage
 
-Add the following to your Maven POM file:
+Maven:
 
 ```xml
-
-<parent>
+<!-- pom.xml -->
+<dependency>
     <groupId>com.github.daniel.shuy</groupId>
     <artifactId>oauth2-keycloak-spring-boot-starter</artifactId>
     <version>${oauth2-keycloak-spring-boot-starter.version}</version>
-</parent>
+</dependency>
+```
+
+Gradle:
+
+```groovy
+// build.gradle
+implementation "com.github.daniel.shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}"
+```
+
+Gradle (Kotlin):
+
+```kotlin
+// build.gradle.kts
+implementation("com.github.daniel.shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}")
 ```
 
 The service can be configured as either an OAuth2 client, an OAuth2 resource server, or both:
@@ -59,6 +73,30 @@ The service can be configured as either an OAuth2 client, an OAuth2 resource ser
 - **Resource Server:** Validates bearer tokens
 
 ## OAuth2 Client
+
+Maven:
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-client</artifactId>
+</dependency>
+```
+
+Gradle:
+
+```groovy
+// build.gradle
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+```
+
+Gradle (Kotlin):
+
+```kotlin
+// build.gradle.kts
+implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
+```
 
 Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 client.
 
@@ -112,6 +150,30 @@ public class WebSecurityConfig {
 
 ## OAuth2 Resource Server
 
+Maven:
+
+```xml
+<!-- pom.xml -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+</dependency>
+```
+
+Gradle:
+
+```groovy
+// build.gradle
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+```
+
+Gradle (Kotlin):
+
+```kotlin
+// build.gradle.kts
+implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
+```
+
 Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 resource server.
 
 Minimal example:
@@ -161,6 +223,38 @@ public class WebSecurityConfig {
 ```
 
 ## OAuth2 Client and Resource Server
+
+Maven:
+
+```xml
+<!-- pom.xml -->
+<dependencies>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+    </dependency>
+</dependencies>
+```
+
+Gradle:
+
+```groovy
+// build.gradle
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+```
+
+Gradle (Kotlin):
+
+```kotlin
+// build.gradle.kts
+implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
+implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
+```
 
 Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 client, and another filter as an OAuth2 resource
 server.
