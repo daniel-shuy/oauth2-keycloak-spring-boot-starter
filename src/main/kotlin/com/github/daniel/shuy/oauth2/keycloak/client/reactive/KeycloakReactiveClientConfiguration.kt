@@ -1,11 +1,11 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.reactive
 
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
 import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOidcUserGrantedAuthoritiesConverter
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
-import org.springframework.boot.autoconfigure.security.oauth2.client.ClientsConfiguredCondition
 import org.springframework.boot.autoconfigure.security.oauth2.client.reactive.ReactiveOAuth2ClientAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Conditional
@@ -24,7 +24,7 @@ import reactor.core.publisher.Flux
 internal class KeycloakReactiveClientConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    @Conditional(ClientsConfiguredCondition::class) // somehow @ConditionalOnBean(ReactiveClientRegistrationRepository::class) doesn't work
+    @Conditional(KeycloakClientConfiguredCondition::class)
     fun keycloakReactiveOAuth2ClientConfigurer(
         clientRegistrationRepository: ReactiveClientRegistrationRepository,
     ): KeycloakReactiveOAuth2ClientConfigurer = DefaultKeycloakReactiveOAuth2ClientConfigurer(
