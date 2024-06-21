@@ -1,7 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.servlet
 
-import com.github.daniel.shuy.oauth2.keycloak.KeycloakJwtClaimsAuthoritiesConverter
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakOidcUserGrantedAuthoritiesConverter
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -18,14 +18,6 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 @ConditionalOnClass(EnableWebSecurity::class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 internal class KeycloakServletClientConfiguration {
-    @Bean
-    @ConditionalOnMissingBean
-    fun keycloakOidcUserGrantedAuthoritiesConverter(
-        keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
-    ): KeycloakOidcUserGrantedAuthoritiesConverter = DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
-        keycloakJwtClaimsAuthoritiesConverter,
-    )
-
     @Bean
     fun keycloakOidcUserService(
         keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter,
