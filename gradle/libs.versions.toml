@@ -1,12 +1,11 @@
 [versions]
-dependencyManagementPlugin = "1.1.0"
 dokka = "1.9.20"
 java = "8"
-kotlinLib = "1.6.10"    # Kotlin version that is supported by spring-boot-dependencies
+kotlinLib = "1.6.10"         # Kotlin version that is supported by spring-boot-dependencies
 kotlinPlugin = "1.9.24"
 ktlintPlugin = "11.6.1"
 releasePlugin = "3.0.2"
-springBoot = "2.2.3.RELEASE"    # lowest Spring Boot version with all required features
+springBoot = "2.2.3.RELEASE" # lowest Spring Boot version with all required features
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect" }
