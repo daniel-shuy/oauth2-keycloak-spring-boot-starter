@@ -1,11 +1,11 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.servlet
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakJwtClaimsAuthoritiesConverter
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
-import org.springframework.boot.autoconfigure.security.oauth2.client.ClientsConfiguredCondition
 import org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Conditional
@@ -33,7 +33,7 @@ internal class KeycloakServletClientConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    @Conditional(ClientsConfiguredCondition::class) // somehow @ConditionalOnBean(ClientRegistrationRepository::class) doesn't work
+    @Conditional(KeycloakClientConfiguredCondition::class)
     fun keycloakOAuth2ClientConfigurer(
         clientRegistrationRepository: ClientRegistrationRepository,
         keycloakOidcUserService: KeycloakOidcUserService,
