@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -20,6 +19,7 @@ val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 kotlin {
     compilerOptions {
         jvmTarget = JvmTarget.fromTarget(libs.versions.jvmTarget.get())
+        freeCompilerArgs = listOf("-Xjsr305=strict")
     }
     coreLibrariesVersion = libs.versions.kotlinLib.get()
     explicitApi()
@@ -128,12 +128,6 @@ dependencies {
     implementation(libs.kotlin.reflect)
 
     testImplementation(libs.spring.boot.starter.test)
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-    }
 }
 
 tasks.withType<Test> {
