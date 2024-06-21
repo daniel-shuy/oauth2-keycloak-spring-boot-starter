@@ -1,7 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.reactive
 
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
-import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOidcUserGrantedAuthoritiesConverter
+import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakOidcUserGrantedAuthoritiesConverter
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
