@@ -3,31 +3,31 @@
 Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 
 | Version | Spring Boot |
-|---------|-------------|
+| ------- | ----------- |
 | 0.0.1   | 2.x.x       |
 
 ## Table of Contents
 
 - [Configuration Properties](#configuration-properties)
 - [Usage](#usage)
-    - [OAuth2 Client](#oauth2-client)
-        - [Spring MVC](#spring-mvc)
-        - [Spring WebFlux](#spring-webflux)
-    - [OAuth2 Resource Server](#oauth2-resource-server)
-        - [Spring MVC](#spring-mvc-1)
-        - [Spring WebFlux](#spring-webflux-1)
-    - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
-        - [Spring MVC](#spring-mvc-2)
-        - [Spring WebFlux](#spring-webflux-2)
+  - [OAuth2 Client](#oauth2-client)
+    - [Spring MVC](#spring-mvc)
+    - [Spring WebFlux](#spring-webflux)
+  - [OAuth2 Resource Server](#oauth2-resource-server)
+    - [Spring MVC](#spring-mvc-1)
+    - [Spring WebFlux](#spring-webflux-1)
+  - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
+    - [Spring MVC](#spring-mvc-2)
+    - [Spring WebFlux](#spring-webflux-2)
 - [Multiple Security Providers](#multiple-security-providers)
-    - [Spring MVC](#spring-mvc-3)
-    - [Spring WebFlux](#spring-webflux-3)
+  - [Spring MVC](#spring-mvc-3)
+  - [Spring WebFlux](#spring-webflux-3)
 - [Testing](#testing)
 
 ## Configuration Properties
 
 | Configuration Property                                   | Mandatory/Optional | Description                                                                                                                                                    | Default  |
-|----------------------------------------------------------|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| -------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | keycloak.enabled                                         | Optional           | Set to `false` to disable Spring Security integration with Keycloak.                                                                                           | `true`   |
 | keycloak.auth-server-url                                 | Mandatory          | The base URL of the Keycloak server. All other Keycloak pages and REST service endpoints are derived from this. It is usually of the form `https://host:port`. |          |
 | keycloak.realm                                           | Mandatory          | Name of the realm.                                                                                                                                             |          |
@@ -53,9 +53,9 @@ Add the following to your Maven POM file:
 The service can be configured as either an OAuth2 client, an OAuth2 resource server, or both:
 
 - **Client:**
-    - Redirects to interactive login if unauthenticated
-    - Stores access token in session
-    - Usually used for client applications (e.g. Thymeleaf)
+  - Redirects to interactive login if unauthenticated
+  - Stores access token in session
+  - Usually used for client applications (e.g. Thymeleaf)
 - **Resource Server:** Validates bearer tokens
 
 ## OAuth2 Client
