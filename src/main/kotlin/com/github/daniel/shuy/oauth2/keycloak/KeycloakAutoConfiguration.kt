@@ -3,8 +3,6 @@ package com.github.daniel.shuy.oauth2.keycloak
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguration
 import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOAuth2ClientConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.KeycloakSecurityMatcherProvider
-import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.KeycloakRequestMatcherProvider
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.KeycloakResourceServerConfiguration
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
@@ -42,14 +40,10 @@ public class KeycloakAutoConfiguration {
         keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
         keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
         keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
-        keycloakRequestMatcherProvider: KeycloakRequestMatcherProvider?,
-        keycloakSecurityMatcherProvider: KeycloakSecurityMatcherProvider?,
     ): KeycloakWebSecurityConfigurer = KeycloakWebSecurityConfigurer(
         keycloakOAuth2ClientConfigurer,
         keycloakReactiveOAuth2ClientConfigurer,
         keycloakOAuth2ResourceServerConfigurer,
         keycloakReactiveOAuth2ResourceServerConfigurer,
-        keycloakRequestMatcherProvider,
-        keycloakSecurityMatcherProvider,
     )
 }

@@ -16,12 +16,12 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
   - [OAuth2 Resource Server](#oauth2-resource-server)
     - [Spring MVC](#spring-mvc-1)
     - [Spring WebFlux](#spring-webflux-1)
+    - [Multiple Resource Servers](#multiple-resource-servers)
+      - [Spring MVC](#spring-mvc-2)
+      - [Spring WebFlux](#spring-webflux-2)
   - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
-    - [Spring MVC](#spring-mvc-2)
-    - [Spring WebFlux](#spring-webflux-2)
-- [Multiple Security Providers](#multiple-security-providers)
-  - [Spring MVC](#spring-mvc-3)
-  - [Spring WebFlux](#spring-webflux-3)
+    - [Spring MVC](#spring-mvc-3)
+    - [Spring WebFlux](#spring-webflux-3)
 - [Testing](#testing)
 
 ## Configuration Properties
@@ -125,6 +125,9 @@ public class WebSecurityConfig {
 }
 ```
 
+**IMPORTANT: Do not override the `requestMatcher(RequestMatcher)` of the `HttpSecurity`.
+The OAuth2 Client filter must be applied to the root path.**
+
 ### Spring WebFlux
 
 ```java
@@ -147,6 +150,9 @@ public class WebSecurityConfig {
   }
 }
 ```
+
+**IMPORTANT: Do not override the `securityMatcher(ServerWebExchangeMatcher)` of the `ServerHttpSecurity`.
+The OAuth2 Client filter must be applied to the root path.**
 
 ## OAuth2 Resource Server
 
@@ -221,6 +227,66 @@ public class WebSecurityConfig {
   }
 }
 ```
+
+### Multiple resource servers
+
+To restrict a Keycloak resource server filter to a subset of requests, simply configure a matcher for the filter, e.g.
+
+#### Spring MVC
+
+```java
+
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+  @Bean
+  public SecurityFilterChain keycloakResourceServerFilterChain(
+          HttpSecurity http,
+          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer,
+          HandlerMappingIntrospector introspector) throws Exception {
+    http.requestMatcher(new MvcRequestMatcher(introspector, "/api/**"));
+
+    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
+
+    http.authorizeRequests(authorize -> authorize
+            .anyRequest()
+            .authenticated()
+    );
+
+    return http.build();
+  }
+}
+```
+
+**IMPORTANT: `HttpSecurity#requestMatcher(RequestMatcher)` should be called before
+`KeycloakWebSecurityConfigurer#configureOAuth2ResourceServer(HttpSecurity)`.**
+
+#### Spring WebFlux
+
+```java
+
+@Configuration
+@EnableWebFluxSecurity
+public class WebSecurityConfig {
+  @Bean
+  public SecurityWebFilterChain keycloakResourceServerFilterChain(
+          ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
+    http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/**"));
+
+    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
+
+    http.authorizeExchange(exchanges -> exchanges
+            .anyExchange()
+            .authenticated()
+    );
+
+    return http.build();
+  }
+}
+```
+
+**IMPORTANT: `ServerHttpSecurity#securityMatcher(ServerWebExchangeMatcher)` should be called before
+`KeycloakWebSecurityConfigurer#configureOAuth2ResourceServer(ServerHttpSecurity)`.**
 
 ## OAuth2 Client and Resource Server
 
@@ -327,46 +393,6 @@ public class WebSecurityConfig {
         .anyExchange()
         .authenticated()
     );
-  }
-}
-```
-
-## Multiple security providers
-
-By default, all requests will be secured by Keycloak. If there are multiple security providers, and Keycloak should only
-secure a subset of requests, configure a `KeycloakRequestMatcherProvider`/`KeycloakSecurityMatcherProvider` bean that
-provides a matcher that matches the requests that Keycloak should secure.
-
-Example to secure routes that begin with `/api` with Keycloak:
-
-### Spring MVC
-
-```java
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig {
-  // ...
-
-  @Bean
-  public KeycloakRequestMatcherProvider keycloakRequestMatcherProvider(HandlerMappingIntrospector introspector) {
-    return () -> new MvcRequestMatcher(introspector, "/api/**");
-  }
-}
-```
-
-### Spring WebFlux
-
-```java
-
-@Configuration
-@EnableWebFluxSecurity
-public class WebSecurityConfig {
-  // ...
-
-  @Bean
-  public KeycloakSecurityMatcherProvider keycloakSecurityMatcherProvider() {
-    return () -> new PathPatternParserServerWebExchangeMatcher("/api/**");
   }
 }
 ```
