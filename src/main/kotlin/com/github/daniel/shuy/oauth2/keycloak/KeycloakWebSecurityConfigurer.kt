@@ -3,18 +3,14 @@ package com.github.daniel.shuy.oauth2.keycloak
 import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOAuth2ClientConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.AnyServerWebExchangeMatcher
-import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.KeycloakSecurityMatcherProvider
 import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.RedirectToInteractiveLoginServerWebExchangeMatcher
-import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.KeycloakRequestMatcherProvider
 import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.RedirectToInteractiveLoginRequestMatcher
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.web.server.util.matcher.AndServerWebExchangeMatcher
 import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher
-import org.springframework.security.web.util.matcher.AndRequestMatcher
 import org.springframework.security.web.util.matcher.AnyRequestMatcher
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher
 
@@ -26,11 +22,7 @@ public class KeycloakWebSecurityConfigurer(
     private val keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
     private val keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
     private val keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
-    keycloakRequestMatcherProvider: KeycloakRequestMatcherProvider?,
-    keycloakSecurityMatcherProvider: KeycloakSecurityMatcherProvider?,
 ) {
-    private val keycloakRequestMatcher = keycloakRequestMatcherProvider?.invoke() ?: AnyRequestMatcher.INSTANCE
-    private val keycloakSecurityMatcher = keycloakSecurityMatcherProvider?.invoke() ?: AnyServerWebExchangeMatcher
 
     /**
      * Configure filter as OAuth2 Client:
@@ -47,12 +39,7 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.requestMatcher(
-            AndRequestMatcher(
-                keycloakRequestMatcher,
-                RedirectToInteractiveLoginRequestMatcher,
-            ),
-        )
+        http.requestMatcher(RedirectToInteractiveLoginRequestMatcher)
         keycloakOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
@@ -71,12 +58,7 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.securityMatcher(
-            AndServerWebExchangeMatcher(
-                keycloakSecurityMatcher,
-                RedirectToInteractiveLoginServerWebExchangeMatcher,
-            ),
-        )
+        http.securityMatcher(RedirectToInteractiveLoginServerWebExchangeMatcher)
         keycloakReactiveOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
@@ -91,7 +73,6 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.requestMatcher(keycloakRequestMatcher)
         keycloakOAuth2ResourceServerConfigurer.configureOAuth2ResourceServer(http)
         http.sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
     }
@@ -107,7 +88,6 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.securityMatcher(keycloakSecurityMatcher)
         keycloakReactiveOAuth2ResourceServerConfigurer.configureOAuth2ResourceServer(http)
     }
 
