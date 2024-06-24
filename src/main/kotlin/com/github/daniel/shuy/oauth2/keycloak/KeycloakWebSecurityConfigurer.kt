@@ -23,7 +23,6 @@ public class KeycloakWebSecurityConfigurer(
     private val keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
     private val keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
 ) {
-
     /**
      * Configure filter as OAuth2 Client:
      * - redirect to interactive login if unauthenticated

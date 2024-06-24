@@ -19,7 +19,11 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 @ConditionalOnClass(ClientRegistration::class)
 @ConditionalOnProperty(
     prefix = KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX,
-    name = ["bearerOnly"], // TODO: use KeycloakProperties::bearerOnly.name when KCallable.name are treated as compile-time constants (https://youtrack.jetbrains.com/issue/KT-58506)
+    /*
+        TODO: use KeycloakProperties::enabled.name when KCallable.name are treated as compile-time constants
+        (https://youtrack.jetbrains.com/issue/KT-58506)
+     */
+    name = ["bearerOnly"],
     havingValue = false.toString(),
     matchIfMissing = true,
 )
@@ -32,7 +36,8 @@ internal class KeycloakClientConfiguration {
     @ConditionalOnMissingBean
     fun keycloakOidcUserGrantedAuthoritiesConverter(
         keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
-    ): KeycloakOidcUserGrantedAuthoritiesConverter = DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
-        keycloakJwtClaimsAuthoritiesConverter,
-    )
+    ): KeycloakOidcUserGrantedAuthoritiesConverter =
+        DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
+            keycloakJwtClaimsAuthoritiesConverter,
+        )
 }

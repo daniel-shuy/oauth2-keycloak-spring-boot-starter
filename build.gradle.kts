@@ -17,7 +17,11 @@ description = "Spring Boot Starter for using Keycloak as the OAuth2 authorizatio
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(
+        libs.versions.java
+            .get()
+            .toInt(),
+    )
     coreLibrariesVersion = libs.versions.kotlinLib.get()
     explicitApi()
 }
@@ -27,9 +31,10 @@ java {
     withSourcesJar()
 }
 
-val javadocJar = tasks.named<Jar>("javadocJar") {
-    from(tasks.named("dokkaJavadoc"))
-}
+val javadocJar =
+    tasks.named<Jar>("javadocJar") {
+        from(tasks.named("dokkaJavadoc"))
+    }
 
 configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
     version = libs.versions.ktlint
@@ -97,7 +102,8 @@ publishing {
 
 signing {
     setRequired(
-        { // skip signing for snapshots
+        {
+            // skip signing for snapshots
             isReleaseVersion && gradle.taskGraph.hasTask("publish")
         },
     )

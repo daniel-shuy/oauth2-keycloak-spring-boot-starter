@@ -27,12 +27,12 @@ internal class KeycloakReactiveClientConfiguration {
     @Conditional(KeycloakClientConfiguredCondition::class)
     fun keycloakReactiveOAuth2ClientConfigurer(
         clientRegistrationRepository: ReactiveClientRegistrationRepository,
-    ): KeycloakReactiveOAuth2ClientConfigurer = DefaultKeycloakReactiveOAuth2ClientConfigurer(
-        clientRegistrationRepository,
-    )
+    ): KeycloakReactiveOAuth2ClientConfigurer =
+        DefaultKeycloakReactiveOAuth2ClientConfigurer(
+            clientRegistrationRepository,
+        )
 
     @Bean
-    fun keycloakOidcReactiveOAuth2UserService(
-        keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter,
-    ) = KeycloakOidcReactiveOAuth2UserService(keycloakOidcUserGrantedAuthoritiesConverter)
+    fun keycloakOidcReactiveOAuth2UserService(keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter) =
+        KeycloakOidcReactiveOAuth2UserService(keycloakOidcUserGrantedAuthoritiesConverter)
 }

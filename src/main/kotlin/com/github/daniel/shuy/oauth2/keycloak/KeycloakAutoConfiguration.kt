@@ -21,7 +21,11 @@ import org.springframework.context.annotation.Import
 @EnableConfigurationProperties(KeycloakProperties::class)
 @ConditionalOnProperty(
     prefix = KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX,
-    name = ["enabled"], // TODO: use KeycloakProperties::enabled.name when KCallable.name are treated as compile-time constants (https://youtrack.jetbrains.com/issue/KT-58506)
+    /*
+        TODO: use KeycloakProperties::enabled.name when KCallable.name are treated as compile-time constants
+        (https://youtrack.jetbrains.com/issue/KT-58506)
+     */
+    name = ["enabled"],
     matchIfMissing = true,
 )
 @Import(
@@ -40,10 +44,11 @@ public class KeycloakAutoConfiguration {
         keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
         keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
         keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
-    ): KeycloakWebSecurityConfigurer = KeycloakWebSecurityConfigurer(
-        keycloakOAuth2ClientConfigurer,
-        keycloakReactiveOAuth2ClientConfigurer,
-        keycloakOAuth2ResourceServerConfigurer,
-        keycloakReactiveOAuth2ResourceServerConfigurer,
-    )
+    ): KeycloakWebSecurityConfigurer =
+        KeycloakWebSecurityConfigurer(
+            keycloakOAuth2ClientConfigurer,
+            keycloakReactiveOAuth2ClientConfigurer,
+            keycloakOAuth2ResourceServerConfigurer,
+            keycloakReactiveOAuth2ResourceServerConfigurer,
+        )
 }

@@ -21,9 +21,7 @@ public open class DefaultKeycloakJwtAuthenticationConverter(
         setKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter)
     }
 
-    private fun setKeycloakJwtGrantedAuthoritiesConverter(
-        keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
-    ) {
+    private fun setKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter) {
         setJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter)
     }
 }

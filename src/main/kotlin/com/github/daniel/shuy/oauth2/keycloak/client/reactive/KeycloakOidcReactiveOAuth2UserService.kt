@@ -16,7 +16,8 @@ internal class KeycloakOidcReactiveOAuth2UserService(
     private val keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter,
 ) : OidcReactiveOAuth2UserService() {
     override fun loadUser(userRequest: OidcUserRequest): Mono<OidcUser> =
-        super.loadUser(userRequest)
+        super
+            .loadUser(userRequest)
             .map { oidcUser ->
                 val mappedAuthorities =
                     keycloakOidcUserGrantedAuthoritiesConverter.toGrantedAuthorities(userRequest, oidcUser)

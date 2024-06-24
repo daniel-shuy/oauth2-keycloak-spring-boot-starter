@@ -22,7 +22,8 @@ public open class DefaultKeycloakOAuth2ClientConfigurer(
     protected val keycloakOidcUserService: KeycloakOidcUserService,
 ) : KeycloakOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: HttpSecurity) {
-        http.oauth2Login(::oauth2Login)
+        http
+            .oauth2Login(::oauth2Login)
             .logout { logout -> logout(logout, clientRegistrationRepository) }
     }
 
@@ -42,7 +43,6 @@ public open class DefaultKeycloakOAuth2ClientConfigurer(
         logout.logoutSuccessHandler(getLogoutSuccessHandler(clientRegistrationRepository))
     }
 
-    protected open fun getLogoutSuccessHandler(
-        clientRegistrationRepository: ClientRegistrationRepository,
-    ): LogoutSuccessHandler = OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository)
+    protected open fun getLogoutSuccessHandler(clientRegistrationRepository: ClientRegistrationRepository): LogoutSuccessHandler =
+        OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository)
 }

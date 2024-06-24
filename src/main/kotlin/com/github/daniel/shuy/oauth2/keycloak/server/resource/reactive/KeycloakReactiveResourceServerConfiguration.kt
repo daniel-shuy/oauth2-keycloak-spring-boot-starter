@@ -20,15 +20,15 @@ import reactor.core.publisher.Flux
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 internal class KeycloakReactiveResourceServerConfiguration {
     @Bean
-    fun keycloakReactiveJwtAuthenticationConverter(
-        keycloakJwtAuthenticationConverter: KeycloakJwtAuthenticationConverter,
-    ) = KeycloakReactiveJwtAuthenticationConverter(keycloakJwtAuthenticationConverter)
+    fun keycloakReactiveJwtAuthenticationConverter(keycloakJwtAuthenticationConverter: KeycloakJwtAuthenticationConverter) =
+        KeycloakReactiveJwtAuthenticationConverter(keycloakJwtAuthenticationConverter)
 
     @Bean
     @ConditionalOnMissingBean
     fun keycloakReactiveOAuth2ResourceServerConfigurer(
         keycloakJwtAuthenticationConverter: KeycloakReactiveJwtAuthenticationConverter,
-    ): KeycloakReactiveOAuth2ResourceServerConfigurer = DefaultKeycloakReactiveOAuth2ResourceServerConfigurer(
-        keycloakJwtAuthenticationConverter,
-    )
+    ): KeycloakReactiveOAuth2ResourceServerConfigurer =
+        DefaultKeycloakReactiveOAuth2ResourceServerConfigurer(
+            keycloakJwtAuthenticationConverter,
+        )
 }

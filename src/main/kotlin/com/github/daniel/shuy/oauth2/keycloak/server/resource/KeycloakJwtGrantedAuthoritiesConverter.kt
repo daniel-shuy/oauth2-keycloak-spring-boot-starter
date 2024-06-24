@@ -19,6 +19,7 @@ public open class DefaultKeycloakJwtGrantedAuthoritiesConverter(
     protected val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
 ) : KeycloakJwtGrantedAuthoritiesConverter {
     override fun convert(jwt: Jwt): List<SimpleGrantedAuthority>? =
-        keycloakJwtClaimsAuthoritiesConverter.convert(jwt.claims)
+        keycloakJwtClaimsAuthoritiesConverter
+            .convert(jwt.claims)
             ?.map(::SimpleGrantedAuthority)
 }
