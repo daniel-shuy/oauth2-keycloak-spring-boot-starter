@@ -19,9 +19,8 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 internal class KeycloakServletClientConfiguration {
     @Bean
-    fun keycloakOidcUserService(
-        keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter,
-    ) = KeycloakOidcUserService(keycloakOidcUserGrantedAuthoritiesConverter)
+    fun keycloakOidcUserService(keycloakOidcUserGrantedAuthoritiesConverter: KeycloakOidcUserGrantedAuthoritiesConverter) =
+        KeycloakOidcUserService(keycloakOidcUserGrantedAuthoritiesConverter)
 
     @Bean
     @ConditionalOnMissingBean
@@ -29,8 +28,9 @@ internal class KeycloakServletClientConfiguration {
     fun keycloakOAuth2ClientConfigurer(
         clientRegistrationRepository: ClientRegistrationRepository,
         keycloakOidcUserService: KeycloakOidcUserService,
-    ): KeycloakOAuth2ClientConfigurer = DefaultKeycloakOAuth2ClientConfigurer(
-        clientRegistrationRepository,
-        keycloakOidcUserService,
-    )
+    ): KeycloakOAuth2ClientConfigurer =
+        DefaultKeycloakOAuth2ClientConfigurer(
+            clientRegistrationRepository,
+            keycloakOidcUserService,
+        )
 }

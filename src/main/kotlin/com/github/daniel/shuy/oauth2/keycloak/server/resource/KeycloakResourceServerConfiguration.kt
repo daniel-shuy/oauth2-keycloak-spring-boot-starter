@@ -24,13 +24,11 @@ internal class KeycloakResourceServerConfiguration {
     @ConditionalOnMissingBean
     fun keycloakJwtGrantedAuthoritiesConverter(
         keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
-    ): KeycloakJwtGrantedAuthoritiesConverter =
-        DefaultKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtClaimsAuthoritiesConverter)
+    ): KeycloakJwtGrantedAuthoritiesConverter = DefaultKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtClaimsAuthoritiesConverter)
 
     @Bean
     @ConditionalOnMissingBean
     fun keycloakJwtAuthenticationConverter(
         keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
-    ): KeycloakJwtAuthenticationConverter =
-        DefaultKeycloakJwtAuthenticationConverter(keycloakJwtGrantedAuthoritiesConverter)
+    ): KeycloakJwtAuthenticationConverter = DefaultKeycloakJwtAuthenticationConverter(keycloakJwtGrantedAuthoritiesConverter)
 }

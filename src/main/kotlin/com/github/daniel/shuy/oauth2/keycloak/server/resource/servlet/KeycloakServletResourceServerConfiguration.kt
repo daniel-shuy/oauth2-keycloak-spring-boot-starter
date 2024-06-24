@@ -19,7 +19,8 @@ internal class KeycloakServletResourceServerConfiguration {
     @ConditionalOnMissingBean
     fun keycloakOAuth2ResourceServerConfigurer(
         keycloakJwtAuthenticationConverter: KeycloakJwtAuthenticationConverter,
-    ): KeycloakOAuth2ResourceServerConfigurer = DefaultKeycloakOAuth2ResourceServerConfigurer(
-        keycloakJwtAuthenticationConverter,
-    )
+    ): KeycloakOAuth2ResourceServerConfigurer =
+        DefaultKeycloakOAuth2ResourceServerConfigurer(
+            keycloakJwtAuthenticationConverter,
+        )
 }

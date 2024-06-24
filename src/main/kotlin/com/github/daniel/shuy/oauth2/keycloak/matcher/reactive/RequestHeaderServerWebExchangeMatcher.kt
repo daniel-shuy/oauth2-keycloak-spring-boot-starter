@@ -34,21 +34,24 @@ import reactor.core.publisher.Mono
  *
  * @see RequestHeaderRequestMatcher
  */
-internal class RequestHeaderServerWebExchangeMatcher @JvmOverloads constructor(
-    private val expectedHeaderName: String,
-    private val expectedHeaderValue: String? = null,
-) : ServerWebExchangeMatcher {
-    override fun matches(exchange: ServerWebExchange): Mono<MatchResult> {
-        val headerValues = exchange.request.headers[expectedHeaderName]
-            ?: return MatchResult.notMatch()
+internal class RequestHeaderServerWebExchangeMatcher
+    @JvmOverloads
+    constructor(
+        private val expectedHeaderName: String,
+        private val expectedHeaderValue: String? = null,
+    ) : ServerWebExchangeMatcher {
+        override fun matches(exchange: ServerWebExchange): Mono<MatchResult> {
+            val headerValues =
+                exchange.request.headers[expectedHeaderName]
+                    ?: return MatchResult.notMatch()
 
-        if (expectedHeaderValue == null) {
-            return MatchResult.match()
+            if (expectedHeaderValue == null) {
+                return MatchResult.match()
+            }
+
+            return if (headerValues.contains(expectedHeaderValue)) MatchResult.match() else MatchResult.notMatch()
         }
 
-        return if (headerValues.contains(expectedHeaderValue)) MatchResult.match() else MatchResult.notMatch()
+        override fun toString(): String =
+            "${this::class.simpleName} [${::expectedHeaderName.name}=$expectedHeaderName, ${::expectedHeaderValue}=$expectedHeaderValue]"
     }
-
-    override fun toString(): String =
-        "${this::class.simpleName} [${::expectedHeaderName.name}=$expectedHeaderName, ${::expectedHeaderValue}=$expectedHeaderValue]"
-}

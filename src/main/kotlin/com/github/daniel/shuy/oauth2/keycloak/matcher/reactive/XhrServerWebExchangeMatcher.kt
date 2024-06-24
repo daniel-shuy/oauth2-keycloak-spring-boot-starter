@@ -21,7 +21,8 @@ internal object XhrServerWebExchangeMatcher : ServerWebExchangeMatcher {
     override fun matches(exchange: ServerWebExchange): Mono<MatchResult> =
         // most XHR libraries include an X-Requested-With header
         if (
-            exchange.request.headers[X_REQUESTED_WITH_HEADER].orEmpty()
+            exchange.request.headers[X_REQUESTED_WITH_HEADER]
+                .orEmpty()
                 .contains(X_REQUESTED_WITH_HEADER_AJAX_VALUE)
         ) {
             MatchResult.match()

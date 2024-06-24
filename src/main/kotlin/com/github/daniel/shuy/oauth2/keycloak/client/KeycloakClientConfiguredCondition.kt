@@ -14,9 +14,14 @@ internal object KeycloakClientConfiguredCondition : SpringBootCondition() {
     private const val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION = "spring.security.oauth2.client.registration"
 
     private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME =
-        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::springSecurityOauth2ClientRegistrationName.name)}"
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(
+            KeycloakProperties::springSecurityOauth2ClientRegistrationName.name,
+        )}"
 
-    override fun getMatchOutcome(context: ConditionContext, metadata: AnnotatedTypeMetadata?): ConditionOutcome {
+    override fun getMatchOutcome(
+        context: ConditionContext,
+        metadata: AnnotatedTypeMetadata?,
+    ): ConditionOutcome {
         val message = ConditionMessage.forCondition("Keycloak Client Configured Condition")
 
         val environment = context.environment
@@ -24,13 +29,13 @@ internal object KeycloakClientConfiguredCondition : SpringBootCondition() {
 
         val property = "$PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION.$registrationName"
 
-        return Binder.get(environment)
+        return Binder
+            .get(environment)
             .bind(property, OAuth2ClientProperties.Registration::class.java)
             .map { registration ->
                 ConditionOutcome.match(
                     message.found("registered Keycloak client").items(registration.clientId),
                 )
-            }
-            .orElseGet { ConditionOutcome.noMatch(message.didNotFind("$property property").atAll()) }
+            }.orElseGet { ConditionOutcome.noMatch(message.didNotFind("$property property").atAll()) }
     }
 }

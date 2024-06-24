@@ -19,7 +19,8 @@ public open class DefaultKeycloakReactiveOAuth2ClientConfigurer(
     protected val clientRegistrationRepository: ReactiveClientRegistrationRepository,
 ) : KeycloakReactiveOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: ServerHttpSecurity) {
-        http.oauth2Login(::oauth2Login)
+        http
+            .oauth2Login(::oauth2Login)
             .logout { logout -> logout(logout, clientRegistrationRepository) }
     }
 

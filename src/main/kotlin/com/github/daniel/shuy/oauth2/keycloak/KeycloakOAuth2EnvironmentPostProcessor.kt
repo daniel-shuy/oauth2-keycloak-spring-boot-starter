@@ -22,26 +22,45 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
     private val PROPERTY_ENABLED =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::enabled.name)}"
     private val PROPERTY_AUTH_SERVER_URL =
-        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::authServerUrl.name)}"
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${
+            DataObjectPropertyName.toDashedForm(
+                KeycloakProperties::authServerUrl.name,
+            )
+        }"
     private val PROPERTY_REALM =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::realm.name)}"
     private val PROPERTY_CLIENT_ID =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::clientId.name)}"
     private val PROPERTY_CLIENT_SECRET =
-        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::clientSecret.name)}"
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${
+            DataObjectPropertyName.toDashedForm(
+                KeycloakProperties::clientSecret.name,
+            )
+        }"
     private val PROPERTY_BEARER_ONLY =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::bearerOnly.name)}"
     private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME =
-        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::springSecurityOauth2ClientProviderName.name)}"
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${
+            DataObjectPropertyName.toDashedForm(
+                KeycloakProperties::springSecurityOauth2ClientProviderName.name,
+            )
+        }"
     private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME =
-        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::springSecurityOauth2ClientRegistrationName.name)}"
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${
+            DataObjectPropertyName.toDashedForm(
+                KeycloakProperties::springSecurityOauth2ClientRegistrationName.name,
+            )
+        }"
 
     @JvmStatic
     public fun postProcessEnvironment(environment: ConfigurableEnvironment) {
         postProcessEnvironment(environment, null)
     }
 
-    override fun postProcessEnvironment(environment: ConfigurableEnvironment, application: SpringApplication?) {
+    override fun postProcessEnvironment(
+        environment: ConfigurableEnvironment,
+        application: SpringApplication?,
+    ) {
         if (environment.getProperty<Boolean>(PROPERTY_ENABLED) == false) {
             return
         }
