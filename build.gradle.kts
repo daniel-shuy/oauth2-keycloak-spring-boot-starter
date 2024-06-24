@@ -31,6 +31,10 @@ val javadocJar = tasks.named<Jar>("javadocJar") {
     from(tasks.named("dokkaJavadoc"))
 }
 
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    version = libs.versions.ktlint
+}
+
 tasks.named("afterReleaseBuild") {
     dependsOn("publish")
 }
