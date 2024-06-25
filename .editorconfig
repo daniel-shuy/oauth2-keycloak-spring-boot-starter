@@ -1,8 +1,14 @@
 root = true
 
 [{*.kt,*.kts}]
-max_line_length = 140 # to align IntelliJ IDEA/Android Studio with KtLint configuration
+# to align IntelliJ IDEA/Android Studio with KtLint configuration
+max_line_length = 140
 
-ktlint_standard_class-signature = disabled # leads to too many unnecessary line breaks for constructors with multiple parameters
-ktlint_standard_no-blank-line-in-list = disabled # blank lines between list elements can be used for grouping
-ktlint_standard_no-blank-lines-in-chained-method-calls = disabled # blank lines between chained method calls can be used for grouping
+# leads to too many unnecessary line breaks for constructors with multiple parameters
+ktlint_standard_class-signature = disabled
+
+# blank lines between list elements can be used for grouping
+ktlint_standard_no-blank-line-in-list = disabled
+
+# blank lines between chained method calls can be used for grouping
+ktlint_standard_no-blank-lines-in-chained-method-calls = disabled
