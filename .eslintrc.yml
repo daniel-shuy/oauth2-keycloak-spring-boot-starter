@@ -1,35 +1,31 @@
 env:
   node: true
+plugins:
+  - "@stylistic"
 extends:
-  - "eslint:recommended"
+  - "plugin:@stylistic/recommended-extends"
+  - "plugin:jsonc/recommended-with-json5"
 rules:
-  array-bracket-newline:
+  jsonc/array-bracket-newline:
     - error
     - always
-  array-element-newline: error
-  comma-dangle:
+  jsonc/array-element-newline: error
+  jsonc/comma-dangle:
     - error
-    - always
-  comma-style: error
-  eol-last: error
-  indent:
+    - always-multiline
+  jsonc/comma-style: error
+  jsonc/indent:
     - error
     - 2
-  key-spacing: error
+  jsonc/key-spacing: error
+  jsonc/no-irregular-whitespace: error
+  jsonc/object-curly-newline:
+    - error
+    - always
+  jsonc/object-property-newline: error
+  jsonc/quotes:
+    - error
+    - double
   multiline-comment-style:
     - error
     - bare-block
-  no-multiple-empty-lines: error
-  no-trailing-spaces: error
-  object-curly-newline:
-    - error
-    - always
-  object-property-newline: error
-  quotes:
-    - error
-    - double
-  semi:
-    - error
-    - never
-plugins:
-  - json5
