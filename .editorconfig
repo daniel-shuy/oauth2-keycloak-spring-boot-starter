@@ -1,5 +1,7 @@
 root = true
 
 [{*.kt,*.kts}]
+max_line_length = 140 # to align IntelliJ IDEA/Android Studio with KtLint configuration
+
 ktlint_standard_class-signature = disabled
 ktlint_standard_no-blank-line-in-list = disabled
