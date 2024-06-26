@@ -1,8 +1,8 @@
 {
   "name": "oauth2-keycloak-spring-boot-starter",
   "scripts": {
-    "json5-lint": "eslint .",
-    "json5-format": "eslint . --fix",
+    "json5-lint": "eslint",
+    "json5-format": "eslint --fix",
     "renovate-config-validator": "renovate-config-validator"
   },
   "devDependencies": {
