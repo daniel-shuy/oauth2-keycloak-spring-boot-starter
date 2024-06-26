@@ -16,7 +16,7 @@ public interface KeycloakJwtGrantedAuthoritiesConverter : Converter<Jwt, Collect
  * [KeycloakJwtClaimsAuthoritiesConverter].
  */
 public open class DefaultKeycloakJwtGrantedAuthoritiesConverter(
-    protected val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
+    private val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
 ) : KeycloakJwtGrantedAuthoritiesConverter {
     override fun convert(jwt: Jwt): List<SimpleGrantedAuthority>? =
         keycloakJwtClaimsAuthoritiesConverter

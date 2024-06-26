@@ -18,8 +18,8 @@ public interface KeycloakOAuth2ClientConfigurer {
  * Configure filter as an OAuth2 Client for Keycloak using `spring-security-oauth2-client`.
  */
 public open class DefaultKeycloakOAuth2ClientConfigurer(
-    protected val clientRegistrationRepository: ClientRegistrationRepository,
-    protected val keycloakOidcUserService: KeycloakOidcUserService,
+    private val clientRegistrationRepository: ClientRegistrationRepository,
+    private val keycloakOidcUserService: KeycloakOidcUserService,
 ) : KeycloakOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: HttpSecurity) {
         http

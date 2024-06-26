@@ -19,7 +19,7 @@ public interface KeycloakJwtClaimsAuthoritiesConverter : Converter<JwtClaims, Co
  * - Keycloak Client Roles ([CLAIM_RESOURCE_ACCESS] roles) -> unchanged
  */
 public open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
-    protected val keycloakResource: String,
+    private val keycloakResource: String,
 ) : KeycloakJwtClaimsAuthoritiesConverter {
     public companion object {
         protected const val CLAIM_REALM_ACCESS: String = "realm_access"
@@ -36,7 +36,7 @@ public open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
             .concat(convertRealmRoles(jwtClaims), convertResourceRoles(jwtClaims))
             .toList()
 
-    protected fun convertRealmRoles(jwtClaims: JwtClaims): Stream<String> {
+    protected open fun convertRealmRoles(jwtClaims: JwtClaims): Stream<String> {
         val realmAccess =
             jwtClaims[CLAIM_REALM_ACCESS] as? Map<*, *>
                 ?: return Stream.empty()
@@ -46,7 +46,7 @@ public open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
             .map { role -> "${GRANTED_AUTHORITY_PREFIX_ROLE}_$role" }
     }
 
-    protected fun convertResourceRoles(jwtClaims: JwtClaims): Stream<String> {
+    protected open fun convertResourceRoles(jwtClaims: JwtClaims): Stream<String> {
         val accessByResource =
             jwtClaims[CLAIM_RESOURCE_ACCESS] as? Map<*, *>
                 ?: return Stream.empty()

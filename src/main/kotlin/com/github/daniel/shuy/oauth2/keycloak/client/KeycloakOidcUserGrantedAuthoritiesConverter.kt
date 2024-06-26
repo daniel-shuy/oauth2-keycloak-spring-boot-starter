@@ -23,7 +23,7 @@ public interface KeycloakOidcUserGrantedAuthoritiesConverter {
  * [JwtDecoder] and [KeycloakJwtClaimsAuthoritiesConverter].
  */
 public open class DefaultKeycloakOidcUserGrantedAuthoritiesConverter(
-    protected val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
+    private val keycloakJwtClaimsAuthoritiesConverter: KeycloakJwtClaimsAuthoritiesConverter,
 ) : KeycloakOidcUserGrantedAuthoritiesConverter {
     override fun toGrantedAuthorities(
         userRequest: OidcUserRequest,
