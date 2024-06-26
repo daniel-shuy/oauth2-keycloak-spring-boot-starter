@@ -75,7 +75,7 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
         val providerName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME)
         val registrationName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME)
 
-        val issuerUri = "$authServerUrl/realms/$realm"
+        val issuerUri = "${authServerUrl}realms/$realm"
 
         val issuerUriPropertyName = "spring.security.oauth2.client.provider.$providerName.issuer-uri"
         val providerPropertyName = "spring.security.oauth2.client.registration.$registrationName.provider"
