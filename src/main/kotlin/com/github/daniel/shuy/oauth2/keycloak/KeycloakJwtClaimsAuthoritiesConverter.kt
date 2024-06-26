@@ -19,7 +19,7 @@ public interface KeycloakJwtClaimsAuthoritiesConverter : Converter<JwtClaims, Co
  * - Keycloak Client Roles ([CLAIM_RESOURCE_ACCESS] roles) -> unchanged
  */
 public open class DefaultKeycloakJwtClaimsAuthoritiesConverter(
-    protected val keycloakResource: String,
+    private val keycloakResource: String,
 ) : KeycloakJwtClaimsAuthoritiesConverter {
     public companion object {
         protected const val CLAIM_REALM_ACCESS: String = "realm_access"
