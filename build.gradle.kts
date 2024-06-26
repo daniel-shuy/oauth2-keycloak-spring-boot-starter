@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
@@ -17,8 +15,12 @@ description = "Spring Boot Starter for using Keycloak as the OAuth2 authorizatio
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
 kotlin {
+    jvmToolchain(
+        libs.versions.java
+            .get()
+            .toInt(),
+    )
     compilerOptions {
-        jvmTarget = JvmTarget.fromTarget(libs.versions.jvmTarget.get())
         freeCompilerArgs = listOf("-Xjsr305=strict")
     }
     coreLibrariesVersion = libs.versions.kotlinLib.get()
@@ -26,7 +28,6 @@ kotlin {
 }
 
 java {
-    targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
     withJavadocJar()
     withSourcesJar()
 }
