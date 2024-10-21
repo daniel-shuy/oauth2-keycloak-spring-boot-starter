@@ -34,14 +34,6 @@ jobs:
 
       - name: renovate-config-validator
         run: npm run renovate-config-validator
-  validate-gradle-wrapper:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout with GIT
-        uses: actions/checkout@v4
-
-      - name: Validate Gradle wrapper
-        uses: gradle/actions/wrapper-validation@v4
   build:
     runs-on: ubuntu-latest
     steps:
