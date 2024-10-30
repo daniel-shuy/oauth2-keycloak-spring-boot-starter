@@ -1,6 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak.matcher.reactive
 
 import org.springframework.http.HttpHeaders
+import org.springframework.security.web.server.util.matcher.NegatedServerWebExchangeMatcher
 import org.springframework.security.web.server.util.matcher.OrServerWebExchangeMatcher
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher
 
@@ -9,8 +10,8 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
  */
 internal val ResourceServerServerWebExchangeMatcher =
     OrServerWebExchangeMatcher(
-        // if request is an XHR
-        XhrServerWebExchangeMatcher,
+        // if request is not from a web browser
+        NegatedServerWebExchangeMatcher(BrowserServerWebExchangeMatcher),
         // if request has bearer token
         RequestHeaderServerWebExchangeMatcher(HttpHeaders.AUTHORIZATION),
     )
