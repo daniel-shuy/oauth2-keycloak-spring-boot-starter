@@ -8,10 +8,9 @@ import org.springframework.security.web.server.util.matcher.ServerWebExchangeMat
 /**
  * [ServerWebExchangeMatcher] that determines if a given request should be handled by OAuth2 Resource Server.
  */
-internal val ResourceServerServerWebExchangeMatcher =
-    OrServerWebExchangeMatcher(
-        // if request is not from a web browser
-        NegatedServerWebExchangeMatcher(BrowserServerWebExchangeMatcher),
-        // if request has bearer token
-        RequestHeaderServerWebExchangeMatcher(HttpHeaders.AUTHORIZATION),
-    )
+internal class ResourceServerServerWebExchangeMatcher : ServerWebExchangeMatcher by OrServerWebExchangeMatcher(
+    // if request is not from a web browser
+    NegatedServerWebExchangeMatcher(BrowserServerWebExchangeMatcher),
+    // if request has bearer token
+    RequestHeaderServerWebExchangeMatcher(HttpHeaders.AUTHORIZATION),
+)

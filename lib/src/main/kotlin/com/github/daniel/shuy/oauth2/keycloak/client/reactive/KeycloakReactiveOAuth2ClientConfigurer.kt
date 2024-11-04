@@ -20,8 +20,16 @@ public open class DefaultKeycloakReactiveOAuth2ClientConfigurer(
 ) : KeycloakReactiveOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: ServerHttpSecurity) {
         http
+            .csrf(::csrf)
             .oauth2Login(::oauth2Login)
             .logout { logout -> logout(logout, clientRegistrationRepository) }
+    }
+
+    /**
+     * Since the filter is only used for unauthenticated requests or GET requests, it does not need CSRF protection.
+     */
+    protected open fun csrf(csrf: ServerHttpSecurity.CsrfSpec) {
+        csrf.disable()
     }
 
     protected open fun oauth2Login(oauth2Login: ServerHttpSecurity.OAuth2LoginSpec) {}

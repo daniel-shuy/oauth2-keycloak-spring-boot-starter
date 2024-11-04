@@ -1,7 +1,7 @@
 package test
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
-import com.github.daniel.shuy.oauth2.keycloak.KeycloakWebSecurityConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
 import io.kotest.core.spec.style.StringSpec
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
@@ -10,8 +10,6 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
@@ -39,19 +37,14 @@ class ReactiveBearerOnlySpec(
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean
-            fun keycloakResourceServerFilterChain(
-                http: ServerHttpSecurity,
-                keycloakWebSecurityConfigurer: KeycloakWebSecurityConfigurer,
-            ): SecurityWebFilterChain {
-                keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http)
-
-                return http
-                    .authorizeExchange { exchanges ->
+            fun keycloakReactiveWebSecurityConfigurerAdapter() =
+                KeycloakReactiveWebSecurityConfigurerAdapter { http ->
+                    http.authorizeExchange { exchanges ->
                         exchanges
                             .anyExchange()
                             .authenticated()
-                    }.build()
-            }
+                    }
+                }
         }
     }
 

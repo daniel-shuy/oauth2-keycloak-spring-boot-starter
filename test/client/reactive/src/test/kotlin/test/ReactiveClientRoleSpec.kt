@@ -1,6 +1,6 @@
 package test
 
-import com.github.daniel.shuy.oauth2.keycloak.KeycloakWebSecurityConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
 import io.alkemy.assertions.shouldHaveText
 import io.alkemy.spring.AlkemyProperties
 import io.alkemy.spring.Extensions.alkemyContext
@@ -12,8 +12,6 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
@@ -43,14 +41,9 @@ class ReactiveClientRoleSpec(
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean
-            fun keycloakClientFilterChain(
-                http: ServerHttpSecurity,
-                keycloakWebSecurityConfigurer: KeycloakWebSecurityConfigurer,
-            ): SecurityWebFilterChain {
-                keycloakWebSecurityConfigurer.configureOAuth2Client(http)
-
-                return http
-                    .authorizeExchange { exchanges ->
+            fun keycloakReactiveWebSecurityConfigurerAdapter() =
+                KeycloakReactiveWebSecurityConfigurerAdapter { http ->
+                    http.authorizeExchange { exchanges ->
                         exchanges
                             .pathMatchers(TestController.REQUEST_MAPPING_PATH_FOO)
                             .hasRole(TestcontainersKeycloakInitializer.KEYCLOAK_REALM_ROLE)
@@ -66,8 +59,8 @@ class ReactiveClientRoleSpec(
 
                             .anyExchange()
                             .denyAll()
-                    }.build()
-            }
+                    }
+                }
         }
     }
 

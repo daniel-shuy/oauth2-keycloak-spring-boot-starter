@@ -1,6 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak.client.servlet
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer
 import org.springframework.security.config.annotation.web.configurers.oauth2.client.OAuth2LoginConfigurer
 import org.springframework.security.oauth2.client.oidc.web.logout.OidcClientInitiatedLogoutSuccessHandler
@@ -23,8 +24,16 @@ public open class DefaultKeycloakOAuth2ClientConfigurer(
 ) : KeycloakOAuth2ClientConfigurer {
     override fun configureOAuth2Client(http: HttpSecurity) {
         http
+            .csrf(::csrf)
             .oauth2Login(::oauth2Login)
             .logout { logout -> logout(logout, clientRegistrationRepository) }
+    }
+
+    /**
+     * Since the filter is only used for unauthenticated requests or GET requests, it does not need CSRF protection.
+     */
+    protected open fun csrf(csrf: CsrfConfigurer<HttpSecurity>) {
+        csrf.disable()
     }
 
     protected open fun oauth2Login(oauth2Login: OAuth2LoginConfigurer<HttpSecurity>) {

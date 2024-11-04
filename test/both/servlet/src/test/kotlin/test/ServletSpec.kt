@@ -1,7 +1,7 @@
 package test
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
-import com.github.daniel.shuy.oauth2.keycloak.KeycloakWebSecurityConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
 import io.alkemy.assertions.shouldHaveText
 import io.alkemy.spring.AlkemyProperties
 import io.alkemy.spring.Extensions.alkemyContext
@@ -22,9 +22,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.web.SecurityFilterChain
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
@@ -61,32 +59,14 @@ class ServletSpec(
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
-            fun keycloakClientFilterChain(
-                http: HttpSecurity,
-                keycloakWebSecurityConfigurer: KeycloakWebSecurityConfigurer,
-            ): SecurityFilterChain {
-                keycloakWebSecurityConfigurer.configureOAuth2Client(http)
-                configureWebSecurity(http)
-                return http.build()
-            }
-
-            @Bean
-            fun keycloakResourceServerFilterChain(
-                http: HttpSecurity,
-                keycloakWebSecurityConfigurer: KeycloakWebSecurityConfigurer,
-            ): SecurityFilterChain {
-                keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http)
-                configureWebSecurity(http)
-                return http.build()
-            }
-
-            private fun configureWebSecurity(http: HttpSecurity) {
-                http.authorizeRequests { authorize ->
-                    authorize
-                        .anyRequest()
-                        .authenticated()
+            fun keycloakWebSecurityConfigurerAdapter() =
+                KeycloakWebSecurityConfigurerAdapter { http ->
+                    http.authorizeRequests { authorize ->
+                        authorize
+                            .anyRequest()
+                            .authenticated()
+                    }
                 }
-            }
         }
     }
 

@@ -11,17 +11,13 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 - [Configuration Properties](#configuration-properties)
 - [Usage](#usage)
   - [OAuth2 Client](#oauth2-client)
-    - [Spring MVC](#spring-mvc)
-    - [Spring WebFlux](#spring-webflux)
   - [OAuth2 Resource Server](#oauth2-resource-server)
-    - [Spring MVC](#spring-mvc-1)
-    - [Spring WebFlux](#spring-webflux-1)
-    - [Multiple Resource Servers](#multiple-resource-servers)
-      - [Spring MVC](#spring-mvc-2)
-      - [Spring WebFlux](#spring-webflux-2)
   - [OAuth2 Client and Resource Server](#oauth2-client-and-resource-server)
-    - [Spring MVC](#spring-mvc-3)
-    - [Spring WebFlux](#spring-webflux-3)
+  - [Configure `HttpSecurity` (Spring MVC)](#configure-httpsecurity-spring-mvc)
+  - [Configure `ServerHttpSecurity` (Spring WebFlux)](#configure-serverhttpsecurity-spring-webflux)
+- [CSRF Protection](#csrf-protection)
+  - [Spring MVC](#spring-mvc)
+  - [Spring WebFlux](#spring-webflux)
 - [Testing](#testing)
 
 ## Configuration Properties
@@ -72,7 +68,7 @@ The service can be configured as either an OAuth2 client, an OAuth2 resource ser
   - Usually used for client applications (e.g. Thymeleaf)
 - **Resource Server:** Validates bearer tokens
 
-## OAuth2 Client
+### OAuth2 Client
 
 Maven:
 
@@ -98,63 +94,7 @@ Gradle (Kotlin):
 implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
 ```
 
-Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 client.
-
-Minimal example:
-
-### Spring MVC
-
-```java
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityFilterChain keycloakClientFilterChain(HttpSecurity http,
-                                                       KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
-
-    http.authorizeRequests(authorize -> authorize
-        .anyRequest()
-        .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-**IMPORTANT: Do not override the `requestMatcher(RequestMatcher)` of the `HttpSecurity`.
-The OAuth2 Client filter must be applied to the root path.**
-
-### Spring WebFlux
-
-```java
-
-@Configuration
-@EnableWebFluxSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
-                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
-
-    http.authorizeExchange(exchanges -> exchanges
-        .anyExchange()
-        .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-**IMPORTANT: Do not override the `securityMatcher(ServerWebExchangeMatcher)` of the `ServerHttpSecurity`.
-The OAuth2 Client filter must be applied to the root path.**
-
-## OAuth2 Resource Server
+### OAuth2 Resource Server
 
 Maven:
 
@@ -180,115 +120,10 @@ Gradle (Kotlin):
 implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
 ```
 
-Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 resource server.
+**IMPORTANT: Do not configure any other OAuth2 Resource Server, as Spring Security OAuth2 Resource Server only supports
+configuring 1 resource server.**
 
-Minimal example:
-
-### Spring MVC
-
-```java
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityFilterChain keycloakResourceServerFilterChain(
-      HttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-
-    http.authorizeRequests(authorize -> authorize
-        .anyRequest()
-        .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-### Spring WebFlux
-
-```java
-
-@Configuration
-@EnableWebFluxSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityWebFilterChain keycloakResourceServerFilterChain(
-      ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-
-    http.authorizeExchange(exchanges -> exchanges
-        .anyExchange()
-        .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-### Multiple resource servers
-
-To restrict a Keycloak resource server filter to a subset of requests, simply configure a matcher for the filter, e.g.
-
-#### Spring MVC
-
-```java
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityFilterChain keycloakResourceServerFilterChain(
-          HttpSecurity http,
-          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer,
-          HandlerMappingIntrospector introspector) throws Exception {
-    http.requestMatcher(new MvcRequestMatcher(introspector, "/api/**"));
-
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-
-    http.authorizeRequests(authorize -> authorize
-            .anyRequest()
-            .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-**IMPORTANT: `HttpSecurity#requestMatcher(RequestMatcher)` should be called before
-`KeycloakWebSecurityConfigurer#configureOAuth2ResourceServer(HttpSecurity)`.**
-
-#### Spring WebFlux
-
-```java
-
-@Configuration
-@EnableWebFluxSecurity
-public class WebSecurityConfig {
-  @Bean
-  public SecurityWebFilterChain keycloakResourceServerFilterChain(
-          ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    http.securityMatcher(new PathPatternParserServerWebExchangeMatcher("/api/**"));
-
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-
-    http.authorizeExchange(exchanges -> exchanges
-            .anyExchange()
-            .authenticated()
-    );
-
-    return http.build();
-  }
-}
-```
-
-**IMPORTANT: `ServerHttpSecurity#securityMatcher(ServerWebExchangeMatcher)` should be called before
-`KeycloakWebSecurityConfigurer#configureOAuth2ResourceServer(ServerHttpSecurity)`.**
-
-## OAuth2 Client and Resource Server
+### OAuth2 Client and Resource Server
 
 Maven:
 
@@ -322,14 +157,68 @@ implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
 implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
 ```
 
-Use `KeycloakWebSecurityConfigurer` to configure a filter as an OAuth2 client, and another filter as an OAuth2 resource
-server.
+**IMPORTANT: Do not configure any other OAuth2 Resource Server, as Spring Security OAuth2 Resource Server only supports
+configuring 1 resource server.**
 
-**IMPORTANT: The OAuth2 client filter must be defined before the resource server filter.**
+### Configure `HttpSecurity` (Spring MVC)
 
-The common configuration between both filters can be separated out into another function.
+The `SecurityFilterChain`(s) will be created automatically.
+Create a `KeycloakWebSecurityConfigurerAdapter` to configure the `HttpSecurity`.
 
 Minimal example:
+
+```java
+
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig {
+  @Bean
+  public KeycloakWebSecurityConfigurerAdapter keycloakWebSecurityConfigurerAdapter() {
+    return http -> {
+      http.authorizeRequests(authorize ->
+          authorize
+              .anyRequest()
+              .authenticated()
+      );
+    };
+  }
+}
+```
+
+**IMPORTANT: Do not override the `requestMatcher(RequestMatcher)` of the `HttpSecurity`.
+The filter(s) must be applied to the root path.**
+
+### Configure `ServerHttpSecurity (Spring WebFlux)
+
+The `SecurityWebFilterChain`(s) will be created automatically.
+Create a `KeycloakReactiveWebSecurityConfigurerAdapter` to configure the `ServerHttpSecurity`.
+
+Minimal example:
+
+```java
+
+@Configuration
+@EnableWebFluxSecurity
+public class WebSecurityConfig {
+  @Bean
+  public KeycloakReactiveWebSecurityConfigurerAdapter keycloakReactiveWebSecurityConfigurerAdapter() {
+    return http -> {
+      http.authorizeExchange(exchanges ->
+          exchanges
+              .anyExchange()
+              .authenticated()
+      );
+    };
+  }
+}
+```
+
+**IMPORTANT: Do not override the `securityMatcher(ServerWebExchangeMatcher)` of the `ServerHttpSecurity`.
+The filter(s) must be applied to the root path.**
+
+## CSRF Protection
+
+If the protected resources are stateless, the CSRF protection can be disabled, e.g.
 
 ### Spring MVC
 
@@ -339,27 +228,14 @@ Minimal example:
 @EnableWebSecurity
 public class WebSecurityConfig {
   @Bean
-  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
-                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
-    configureWebSecurity(http);
-    return http.build();
-  }
-
-  @Bean
-  public SecurityFilterChain keycloakResourceServerFilterChain(
-      HttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-    configureWebSecurity(http);
-    return http.build();
-  }
-
-  private void configureWebSecurity(HttpSecurity http) {
-    http.authorizeRequests(authorize -> authorize
-        .anyRequest()
-        .authenticated()
-    );
+  public KeycloakWebSecurityConfigurerAdapter keycloakWebSecurityConfigurerAdapter() {
+    return http -> {
+      http
+          .csrf(csrf ->
+              csrf.disable()
+          );
+          // ...
+    };
   }
 }
 ```
@@ -372,27 +248,14 @@ public class WebSecurityConfig {
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
   @Bean
-  public SecurityWebFilterChain keycloakClientFilterChain(ServerHttpSecurity http,
-                                                          KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer)
-      throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2Client(http);
-    configureWebSecurity(http);
-    return http.build();
-  }
-
-  @Bean
-  public SecurityWebFilterChain keycloakResourceServerFilterChain(
-      ServerHttpSecurity http, KeycloakWebSecurityConfigurer keycloakWebSecurityConfigurer) throws Exception {
-    keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http);
-    configureWebSecurity(http);
-    return http.build();
-  }
-
-  private void configureWebSecurity(ServerHttpSecurity http) {
-    http.authorizeExchange(exchanges -> exchanges
-        .anyExchange()
-        .authenticated()
-    );
+  public KeycloakReactiveWebSecurityConfigurerAdapter keycloakReactiveWebSecurityConfigurerAdapter() {
+    return http -> {
+      http
+          .csrf(csrf ->
+              csrf.disable()
+          );
+          // ...
+    };
   }
 }
 ```
