@@ -120,6 +120,9 @@ repositories {
 }
 
 dependencies {
+    annotationProcessor(libs.spring.boot.autoconfigure.processor)
+    annotationProcessor(libs.spring.boot.configuration.processor)
+
     compileOnly(libs.spring.boot.starter.oauth2.client)
     compileOnly(libs.spring.boot.starter.oauth2.resource.server)
     compileOnly(libs.spring.boot.starter.web)
