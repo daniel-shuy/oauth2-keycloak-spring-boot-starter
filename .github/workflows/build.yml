@@ -66,3 +66,10 @@ jobs:
         with:
           name: test-results
           path: "**/build/test-results/test/TEST-*.xml"
+
+      - name: Upload build reports
+        uses: actions/upload-artifact@v4
+        if: success() || failure()  # run this step even if previous step failed
+        with:
+          name: build-reports
+          path: "**/build/reports/"
