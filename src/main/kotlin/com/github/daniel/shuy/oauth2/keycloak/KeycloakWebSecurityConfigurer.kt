@@ -38,7 +38,9 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.requestMatcher(NegatedRequestMatcher(ResourceServerRequestMatcher))
+        if (keycloakOAuth2ResourceServerConfigurer != null) {
+            http.requestMatcher(NegatedRequestMatcher(ResourceServerRequestMatcher))
+        }
         keycloakOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
@@ -57,7 +59,9 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        http.securityMatcher(NegatedServerWebExchangeMatcher(ResourceServerServerWebExchangeMatcher))
+        if (keycloakOAuth2ResourceServerConfigurer != null) {
+            http.securityMatcher(NegatedServerWebExchangeMatcher(ResourceServerServerWebExchangeMatcher))
+        }
         keycloakReactiveOAuth2ClientConfigurer.configureOAuth2Client(http)
     }
 
