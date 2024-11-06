@@ -59,7 +59,7 @@ public class KeycloakWebSecurityConfigurer(
             return
         }
 
-        if (keycloakOAuth2ResourceServerConfigurer != null) {
+        if (keycloakReactiveOAuth2ResourceServerConfigurer != null) {
             http.securityMatcher(NegatedServerWebExchangeMatcher(ResourceServerServerWebExchangeMatcher))
         }
         keycloakReactiveOAuth2ClientConfigurer.configureOAuth2Client(http)
