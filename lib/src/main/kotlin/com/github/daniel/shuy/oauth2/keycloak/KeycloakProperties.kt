@@ -14,7 +14,7 @@ public data class KeycloakProperties(
     val enabled: Boolean = true,
 
     /**
-     * The base URL of the Keycloak server. All other Keycloak pages and REST service endpoints are derived from this.
+     * Base URL of the Keycloak server. All other Keycloak pages and REST service endpoints are derived from this.
      * It is usually of the form `https://host:port`.
      */
     val authServerUrl: String,
@@ -25,7 +25,7 @@ public data class KeycloakProperties(
     val realm: String,
 
     /**
-     * The client-id of the application. Each application has a client-id that is used to identify the application.
+     * Client-id of the application. Each application has a client-id that is used to identify the application.
      */
     val clientId: String,
 
@@ -40,12 +40,12 @@ public data class KeycloakProperties(
     val bearerOnly: Boolean = false,
 
     /**
-     * The name of the Spring Security OAuth2 Client Provider to register.
+     * Name of the Spring Security OAuth2 Client Provider to register.
      */
     val springSecurityOauth2ClientProviderName: String = "keycloak",
 
     /**
-     * The name of the Spring Security OAuth2 Client Registration to register.
+     * Name of the Spring Security OAuth2 Client Registration to register.
      */
     val springSecurityOauth2ClientRegistrationName: String = "keycloak",
 ) {
