@@ -1,11 +1,11 @@
 package com.github.daniel.shuy.oauth2.keycloak
 
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguration
-import com.github.daniel.shuy.oauth2.keycloak.client.reactive.KeycloakReactiveOAuth2ClientConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.client.servlet.KeycloakOAuth2ClientConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.config.DefaultKeycloakReactiveWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.config.DefaultKeycloakWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.KeycloakResourceServerConfiguration
-import com.github.daniel.shuy.oauth2.keycloak.server.resource.reactive.KeycloakReactiveOAuth2ResourceServerConfigurer
-import com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet.KeycloakOAuth2ResourceServerConfigurer
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -35,20 +35,15 @@ import org.springframework.context.annotation.Import
 public class KeycloakAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    public fun keycloakJwtClaimsAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtClaimsAuthoritiesConverter =
-        DefaultKeycloakJwtClaimsAuthoritiesConverter(keycloakProperties.clientId)
+    public fun keycloakReactiveWebSecurityConfigurerAdapter(): KeycloakReactiveWebSecurityConfigurerAdapter =
+        DefaultKeycloakReactiveWebSecurityConfigurerAdapter()
 
     @Bean
-    public fun keycloakWebSecurityConfigurer(
-        keycloakOAuth2ClientConfigurer: KeycloakOAuth2ClientConfigurer?,
-        keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer?,
-        keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer?,
-        keycloakReactiveOAuth2ResourceServerConfigurer: KeycloakReactiveOAuth2ResourceServerConfigurer?,
-    ): KeycloakWebSecurityConfigurer =
-        KeycloakWebSecurityConfigurer(
-            keycloakOAuth2ClientConfigurer,
-            keycloakReactiveOAuth2ClientConfigurer,
-            keycloakOAuth2ResourceServerConfigurer,
-            keycloakReactiveOAuth2ResourceServerConfigurer,
-        )
+    @ConditionalOnMissingBean
+    public fun keycloakWebSecurityConfigurerAdapter(): KeycloakWebSecurityConfigurerAdapter = DefaultKeycloakWebSecurityConfigurerAdapter()
+
+    @Bean
+    @ConditionalOnMissingBean
+    public fun keycloakJwtClaimsAuthoritiesConverter(keycloakProperties: KeycloakProperties): KeycloakJwtClaimsAuthoritiesConverter =
+        DefaultKeycloakJwtClaimsAuthoritiesConverter(keycloakProperties.clientId)
 }

@@ -9,10 +9,9 @@ import org.springframework.security.web.util.matcher.RequestMatcher
 /**
  * [RequestMatcher] that determines if a given request should delegate to OAuth2 Resource Server.
  */
-internal val ResourceServerRequestMatcher =
-    OrRequestMatcher(
-        // if request is not from a web browser
-        NegatedRequestMatcher(BrowserRequestMatcher),
-        // if request has bearer token
-        RequestHeaderRequestMatcher(HttpHeaders.AUTHORIZATION),
-    )
+internal class ResourceServerRequestMatcher : RequestMatcher by OrRequestMatcher(
+    // if request is not from a web browser
+    NegatedRequestMatcher(BrowserRequestMatcher),
+    // if request has bearer token
+    RequestHeaderRequestMatcher(HttpHeaders.AUTHORIZATION),
+)

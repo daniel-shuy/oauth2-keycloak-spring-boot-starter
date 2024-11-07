@@ -1,7 +1,7 @@
 package test
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
-import com.github.daniel.shuy.oauth2.keycloak.KeycloakWebSecurityConfigurer
+import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import org.keycloak.admin.client.Keycloak
@@ -16,9 +16,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
-import org.springframework.security.web.SecurityFilterChain
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.toClient
 
@@ -44,19 +42,14 @@ class ServletBearerOnlySpec(
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
-            fun keycloakResourceServerFilterChain(
-                http: HttpSecurity,
-                keycloakWebSecurityConfigurer: KeycloakWebSecurityConfigurer,
-            ): SecurityFilterChain {
-                keycloakWebSecurityConfigurer.configureOAuth2ResourceServer(http)
-
-                return http
-                    .authorizeRequests { authorize ->
+            fun keycloakWebSecurityConfigurerAdapter() =
+                KeycloakWebSecurityConfigurerAdapter { http ->
+                    http.authorizeRequests { authorize ->
                         authorize
                             .anyRequest()
                             .authenticated()
-                    }.build()
-            }
+                    }
+                }
         }
     }
 
