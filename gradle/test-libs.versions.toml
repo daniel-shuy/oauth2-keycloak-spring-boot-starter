@@ -3,7 +3,7 @@ alkemy = "1.0.4"
 kotest = "5.9.1"
 kotestSpring = "1.3.0"
 selenium = "4.21.0"
-slf4j = "2.0.13"
+slf4j = "2.0.16"
 springBoot = "2.7.18"
 testcontainersKeycloak = "2.6.0"
 
