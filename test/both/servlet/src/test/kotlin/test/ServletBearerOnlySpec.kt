@@ -4,6 +4,7 @@ import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakWebSecurityConfigurer
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
+import io.kotest.matchers.nulls.shouldNotBeNull
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
 import org.springframework.boot.test.context.SpringBootTest
@@ -78,7 +79,7 @@ class ServletBearerOnlySpec(
                 )
 
             response.statusCode.shouldBeEqual(HttpStatus.OK)
-            response.body.shouldBeEqual(TestController.RESPONSE_BODY_HELLO_WORLD)
+            response.body.shouldNotBeNull().shouldBeEqual(TestController.RESPONSE_BODY_HELLO_WORLD)
         }
 
         "Accessing protected resource with invalid bearer token should return HTTP 401 (Unauthorized)" {
