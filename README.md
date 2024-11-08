@@ -22,16 +22,16 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 
 ## Configuration Properties
 
-| Configuration Property                                   | Mandatory/Optional | Description                                                                                                                                                    | Default  |
-| -------------------------------------------------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| keycloak.enabled                                         | Optional           | Set to `false` to disable Spring Security integration with Keycloak.                                                                                           | `true`   |
-| keycloak.auth-server-url                                 | Mandatory          | The base URL of the Keycloak server. All other Keycloak pages and REST service endpoints are derived from this. It is usually of the form `https://host:port`. |          |
-| keycloak.realm                                           | Mandatory          | Name of the realm.                                                                                                                                             |          |
-| keycloak.client-id                                       | Mandatory          | The client-id of the application. Each application has a client-id that is used to identify the application.                                                   |          |
-| keycloak.client-secret                                   | Optional           | Only for clients with `Confidential` access type. Specify the credentials of the application.                                                                  |          |
-| keycloak.bearer-only                                     | Optional           | If enabled, will not attempt to authenticate users, but only verify bearer tokens.                                                                             | `true`   |
-| keycloak.spring-security-oauth2-client-provider-name     | Optional           | The name of the Spring Security OAuth2 Client Provider to register.                                                                                            | keycloak |
-| keycloak.spring-security-oauth2-client-registration-name | Optional           | The name of the Spring Security OAuth2 Client Registration to register.                                                                                        | keycloak |
+| Configuration Property                                   | Mandatory/Optional | Description                                                                                                                                                | Default  |
+| -------------------------------------------------------- | ------------------ |------------------------------------------------------------------------------------------------------------------------------------------------------------| -------- |
+| keycloak.enabled                                         | Optional           | Set to `false` to disable Spring Security integration with Keycloak.                                                                                       | `true`   |
+| keycloak.auth-server-url                                 | Mandatory          | Base URL of the Keycloak server. All other Keycloak pages and REST service endpoints are derived from this. It is usually of the form `https://host:port`. |          |
+| keycloak.realm                                           | Mandatory          | Name of the realm.                                                                                                                                         |          |
+| keycloak.client-id                                       | Mandatory          | Client-id of the application. Each application has a client-id that is used to identify the application.                                                   |          |
+| keycloak.client-secret                                   | Optional           | Only for clients with `Confidential` access type. Specify the credentials of the application.                                                              |          |
+| keycloak.bearer-only                                     | Optional           | If enabled, will not attempt to authenticate users, but only verify bearer tokens.                                                                         | `true`   |
+| keycloak.spring-security-oauth2-client-provider-name     | Optional           | Name of the Spring Security OAuth2 Client Provider to register.                                                                                            | keycloak |
+| keycloak.spring-security-oauth2-client-registration-name | Optional           | Name of the Spring Security OAuth2 Client Registration to register.                                                                                        | keycloak |
 
 ## Usage
 
