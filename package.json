@@ -6,7 +6,7 @@
     "renovate-config-validator": "renovate-config-validator"
   },
   "devDependencies": {
-    "@eslint/compat": "1.2.2",
+    "@eslint/compat": "1.2.3",
     "@stylistic/eslint-plugin": "2.10.1",
     "eslint": "9.14.0",
     "eslint-plugin-jsonc": "2.18.1",
