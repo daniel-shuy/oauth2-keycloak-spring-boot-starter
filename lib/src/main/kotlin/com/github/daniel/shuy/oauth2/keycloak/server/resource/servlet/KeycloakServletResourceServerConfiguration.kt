@@ -1,6 +1,6 @@
 package com.github.daniel.shuy.oauth2.keycloak.server.resource.servlet
 
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
 import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.ResourceServerRequestMatcher
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.KeycloakJwtAuthenticationConverter
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
@@ -31,10 +31,10 @@ internal class KeycloakServletResourceServerConfiguration {
     @ConditionalOnMissingBean
     fun keycloakOAuth2ResourceServerSecurityFilterChain(
         http: HttpSecurity,
-        keycloakWebSecurityConfigurerAdapter: KeycloakWebSecurityConfigurerAdapter,
+        keycloakHttpSecurityCustomizer: KeycloakHttpSecurityCustomizer,
         keycloakOAuth2ResourceServerConfigurer: KeycloakOAuth2ResourceServerConfigurer,
     ): KeycloakOAuth2ResourceServerSecurityFilterChain {
-        keycloakWebSecurityConfigurerAdapter.configure(http)
+        keycloakHttpSecurityCustomizer.configure(http)
         keycloakOAuth2ResourceServerConfigurer.configureOAuth2ResourceServer(http)
         return KeycloakOAuth2ResourceServerSecurityFilterChain(http)
     }

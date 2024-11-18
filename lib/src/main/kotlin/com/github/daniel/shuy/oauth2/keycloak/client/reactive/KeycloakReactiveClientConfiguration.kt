@@ -2,7 +2,7 @@ package com.github.daniel.shuy.oauth2.keycloak.client.reactive
 
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakOidcUserGrantedAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
 import com.github.daniel.shuy.oauth2.keycloak.matcher.reactive.ResourceServerServerWebExchangeMatcher
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -42,11 +42,11 @@ internal class KeycloakReactiveClientConfiguration {
     fun keycloakOAuth2ClientSecurityWebFilterChain(
         http: ServerHttpSecurity,
         resourceServerServerWebExchangeMatcher: ResourceServerServerWebExchangeMatcher?,
-        keycloakReactiveWebSecurityConfigurerAdapter: KeycloakReactiveWebSecurityConfigurerAdapter,
+        keycloakServerHttpSecurityCustomizer: KeycloakServerHttpSecurityCustomizer,
         keycloakReactiveOAuth2ClientConfigurer: KeycloakReactiveOAuth2ClientConfigurer,
     ): KeycloakOAuth2ClientSecurityWebFilterChain {
         resourceServerServerWebExchangeMatcher?.let { http.securityMatcher(NegatedServerWebExchangeMatcher(it)) }
-        keycloakReactiveWebSecurityConfigurerAdapter.configure(http)
+        keycloakServerHttpSecurityCustomizer.configure(http)
         keycloakReactiveOAuth2ClientConfigurer.configureOAuth2Client(http)
         return KeycloakOAuth2ClientSecurityWebFilterChain(http)
     }

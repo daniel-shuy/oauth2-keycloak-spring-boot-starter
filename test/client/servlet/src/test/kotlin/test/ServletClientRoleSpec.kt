@@ -1,6 +1,6 @@
 package test
 
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
 import io.alkemy.assertions.shouldHaveText
 import io.alkemy.extensions.text
 import io.alkemy.spring.AlkemyProperties
@@ -43,8 +43,8 @@ class ServletClientRoleSpec(
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
-            fun keycloakWebSecurityConfigurerAdapter() =
-                KeycloakWebSecurityConfigurerAdapter { http ->
+            fun keycloakHttpSecurityCustomizer() =
+                KeycloakHttpSecurityCustomizer { http ->
                     http.authorizeRequests { authorize ->
                         authorize
                             .mvcMatchers(TestController.REQUEST_MAPPING_PATH_FOO)

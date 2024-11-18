@@ -1,7 +1,7 @@
 package test
 
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
 import io.kotest.core.spec.style.StringSpec
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
@@ -36,8 +36,8 @@ class ReactiveResourceServerSpec(
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean
-            fun keycloakReactiveWebSecurityConfigurerAdapter() =
-                KeycloakReactiveWebSecurityConfigurerAdapter { http ->
+            fun keycloakServerHttpSecurityCustomizer() =
+                KeycloakServerHttpSecurityCustomizer { http ->
                     http.authorizeExchange { exchanges ->
                         exchanges
                             .anyExchange()
