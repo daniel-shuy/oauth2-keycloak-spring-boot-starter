@@ -2,7 +2,7 @@ package com.github.daniel.shuy.oauth2.keycloak.client.servlet
 
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguredCondition
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakOidcUserGrantedAuthoritiesConverter
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
 import com.github.daniel.shuy.oauth2.keycloak.matcher.servlet.ResourceServerRequestMatcher
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
@@ -44,11 +44,11 @@ internal class KeycloakServletClientConfiguration {
     fun keycloakOAuth2ClientSecurityFilterChain(
         http: HttpSecurity,
         resourceServerRequestMatcher: ResourceServerRequestMatcher?,
-        keycloakWebSecurityConfigurerAdapter: KeycloakWebSecurityConfigurerAdapter,
+        keycloakHttpSecurityCustomizer: KeycloakHttpSecurityCustomizer,
         keycloakOAuth2ClientConfigurer: KeycloakOAuth2ClientConfigurer,
     ): KeycloakOAuth2ClientSecurityFilterChain {
         resourceServerRequestMatcher?.let { http.requestMatcher(NegatedRequestMatcher(it)) }
-        keycloakWebSecurityConfigurerAdapter.configure(http)
+        keycloakHttpSecurityCustomizer.configure(http)
         keycloakOAuth2ClientConfigurer.configureOAuth2Client(http)
         return KeycloakOAuth2ClientSecurityFilterChain(http)
     }

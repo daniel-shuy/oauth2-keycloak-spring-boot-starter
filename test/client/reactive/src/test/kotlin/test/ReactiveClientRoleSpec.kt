@@ -1,6 +1,6 @@
 package test
 
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
 import io.alkemy.assertions.shouldHaveText
 import io.alkemy.spring.AlkemyProperties
 import io.alkemy.spring.Extensions.alkemyContext
@@ -41,8 +41,8 @@ class ReactiveClientRoleSpec(
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean
-            fun keycloakReactiveWebSecurityConfigurerAdapter() =
-                KeycloakReactiveWebSecurityConfigurerAdapter { http ->
+            fun keycloakServerHttpSecurityCustomizer() =
+                KeycloakServerHttpSecurityCustomizer { http ->
                     http.authorizeExchange { exchanges ->
                         exchanges
                             .pathMatchers(TestController.REQUEST_MAPPING_PATH_FOO)

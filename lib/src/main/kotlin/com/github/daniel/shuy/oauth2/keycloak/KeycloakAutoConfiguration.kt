@@ -1,10 +1,10 @@
 package com.github.daniel.shuy.oauth2.keycloak
 
 import com.github.daniel.shuy.oauth2.keycloak.client.KeycloakClientConfiguration
-import com.github.daniel.shuy.oauth2.keycloak.config.DefaultKeycloakReactiveWebSecurityConfigurerAdapter
-import com.github.daniel.shuy.oauth2.keycloak.config.DefaultKeycloakWebSecurityConfigurerAdapter
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakReactiveWebSecurityConfigurerAdapter
-import com.github.daniel.shuy.oauth2.keycloak.config.KeycloakWebSecurityConfigurerAdapter
+import com.github.daniel.shuy.oauth2.keycloak.customizer.DefaultKeycloakHttpSecurityCustomizer
+import com.github.daniel.shuy.oauth2.keycloak.customizer.DefaultKeycloakServerHttpSecurityCustomizer
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
+import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
 import com.github.daniel.shuy.oauth2.keycloak.server.resource.KeycloakResourceServerConfiguration
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
@@ -35,12 +35,11 @@ import org.springframework.context.annotation.Import
 public class KeycloakAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
-    public fun keycloakReactiveWebSecurityConfigurerAdapter(): KeycloakReactiveWebSecurityConfigurerAdapter =
-        DefaultKeycloakReactiveWebSecurityConfigurerAdapter()
+    public fun keycloakServerHttpSecurityCustomizer(): KeycloakServerHttpSecurityCustomizer = DefaultKeycloakServerHttpSecurityCustomizer()
 
     @Bean
     @ConditionalOnMissingBean
-    public fun keycloakWebSecurityConfigurerAdapter(): KeycloakWebSecurityConfigurerAdapter = DefaultKeycloakWebSecurityConfigurerAdapter()
+    public fun keycloakHttpSecurityCustomizer(): KeycloakHttpSecurityCustomizer = DefaultKeycloakHttpSecurityCustomizer()
 
     @Bean
     @ConditionalOnMissingBean

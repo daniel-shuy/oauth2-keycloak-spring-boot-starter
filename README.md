@@ -163,7 +163,7 @@ configuring 1 resource server.**
 ### Configure `HttpSecurity` (Spring MVC)
 
 The `SecurityFilterChain`(s) will be created automatically.
-Create a `KeycloakWebSecurityConfigurerAdapter` to configure the `HttpSecurity`.
+Create a `KeycloakHttpSecurityCustomizer` to configure the `HttpSecurity`.
 
 Minimal example:
 
@@ -173,7 +173,7 @@ Minimal example:
 @EnableWebSecurity
 public class WebSecurityConfig {
   @Bean
-  public KeycloakWebSecurityConfigurerAdapter keycloakWebSecurityConfigurerAdapter() {
+  public KeycloakHttpSecurityCustomizer keycloakHttpSecurityCustomizer() {
     return http -> {
       http.authorizeRequests(authorize ->
           authorize
@@ -191,7 +191,7 @@ The filter(s) must be applied to the root path.**
 ### Configure `ServerHttpSecurity (Spring WebFlux)
 
 The `SecurityWebFilterChain`(s) will be created automatically.
-Create a `KeycloakReactiveWebSecurityConfigurerAdapter` to configure the `ServerHttpSecurity`.
+Create a `KeycloakServerHttpSecurityCustomizer` to configure the `ServerHttpSecurity`.
 
 Minimal example:
 
@@ -201,7 +201,7 @@ Minimal example:
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
   @Bean
-  public KeycloakReactiveWebSecurityConfigurerAdapter keycloakReactiveWebSecurityConfigurerAdapter() {
+  public KeycloakServerHttpSecurityCustomizer keycloakServerHttpSecurityCustomizer() {
     return http -> {
       http.authorizeExchange(exchanges ->
           exchanges
@@ -228,7 +228,7 @@ If the protected resources are stateless, the CSRF protection can be disabled, e
 @EnableWebSecurity
 public class WebSecurityConfig {
   @Bean
-  public KeycloakWebSecurityConfigurerAdapter keycloakWebSecurityConfigurerAdapter() {
+  public KeycloakHttpSecurityCustomizer keycloakHttpSecurityCustomizer() {
     return http -> {
       http
           .csrf(csrf ->
@@ -248,7 +248,7 @@ public class WebSecurityConfig {
 @EnableWebFluxSecurity
 public class WebSecurityConfig {
   @Bean
-  public KeycloakReactiveWebSecurityConfigurerAdapter keycloakReactiveWebSecurityConfigurerAdapter() {
+  public KeycloakServerHttpSecurityCustomizer keycloakServerHttpSecurityCustomizer() {
     return http -> {
       http
           .csrf(csrf ->
