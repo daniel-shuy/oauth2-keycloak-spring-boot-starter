@@ -1,5 +1,5 @@
 [versions]
-alkemy = "1.0.4"
+alkemy = "1.0.5"
 kotest = "5.9.1"
 kotestSpring = "1.3.0"
 selenium = "4.26.0"
