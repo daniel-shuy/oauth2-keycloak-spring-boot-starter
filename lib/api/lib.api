@@ -33,19 +33,10 @@ public final class com/github/daniel/shuy/oauth2/keycloak/KeycloakOAuth2Environm
 public class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties {
 	public static final field CONFIGURATION_PROPERTIES_PREFIX Ljava/lang/String;
 	public static final field Companion Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties$Companion;
-	public fun <init> (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;)V
-	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun component1 ()Z
-	public final fun component2 ()Ljava/lang/String;
-	public final fun component3 ()Ljava/lang/String;
-	public final fun component4 ()Ljava/lang/String;
-	public final fun component5 ()Ljava/lang/String;
-	public final fun component6 ()Z
-	public final fun component7 ()Ljava/lang/String;
-	public final fun component8 ()Ljava/lang/String;
-	public final fun copy (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;)Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;
-	public static synthetic fun copy$default (Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;
-	public fun equals (Ljava/lang/Object;)Z
+	public field authServerUrl Ljava/lang/String;
+	public field clientId Ljava/lang/String;
+	public field realm Ljava/lang/String;
+	public fun <init> ()V
 	public fun getAuthServerUrl ()Ljava/lang/String;
 	public fun getBearerOnly ()Z
 	public fun getClientId ()Ljava/lang/String;
@@ -54,8 +45,14 @@ public class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties {
 	public fun getRealm ()Ljava/lang/String;
 	public fun getSpringSecurityOauth2ClientProviderName ()Ljava/lang/String;
 	public fun getSpringSecurityOauth2ClientRegistrationName ()Ljava/lang/String;
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+	public fun setAuthServerUrl (Ljava/lang/String;)V
+	public fun setBearerOnly (Z)V
+	public fun setClientId (Ljava/lang/String;)V
+	public fun setClientSecret (Ljava/lang/String;)V
+	public fun setEnabled (Z)V
+	public fun setRealm (Ljava/lang/String;)V
+	public fun setSpringSecurityOauth2ClientProviderName (Ljava/lang/String;)V
+	public fun setSpringSecurityOauth2ClientRegistrationName (Ljava/lang/String;)V
 }
 
 public final class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties$Companion {
