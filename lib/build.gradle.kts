@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.spring)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlin.binary.compatibility.validator)
     `java-test-fixtures`
     alias(libs.plugins.dokka)
     alias(libs.plugins.release)

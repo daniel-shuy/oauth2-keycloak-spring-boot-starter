@@ -1,0 +1,189 @@
+public class com/github/daniel/shuy/oauth2/keycloak/DefaultKeycloakJwtClaimsAuthoritiesConverter : com/github/daniel/shuy/oauth2/keycloak/KeycloakJwtClaimsAuthoritiesConverter {
+	protected static final field CLAIM_REALM_ACCESS Ljava/lang/String;
+	protected static final field CLAIM_RESOURCE_ACCESS Ljava/lang/String;
+	public static final field Companion Lcom/github/daniel/shuy/oauth2/keycloak/DefaultKeycloakJwtClaimsAuthoritiesConverter$Companion;
+	protected static final field GRANTED_AUTHORITY_PREFIX_ROLE Ljava/lang/String;
+	protected static final field KEY_ROLES Ljava/lang/String;
+	public fun <init> (Ljava/lang/String;)V
+	public synthetic fun convert (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun convert (Ljava/util/Map;)Ljava/util/Collection;
+	protected fun convertRealmRoles (Ljava/util/Map;)Ljava/util/stream/Stream;
+	protected fun convertResourceRoles (Ljava/util/Map;)Ljava/util/stream/Stream;
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/DefaultKeycloakJwtClaimsAuthoritiesConverter$Companion {
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/KeycloakAutoConfiguration {
+	public fun <init> ()V
+	public fun keycloakHttpSecurityCustomizer ()Lcom/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakHttpSecurityCustomizer;
+	public fun keycloakJwtClaimsAuthoritiesConverter (Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;)Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakJwtClaimsAuthoritiesConverter;
+	public fun keycloakServerHttpSecurityCustomizer ()Lcom/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakServerHttpSecurityCustomizer;
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/KeycloakJwtClaimsAuthoritiesConverter : org/springframework/core/convert/converter/Converter {
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/KeycloakOAuth2EnvironmentPostProcessor : org/springframework/boot/env/EnvironmentPostProcessor {
+	public static final field INSTANCE Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakOAuth2EnvironmentPostProcessor;
+	public static final fun postProcessEnvironment (Lorg/springframework/core/env/ConfigurableEnvironment;)V
+	public fun postProcessEnvironment (Lorg/springframework/core/env/ConfigurableEnvironment;Lorg/springframework/boot/SpringApplication;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties {
+	public static final field CONFIGURATION_PROPERTIES_PREFIX Ljava/lang/String;
+	public static final field Companion Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties$Companion;
+	public fun <init> (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun component1 ()Z
+	public final fun component2 ()Ljava/lang/String;
+	public final fun component3 ()Ljava/lang/String;
+	public final fun component4 ()Ljava/lang/String;
+	public final fun component5 ()Ljava/lang/String;
+	public final fun component6 ()Z
+	public final fun component7 ()Ljava/lang/String;
+	public final fun component8 ()Ljava/lang/String;
+	public final fun copy (ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;)Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;
+	public static synthetic fun copy$default (Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;ILjava/lang/Object;)Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun getAuthServerUrl ()Ljava/lang/String;
+	public fun getBearerOnly ()Z
+	public fun getClientId ()Ljava/lang/String;
+	public fun getClientSecret ()Ljava/lang/String;
+	public fun getEnabled ()Z
+	public fun getRealm ()Ljava/lang/String;
+	public fun getSpringSecurityOauth2ClientProviderName ()Ljava/lang/String;
+	public fun getSpringSecurityOauth2ClientRegistrationName ()Ljava/lang/String;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties$Companion {
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/client/DefaultKeycloakOidcUserGrantedAuthoritiesConverter : com/github/daniel/shuy/oauth2/keycloak/client/KeycloakOidcUserGrantedAuthoritiesConverter {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakJwtClaimsAuthoritiesConverter;)V
+	public fun toGrantedAuthorities (Lorg/springframework/security/oauth2/client/oidc/userinfo/OidcUserRequest;Lorg/springframework/security/oauth2/core/oidc/user/OidcUser;)Ljava/util/Collection;
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/client/KeycloakOidcUserGrantedAuthoritiesConverter {
+	public abstract fun toGrantedAuthorities (Lorg/springframework/security/oauth2/client/oidc/userinfo/OidcUserRequest;Lorg/springframework/security/oauth2/core/oidc/user/OidcUser;)Ljava/util/Collection;
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/client/reactive/DefaultKeycloakReactiveOAuth2ClientConfigurer : com/github/daniel/shuy/oauth2/keycloak/client/reactive/KeycloakReactiveOAuth2ClientConfigurer {
+	public fun <init> (Lorg/springframework/security/oauth2/client/registration/ReactiveClientRegistrationRepository;)V
+	public fun configureOAuth2Client (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+	protected fun csrf (Lorg/springframework/security/config/web/server/ServerHttpSecurity$CsrfSpec;)V
+	protected fun getLogoutSuccessHandler (Lorg/springframework/security/oauth2/client/registration/ReactiveClientRegistrationRepository;)Lorg/springframework/security/web/server/authentication/logout/ServerLogoutSuccessHandler;
+	protected fun logout (Lorg/springframework/security/config/web/server/ServerHttpSecurity$LogoutSpec;Lorg/springframework/security/oauth2/client/registration/ReactiveClientRegistrationRepository;)V
+	protected fun oauth2Login (Lorg/springframework/security/config/web/server/ServerHttpSecurity$OAuth2LoginSpec;)V
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/client/reactive/KeycloakOAuth2ClientSecurityWebFilterChain : org/springframework/security/web/server/SecurityWebFilterChain {
+	public fun <init> (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+	public fun getWebFilters ()Lreactor/core/publisher/Flux;
+	public fun matches (Lorg/springframework/web/server/ServerWebExchange;)Lreactor/core/publisher/Mono;
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/client/reactive/KeycloakReactiveOAuth2ClientConfigurer {
+	public abstract fun configureOAuth2Client (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/client/servlet/DefaultKeycloakOAuth2ClientConfigurer : com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOAuth2ClientConfigurer {
+	public fun <init> (Lorg/springframework/security/oauth2/client/registration/ClientRegistrationRepository;Lcom/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOidcUserService;)V
+	public fun configureOAuth2Client (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+	protected fun csrf (Lorg/springframework/security/config/annotation/web/configurers/CsrfConfigurer;)V
+	protected fun getLogoutSuccessHandler (Lorg/springframework/security/oauth2/client/registration/ClientRegistrationRepository;)Lorg/springframework/security/web/authentication/logout/LogoutSuccessHandler;
+	protected fun logout (Lorg/springframework/security/config/annotation/web/configurers/LogoutConfigurer;Lorg/springframework/security/oauth2/client/registration/ClientRegistrationRepository;)V
+	protected fun oauth2Login (Lorg/springframework/security/config/annotation/web/configurers/oauth2/client/OAuth2LoginConfigurer;)V
+	protected fun userInfoEndpoint (Lorg/springframework/security/config/annotation/web/configurers/oauth2/client/OAuth2LoginConfigurer$UserInfoEndpointConfig;)V
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOAuth2ClientConfigurer {
+	public abstract fun configureOAuth2Client (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOAuth2ClientSecurityFilterChain : org/springframework/security/web/SecurityFilterChain {
+	public fun <init> (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+	public fun getFilters ()Ljava/util/List;
+	public fun matches (Ljavax/servlet/http/HttpServletRequest;)Z
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOidcUserService : org/springframework/security/oauth2/client/oidc/userinfo/OidcUserService {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/client/KeycloakOidcUserGrantedAuthoritiesConverter;)V
+	public fun loadUser (Lorg/springframework/security/oauth2/client/oidc/userinfo/OidcUserRequest;)Lorg/springframework/security/oauth2/core/oidc/user/OidcUser;
+	public synthetic fun loadUser (Lorg/springframework/security/oauth2/client/userinfo/OAuth2UserRequest;)Lorg/springframework/security/oauth2/core/user/OAuth2User;
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/customizer/DefaultKeycloakHttpSecurityCustomizer : com/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakHttpSecurityCustomizer {
+	public fun <init> ()V
+	public fun configure (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/customizer/DefaultKeycloakServerHttpSecurityCustomizer : com/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakServerHttpSecurityCustomizer {
+	public fun <init> ()V
+	public fun configure (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakHttpSecurityCustomizer {
+	public abstract fun configure (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/customizer/KeycloakServerHttpSecurityCustomizer {
+	public abstract fun configure (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/server/resource/DefaultKeycloakJwtAuthenticationConverter : org/springframework/security/oauth2/server/resource/authentication/JwtAuthenticationConverter, com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/server/resource/DefaultKeycloakJwtGrantedAuthoritiesConverter : com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakJwtClaimsAuthoritiesConverter;)V
+	public synthetic fun convert (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun convert (Lorg/springframework/security/oauth2/jwt/Jwt;)Ljava/util/List;
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter : org/springframework/core/convert/converter/Converter {
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter : org/springframework/core/convert/converter/Converter {
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/DefaultKeycloakReactiveOAuth2ResourceServerConfigurer : com/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/KeycloakReactiveOAuth2ResourceServerConfigurer {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/KeycloakReactiveJwtAuthenticationConverter;)V
+	public fun configureOAuth2ResourceServer (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+	protected fun jwt (Lorg/springframework/security/config/web/server/ServerHttpSecurity$OAuth2ResourceServerSpec$JwtSpec;)V
+	protected fun oauth2ResourceServer (Lorg/springframework/security/config/web/server/ServerHttpSecurity$OAuth2ResourceServerSpec;)V
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/KeycloakOAuth2ResourceServerSecurityWebFilterChain : org/springframework/security/web/server/SecurityWebFilterChain {
+	public fun <init> (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+	public fun getWebFilters ()Lreactor/core/publisher/Flux;
+	public fun matches (Lorg/springframework/web/server/ServerWebExchange;)Lreactor/core/publisher/Mono;
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/KeycloakReactiveJwtAuthenticationConverter : org/springframework/security/oauth2/server/resource/authentication/ReactiveJwtAuthenticationConverterAdapter {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter;)V
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/server/resource/reactive/KeycloakReactiveOAuth2ResourceServerConfigurer {
+	public abstract fun configureOAuth2ResourceServer (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
+}
+
+public class com/github/daniel/shuy/oauth2/keycloak/server/resource/servlet/DefaultKeycloakOAuth2ResourceServerConfigurer : com/github/daniel/shuy/oauth2/keycloak/server/resource/servlet/KeycloakOAuth2ResourceServerConfigurer {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter;)V
+	public fun configureOAuth2ResourceServer (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+	protected fun jwt (Lorg/springframework/security/config/annotation/web/configurers/oauth2/server/resource/OAuth2ResourceServerConfigurer$JwtConfigurer;)V
+	protected fun oauth2ResourceServer (Lorg/springframework/security/config/annotation/web/configurers/oauth2/server/resource/OAuth2ResourceServerConfigurer;)V
+}
+
+public abstract interface class com/github/daniel/shuy/oauth2/keycloak/server/resource/servlet/KeycloakOAuth2ResourceServerConfigurer {
+	public abstract fun configureOAuth2ResourceServer (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+}
+
+public final class com/github/daniel/shuy/oauth2/keycloak/server/resource/servlet/KeycloakOAuth2ResourceServerSecurityFilterChain : org/springframework/security/web/SecurityFilterChain {
+	public fun <init> (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
+	public fun getFilters ()Ljava/util/List;
+	public fun matches (Ljavax/servlet/http/HttpServletRequest;)Z
+}
+
