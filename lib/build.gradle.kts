@@ -11,7 +11,6 @@ plugins {
 }
 
 group = "com.github.daniel-shuy"
-version = "0.0.1-SNAPSHOT"
 description = "Spring Boot Starter for using Keycloak as the OAuth2 authorization server"
 
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
