@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: write
+  packages: write
 
 env:
   BRANCH: ${{ github.ref_name }}
