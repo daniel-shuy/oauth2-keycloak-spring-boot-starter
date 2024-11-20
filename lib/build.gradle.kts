@@ -47,6 +47,13 @@ tasks.named("afterReleaseBuild") {
     dependsOn("publish")
 }
 
+release {
+    git {
+        requireBranch = "" // allow releasing from any branch
+        signTag = true
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("lib") {
