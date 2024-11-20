@@ -7,6 +7,9 @@ on:
       - release/*
   workflow_dispatch:  # allow Action to be run manually
 
+permissions:
+  contents: write
+
 env:
   BRANCH: ${{ github.ref_name }}
 
