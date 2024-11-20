@@ -50,6 +50,7 @@ tasks.named("afterReleaseBuild") {
 release {
     git {
         requireBranch = "" // allow releasing from any branch
+        signTag = true
     }
 }
 
