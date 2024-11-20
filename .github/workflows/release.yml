@@ -7,19 +7,15 @@ on:
       - release/*
   workflow_dispatch:  # allow Action to be run manually
 
-permissions:
-  contents: write
-  packages: write
-
 env:
   BRANCH: ${{ github.ref_name }}
 
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:  # required to publish to GitHub Packages
-      contents: read
-      packages: write
+    permissions:
+      contents: write # required to merge branch
+      packages: write # required to publish to GitHub Packages
     steps:
       - name: Validate branch
         if: startsWith(env.BRANCH, 'hotfix/') != true && startsWith(env.BRANCH, 'release/') != true

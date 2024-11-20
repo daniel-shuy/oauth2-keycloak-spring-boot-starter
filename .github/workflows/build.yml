@@ -10,9 +10,6 @@ on:
     - cron: 0 0 * * *
   workflow_dispatch:  # allow Action to be run manually
 
-permissions:
-  pull-requests: write
-
 jobs:
   validate-renovate-config:
     runs-on: ubuntu-latest
@@ -39,6 +36,8 @@ jobs:
         run: npm run renovate-config-validator
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout with GIT
         uses: actions/checkout@v4
