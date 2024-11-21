@@ -55,7 +55,7 @@ release {
 
 publishing {
     publications {
-        create<MavenPublication>("lib") {
+        register<MavenPublication>("lib") {
             artifactId = "oauth2-keycloak-spring-boot-starter"
             description = project.description
 
@@ -85,6 +85,9 @@ publishing {
                     tag.set("HEAD")
                 }
             }
+
+            suppressPomMetadataWarningsFor("testFixturesApiElements")
+            suppressPomMetadataWarningsFor("testFixturesRuntimeElements")
         }
     }
 
