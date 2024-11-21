@@ -15,6 +15,10 @@ description = "Spring Boot Starter for using Keycloak as the OAuth2 authorizatio
 
 val isReleaseVersion = !version.toString().endsWith("-SNAPSHOT")
 
+configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+    version = libs.versions.ktlint
+}
+
 kotlin {
     jvmToolchain(
         libs.versions.java
@@ -28,6 +32,31 @@ kotlin {
     explicitApi()
 }
 
+dependencies {
+    annotationProcessor(libs.spring.boot.autoconfigure.processor)
+    annotationProcessor(libs.spring.boot.configuration.processor)
+
+    compileOnly(libs.spring.boot.starter.oauth2.client)
+    compileOnly(libs.spring.boot.starter.oauth2.resource.server)
+    compileOnly(libs.spring.boot.starter.web)
+    compileOnly(libs.spring.boot.starter.webflux)
+
+    implementation(libs.spring.boot.starter)
+    implementation(libs.kotlin.reflect)
+
+    testFixturesApi(platform(testLibs.spring.boot.dependencies))
+
+    testFixturesAnnotationProcessor(libs.spring.boot.configuration.processor)
+    testFixturesImplementation(testLibs.spring.web)
+    testFixturesImplementation(testLibs.spring.boot.starter.validation)
+    testFixturesImplementation(testLibs.slf4j.simple)
+    testFixturesApi(testLibs.bundles.kotest)
+    testFixturesApi(testLibs.spring.boot.starter.test)
+    testFixturesApi(testLibs.testcontainers.keycloak)
+    testFixturesApi(testLibs.alkemy)
+    testFixturesApi(testLibs.selenium)
+}
+
 java {
     withJavadocJar()
     withSourcesJar()
@@ -38,19 +67,15 @@ val javadocJar =
         from(tasks.named("dokkaJavadoc"))
     }
 
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    version = libs.versions.ktlint
-}
-
-tasks.named("afterReleaseBuild") {
-    dependsOn("publish")
-}
-
 release {
     git {
         requireBranch = "" // allow releasing from any branch
         signTag = true
     }
+}
+
+tasks.named("afterReleaseBuild") {
+    dependsOn("publish")
 }
 
 publishing {
@@ -127,29 +152,4 @@ signing {
     val signingPassword = System.getenv("SIGNING_PASSWORD")
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["lib"])
-}
-
-dependencies {
-    annotationProcessor(libs.spring.boot.autoconfigure.processor)
-    annotationProcessor(libs.spring.boot.configuration.processor)
-
-    compileOnly(libs.spring.boot.starter.oauth2.client)
-    compileOnly(libs.spring.boot.starter.oauth2.resource.server)
-    compileOnly(libs.spring.boot.starter.web)
-    compileOnly(libs.spring.boot.starter.webflux)
-
-    implementation(libs.spring.boot.starter)
-    implementation(libs.kotlin.reflect)
-
-    testFixturesApi(platform(testLibs.spring.boot.dependencies))
-
-    testFixturesAnnotationProcessor(libs.spring.boot.configuration.processor)
-    testFixturesImplementation(testLibs.spring.web)
-    testFixturesImplementation(testLibs.spring.boot.starter.validation)
-    testFixturesImplementation(testLibs.slf4j.simple)
-    testFixturesApi(testLibs.bundles.kotest)
-    testFixturesApi(testLibs.spring.boot.starter.test)
-    testFixturesApi(testLibs.testcontainers.keycloak)
-    testFixturesApi(testLibs.alkemy)
-    testFixturesApi(testLibs.selenium)
 }
