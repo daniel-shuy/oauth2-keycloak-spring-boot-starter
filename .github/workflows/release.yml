@@ -9,6 +9,7 @@ on:
 
 env:
   BRANCH: ${{ github.ref_name }}
+  DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
 jobs:
   release:
@@ -65,12 +66,14 @@ jobs:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
 
-      - name: Merge to main
+      - name: Merge to ${{ env.DEFAULT_BRANCH }}
         if: startsWith(env.BRANCH, 'release/')
         uses: devmasx/merge-branch@master
         with:
           type: now
-          target_branch: main
+          head_to_merge: HEAD
+          target_branch: ${{ env.DEFAULT_BRANCH }}
+          message: Merge branch '${{ env.BRANCH }}'
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Delete branch
