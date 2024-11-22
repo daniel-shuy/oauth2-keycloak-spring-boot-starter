@@ -71,7 +71,7 @@ jobs:
         uses: devmasx/merge-branch@master
         with:
           type: now
-          head_to_merge: HEAD
+          head_to_merge: ${{ env.BRANCH }}
           target_branch: ${{ env.DEFAULT_BRANCH }}
           message: Merge branch '${{ env.BRANCH }}'
           github_token: ${{ secrets.GITHUB_TOKEN }}
