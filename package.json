@@ -10,7 +10,7 @@
     "@stylistic/eslint-plugin": "2.11.0",
     "eslint": "9.15.0",
     "eslint-plugin-jsonc": "2.18.2",
-    "renovate": "39.23.1"
+    "renovate": "39.25.5"
   },
   "repository": {
     "type": "git",
