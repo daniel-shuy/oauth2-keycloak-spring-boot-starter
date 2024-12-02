@@ -5,6 +5,7 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 | Version | Spring Boot |
 |---------|-------------|
 | 1.x.x   | 2.x.x       |
+| 2.x.x   | 3.x.x       |
 
 ## Table of Contents
 
