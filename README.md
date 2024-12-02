@@ -177,7 +177,7 @@ public class WebSecurityConfig {
   @Bean
   public KeycloakHttpSecurityCustomizer keycloakHttpSecurityCustomizer() {
     return http -> {
-      http.authorizeRequests(authorize ->
+      http.authorizeHttpRequests(authorize ->
           authorize
               .anyRequest()
               .authenticated()
