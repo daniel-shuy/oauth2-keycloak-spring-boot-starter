@@ -4,7 +4,6 @@ import com.github.daniel.shuy.oauth2.keycloak.DefaultKeycloakJwtClaimsAuthoritie
 import com.github.daniel.shuy.oauth2.keycloak.DefaultKeycloakJwtClaimsAuthoritiesConverter.Companion.CLAIM_RESOURCE_ACCESS
 import org.springframework.core.convert.converter.Converter
 import java.util.stream.Stream
-import kotlin.streams.toList
 
 public typealias JwtClaims = Map<String, Any>
 

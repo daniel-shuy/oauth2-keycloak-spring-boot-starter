@@ -47,7 +47,7 @@ internal class KeycloakServletClientConfiguration {
         keycloakHttpSecurityCustomizer: KeycloakHttpSecurityCustomizer,
         keycloakOAuth2ClientConfigurer: KeycloakOAuth2ClientConfigurer,
     ): KeycloakOAuth2ClientSecurityFilterChain {
-        resourceServerRequestMatcher?.let { http.requestMatcher(NegatedRequestMatcher(it)) }
+        resourceServerRequestMatcher?.let { http.securityMatcher(NegatedRequestMatcher(it)) }
         keycloakHttpSecurityCustomizer.configure(http)
         keycloakOAuth2ClientConfigurer.configureOAuth2Client(http)
         return KeycloakOAuth2ClientSecurityFilterChain(http)

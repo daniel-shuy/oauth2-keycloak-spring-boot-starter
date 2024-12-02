@@ -20,6 +20,9 @@
     {
       // Spring Boot version should be the lowest supported minor version
       groupName: "Spring Boot",
+      matchFileNames: [
+        "gradle/libs.versions.toml",
+      ],
       matchPackagePrefixes: [
         "org.springframework.boot",
       ],
@@ -32,8 +35,8 @@
         enabled: false,
       },
       prBodyNotes: [
-        ":warning: README.md must be updated manually",
-        "Update Kotlin version to version managed by Spring Boot",
+        ":warning: `README.md` must be updated manually",
+        "Update Kotlin version (`kotlinLib` in `/gradle/libs.versions.toml`) to version managed by Spring Boot",
       ],
     },
   ],

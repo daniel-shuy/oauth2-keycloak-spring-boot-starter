@@ -1,5 +1,6 @@
 package com.github.daniel.shuy.oauth2.keycloak.matcher.servlet
 
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.security.web.util.matcher.RequestMatcher
@@ -8,7 +9,6 @@ import java.util.Spliterator
 import java.util.Spliterators
 import java.util.stream.Stream
 import java.util.stream.StreamSupport
-import javax.servlet.http.HttpServletRequest
 
 /**
  * [RequestMatcher] that determines if a given request is from a web browser.

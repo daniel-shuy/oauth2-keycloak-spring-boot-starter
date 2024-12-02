@@ -105,7 +105,7 @@ public abstract interface class com/github/daniel/shuy/oauth2/keycloak/client/se
 public final class com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOAuth2ClientSecurityFilterChain : org/springframework/security/web/SecurityFilterChain {
 	public fun <init> (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
 	public fun getFilters ()Ljava/util/List;
-	public fun matches (Ljavax/servlet/http/HttpServletRequest;)Z
+	public fun matches (Ljakarta/servlet/http/HttpServletRequest;)Z
 }
 
 public final class com/github/daniel/shuy/oauth2/keycloak/client/servlet/KeycloakOidcUserService : org/springframework/security/oauth2/client/oidc/userinfo/OidcUserService {
@@ -186,6 +186,6 @@ public abstract interface class com/github/daniel/shuy/oauth2/keycloak/server/re
 public final class com/github/daniel/shuy/oauth2/keycloak/server/resource/servlet/KeycloakOAuth2ResourceServerSecurityFilterChain : org/springframework/security/web/SecurityFilterChain {
 	public fun <init> (Lorg/springframework/security/config/annotation/web/builders/HttpSecurity;)V
 	public fun getFilters ()Ljava/util/List;
-	public fun matches (Ljavax/servlet/http/HttpServletRequest;)Z
+	public fun matches (Ljakarta/servlet/http/HttpServletRequest;)Z
 }
 

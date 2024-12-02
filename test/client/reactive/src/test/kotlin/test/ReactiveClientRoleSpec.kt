@@ -39,6 +39,7 @@ class ReactiveClientRoleSpec(
 
     @TestConfiguration
     class Configuration {
+        @TestConfiguration
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean

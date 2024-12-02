@@ -58,12 +58,13 @@ class ServletSpec(
         @Bean
         fun keycloakClient(keycloakProperties: KeycloakProperties): Keycloak = keycloakProperties.toClient()
 
+        @TestConfiguration
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
             fun keycloakHttpSecurityCustomizer() =
                 KeycloakHttpSecurityCustomizer { http ->
-                    http.authorizeRequests { authorize ->
+                    http.authorizeHttpRequests { authorize ->
                         authorize
                             .anyRequest()
                             .authenticated()
