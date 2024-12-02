@@ -1,6 +1,7 @@
 package com.github.daniel.shuy.oauth2.keycloak
 
 import org.springframework.boot.context.properties.ConfigurationProperties
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames
 import org.springframework.validation.annotation.Validated
 
 @ConfigurationProperties(KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX)
@@ -36,6 +37,11 @@ public class KeycloakProperties {
      * If enabled, will not attempt to authenticate users, but only verify bearer tokens.
      */
     public var bearerOnly: Boolean = false
+
+    /**
+     * Token claim attribute to obtain as principal name. Defaults to token subject (`sub`).
+     */
+    public var principalAttribute: String = StandardClaimNames.SUB
 
     /**
      * Name of the Spring Security OAuth2 Client Provider to register.

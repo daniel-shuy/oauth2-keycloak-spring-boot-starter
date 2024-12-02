@@ -30,6 +30,7 @@ Spring Boot Starter for using Keycloak as the OAuth2 authorization server
 | keycloak.client-id                                       | Mandatory          | Client-id of the application. Each application has a client-id that is used to identify the application.                                                   |          |
 | keycloak.client-secret                                   | Optional           | Only for clients with `Confidential` access type. Specify the credentials of the application.                                                              |          |
 | keycloak.bearer-only                                     | Optional           | If enabled, will not attempt to authenticate users, but only verify bearer tokens.                                                                         | `true`   |
+| keycloak.principal-attribute                             | Optional           | Token claim attribute to obtain as principal name.                                                                                                         | `sub`    |
 | keycloak.spring-security-oauth2-client-provider-name     | Optional           | Name of the Spring Security OAuth2 Client Provider to register.                                                                                            | keycloak |
 | keycloak.spring-security-oauth2-client-registration-name | Optional           | Name of the Spring Security OAuth2 Client Registration to register.                                                                                        | keycloak |
 

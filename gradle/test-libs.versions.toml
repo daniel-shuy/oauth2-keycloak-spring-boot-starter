@@ -25,6 +25,7 @@ spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-
 spring-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
+spring-security-core = { group = "org.springframework.security", name = "spring-security-core" }
 spring-web = { group = "org.springframework", name = "spring-web" }
 testcontainers-keycloak = { group = "com.github.dasniko", name = "testcontainers-keycloak", version.ref = "testcontainersKeycloak" }
 

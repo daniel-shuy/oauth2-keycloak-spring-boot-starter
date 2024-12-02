@@ -6,9 +6,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
-class TestReactiveController {
+class TestReactiveController(
+    private val testReactiveService: TestReactiveService,
+) {
     companion object {
         const val REQUEST_MAPPING_PATH_HELLO_WORLD = "/hello-world"
+        const val REQUEST_MAPPING_PATH_PRINCIPAL_NAME = "/principal-name"
         const val REQUEST_MAPPING_PATH_FOO = "/foo"
         const val REQUEST_MAPPING_PATH_BAR = "/bar"
         const val REQUEST_MAPPING_PATH_FAIL_1 = "/fail1"
@@ -22,6 +25,9 @@ class TestReactiveController {
 
     @GetMapping(REQUEST_MAPPING_PATH_HELLO_WORLD)
     fun helloWorld() = RESPONSE_BODY_HELLO_WORLD
+
+    @GetMapping(REQUEST_MAPPING_PATH_PRINCIPAL_NAME)
+    suspend fun principalAttribute() = testReactiveService.getPrincipalName()
 
     @GetMapping(REQUEST_MAPPING_PATH_FOO)
     fun foo() = RESPONSE_BODY_FOO

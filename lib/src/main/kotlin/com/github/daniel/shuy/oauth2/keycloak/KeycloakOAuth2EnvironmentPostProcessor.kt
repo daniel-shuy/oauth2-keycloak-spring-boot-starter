@@ -39,6 +39,10 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
         }"
     private val PROPERTY_BEARER_ONLY =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(KeycloakProperties::bearerOnly.name)}"
+    private val PROPERTY_PRINCIPAL_ATTRIBUTE =
+        "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${DataObjectPropertyName.toDashedForm(
+            KeycloakProperties::principalAttribute.name,
+        )}"
     private val PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME =
         "${KeycloakProperties.CONFIGURATION_PROPERTIES_PREFIX}.${
             DataObjectPropertyName.toDashedForm(
@@ -72,12 +76,14 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
         val clientId = environment.getRequiredProperty(PROPERTY_CLIENT_ID)
         val clientSecret = environment.getProperty(PROPERTY_CLIENT_SECRET)
         val bearerOnly = environment.getProperty<Boolean>(PROPERTY_BEARER_ONLY) ?: false
+        val principalAttribute = environment.getProperty(PROPERTY_PRINCIPAL_ATTRIBUTE)
         val providerName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_NAME)
         val registrationName = environment.getProperty(PROPERTY_SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_NAME)
 
         val issuerUri = "${authServerUrl}realms/$realm"
 
         val issuerUriPropertyName = "spring.security.oauth2.client.provider.$providerName.issuer-uri"
+        val userNameAttributePropertyName = "spring.security.oauth2.client.provider.$providerName.user-name-attribute"
         val providerPropertyName = "spring.security.oauth2.client.registration.$registrationName.provider"
         val clientIdPropertyName = "spring.security.oauth2.client.registration.$registrationName.client-id"
         val clientSecretPropertyName = "spring.security.oauth2.client.registration.$registrationName.client-secret"
@@ -92,6 +98,7 @@ public object KeycloakOAuth2EnvironmentPostProcessor : EnvironmentPostProcessor 
                     put(PROPERTY_SPRING_SECURITY_OAUTH2_RESOURCE_SERVER_ISSUER_URI, issuerUri)
                     if (!bearerOnly) {
                         put(issuerUriPropertyName, issuerUri)
+                        put(userNameAttributePropertyName, principalAttribute)
                         put(
                             providerPropertyName,
                             providerName,
