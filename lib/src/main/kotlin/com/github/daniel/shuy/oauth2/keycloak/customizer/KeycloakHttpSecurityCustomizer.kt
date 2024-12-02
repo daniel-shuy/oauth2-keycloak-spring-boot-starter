@@ -8,6 +8,6 @@ public fun interface KeycloakHttpSecurityCustomizer {
 
 public open class DefaultKeycloakHttpSecurityCustomizer : KeycloakHttpSecurityCustomizer {
     override fun configure(http: HttpSecurity) {
-        http.authorizeRequests { it.anyRequest().denyAll() }
+        http.authorizeHttpRequests { it.anyRequest().denyAll() }
     }
 }

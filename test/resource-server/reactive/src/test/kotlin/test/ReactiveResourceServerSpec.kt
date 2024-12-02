@@ -34,6 +34,7 @@ class ReactiveResourceServerSpec(
         @Bean
         fun keycloakClient(keycloakProperties: KeycloakProperties): Keycloak = keycloakProperties.toClient()
 
+        @TestConfiguration
         @EnableWebFluxSecurity
         class WebFluxSecurityConfig {
             @Bean

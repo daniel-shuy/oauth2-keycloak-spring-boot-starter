@@ -41,23 +41,24 @@ class ServletClientRoleSpec(
 
     @TestConfiguration
     class Configuration {
+        @TestConfiguration
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
             fun keycloakHttpSecurityCustomizer() =
                 KeycloakHttpSecurityCustomizer { http ->
-                    http.authorizeRequests { authorize ->
+                    http.authorizeHttpRequests { authorize ->
                         authorize
-                            .mvcMatchers(TestController.REQUEST_MAPPING_PATH_FOO)
+                            .requestMatchers(TestController.REQUEST_MAPPING_PATH_FOO)
                             .hasRole(TestcontainersKeycloakInitializer.KEYCLOAK_REALM_ROLE)
 
-                            .mvcMatchers(TestController.REQUEST_MAPPING_PATH_BAR)
+                            .requestMatchers(TestController.REQUEST_MAPPING_PATH_BAR)
                             .hasAuthority(TestcontainersKeycloakInitializer.KEYCLOAK_CLIENT_ROLE)
 
-                            .mvcMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_1)
+                            .requestMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_1)
                             .hasRole("non-existent-role")
 
-                            .mvcMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_2)
+                            .requestMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_2)
                             .hasAuthority("non-existent-authority")
 
                             .anyRequest()

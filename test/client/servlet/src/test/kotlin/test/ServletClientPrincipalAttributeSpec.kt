@@ -41,6 +41,7 @@ class ServletClientPrincipalAttributeSpec(
 
     @TestConfiguration
     class Configuration {
+        @TestConfiguration
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean

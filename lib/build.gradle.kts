@@ -52,10 +52,10 @@ dependencies {
     testFixturesImplementation(testLibs.kotlinx.coroutines.reactor)
     testFixturesImplementation(testLibs.spring.security.core)
     testFixturesImplementation(testLibs.spring.boot.starter.validation)
-    testFixturesImplementation(testLibs.slf4j.simple)
     testFixturesApi(testLibs.bundles.kotest)
     testFixturesApi(testLibs.spring.boot.starter.test)
     testFixturesApi(testLibs.testcontainers.keycloak)
+    testFixturesRuntimeOnly(testLibs.apache.http.client) // required for TestRestTemplate to ignore redirects
     testFixturesApi(testLibs.alkemy)
     testFixturesApi(testLibs.selenium)
 }

@@ -41,6 +41,7 @@ class ServletResourceServerPrincipalAttributeSpec(
         @Bean
         fun keycloakClient(keycloakProperties: KeycloakProperties): Keycloak = keycloakProperties.toClient()
 
+        @TestConfiguration
         @EnableWebSecurity
         class WebSecurityConfig {
             @Bean
