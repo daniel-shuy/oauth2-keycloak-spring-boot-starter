@@ -1,12 +1,17 @@
-package test
+package test.servlet
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class TestController {
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+class TestController(
+    private val testService: TestService,
+) {
     companion object {
         const val REQUEST_MAPPING_PATH_HELLO_WORLD = "/hello-world"
+        const val REQUEST_MAPPING_PATH_PRINCIPAL_NAME = "/principal-name"
         const val REQUEST_MAPPING_PATH_FOO = "/foo"
         const val REQUEST_MAPPING_PATH_BAR = "/bar"
         const val REQUEST_MAPPING_PATH_FAIL_1 = "/fail1"
@@ -20,6 +25,9 @@ class TestController {
 
     @GetMapping(REQUEST_MAPPING_PATH_HELLO_WORLD)
     fun helloWorld() = RESPONSE_BODY_HELLO_WORLD
+
+    @GetMapping(REQUEST_MAPPING_PATH_PRINCIPAL_NAME)
+    fun principalAttribute() = testService.getPrincipalName()
 
     @GetMapping(REQUEST_MAPPING_PATH_FOO)
     fun foo() = RESPONSE_BODY_FOO

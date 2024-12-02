@@ -23,6 +23,7 @@ import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
 import test.Extensions.shouldRedirectToKeycloakLogin
 import test.Extensions.toClient
+import test.reactive.TestReactiveController
 
 @SpringBootTest(
     properties = [
@@ -75,14 +76,14 @@ class ReactiveClientSpec(
     init {
         "Protected resource should be accessible after logging in" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
         }
 
         "Accessing protected resource without session should redirect to Keycloak login page" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .shouldRedirectToKeycloakLogin()
         }
 
@@ -91,7 +92,7 @@ class ReactiveClientSpec(
             val bearerToken = "${TokenUtil.TOKEN_TYPE_BEARER} $accessToken"
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .header(HttpHeaders.AUTHORIZATION, bearerToken)
                 .exchange()
                 .expectStatus()
@@ -101,7 +102,7 @@ class ReactiveClientSpec(
         "XHR request to protected resource without session should redirect to Keycloak login page" {
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("X-Requested-With", "XMLHttpRequest")
                 .exchange()
@@ -111,14 +112,14 @@ class ReactiveClientSpec(
 
         "Logout should invalidate session" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
 
             alkemyContext.keycloakLogout()
 
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .shouldRedirectToKeycloakLogin()
         }
     }

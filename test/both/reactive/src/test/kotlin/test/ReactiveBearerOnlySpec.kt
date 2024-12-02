@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import test.Extensions.toClient
+import test.reactive.TestReactiveController
 
 @SpringBootTest(
     properties = [
@@ -54,19 +55,19 @@ class ReactiveBearerOnlySpec(
             val bearerToken = "${TokenUtil.TOKEN_TYPE_BEARER} $accessToken"
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .header(HttpHeaders.AUTHORIZATION, bearerToken)
                 .exchange()
                 .expectStatus()
                 .isOk
                 .expectBody<String>()
-                .isEqualTo(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .isEqualTo(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
         }
 
         "Accessing protected resource with invalid bearer token should return HTTP 401 (Unauthorized)" {
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .header(HttpHeaders.AUTHORIZATION, "INVALID_TOKEN")
                 .exchange()
                 .expectStatus()
@@ -76,7 +77,7 @@ class ReactiveBearerOnlySpec(
         "Accessing protected resource without bearer token should return HTTP 401 (Unauthorized)" {
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .exchange()
                 .expectStatus()
                 .isUnauthorized

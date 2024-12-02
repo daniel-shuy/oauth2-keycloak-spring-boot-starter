@@ -24,6 +24,7 @@ import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
 import test.Extensions.shouldRedirectToKeycloakLogin
 import test.Extensions.toClient
+import test.reactive.TestReactiveController
 
 @SpringBootTest(
     properties = [
@@ -76,9 +77,9 @@ class ReactiveSpec(
     init {
         "Protected resource should be accessible after logging in" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
         }
 
         "Protected resource should be accessible with valid bearer token" {
@@ -86,19 +87,19 @@ class ReactiveSpec(
             val bearerToken = "${TokenUtil.TOKEN_TYPE_BEARER} $accessToken"
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .header(HttpHeaders.AUTHORIZATION, bearerToken)
                 .exchange()
                 .expectStatus()
                 .isOk
                 .expectBody<String>()
-                .isEqualTo(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .isEqualTo(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
         }
 
         "Accessing protected resource with invalid bearer token should return HTTP 401 (Unauthorized)" {
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .header(HttpHeaders.AUTHORIZATION, "INVALID_TOKEN")
                 .exchange()
                 .expectStatus()
@@ -107,14 +108,14 @@ class ReactiveSpec(
 
         "Accessing protected resource without bearer token or session should redirect to Keycloak login page" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .shouldRedirectToKeycloakLogin()
         }
 
         "XHR request to protected resource without bearer token or session should return HTTP 401 (Unauthorized)" {
             webClient
                 .get()
-                .uri(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .accept(MediaType.APPLICATION_JSON)
                 .header("X-Requested-With", "XMLHttpRequest")
                 .exchange()
@@ -124,14 +125,14 @@ class ReactiveSpec(
 
         "Logout should invalidate session" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
 
             alkemyContext.keycloakLogout()
 
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
                 .shouldRedirectToKeycloakLogin()
         }
     }

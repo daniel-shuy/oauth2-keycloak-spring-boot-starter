@@ -1,9 +1,10 @@
 package com.github.daniel.shuy.oauth2.keycloak.server.resource
 
+import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.authentication.AbstractAuthenticationToken
 import org.springframework.security.oauth2.jwt.Jwt
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken
 
 /**
  * Converts Keycloak bearer token to [AbstractAuthenticationToken].
@@ -15,13 +16,13 @@ public interface KeycloakJwtAuthenticationConverter : Converter<Jwt, AbstractAut
  * [KeycloakJwtGrantedAuthoritiesConverter].
  */
 public open class DefaultKeycloakJwtAuthenticationConverter(
-    keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
-) : JwtAuthenticationConverter(), KeycloakJwtAuthenticationConverter {
-    init {
-        setKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter)
+    private val keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter,
+    private val keycloakProperties: KeycloakProperties,
+) : KeycloakJwtAuthenticationConverter {
+    override fun convert(jwt: Jwt): AbstractAuthenticationToken? {
+        val authorities = keycloakJwtGrantedAuthoritiesConverter.convert(jwt)
+        return JwtAuthenticationToken(jwt, authorities, getPrincipalName(jwt))
     }
 
-    private fun setKeycloakJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter: KeycloakJwtGrantedAuthoritiesConverter) {
-        setJwtGrantedAuthoritiesConverter(keycloakJwtGrantedAuthoritiesConverter)
-    }
+    protected open fun getPrincipalName(jwt: Jwt): String = jwt.getClaimAsString(keycloakProperties.principalAttribute)
 }

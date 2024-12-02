@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
@@ -21,11 +22,12 @@ import test.reactive.TestReactiveController
         "keycloak.auth-server-url=<placeholder>",
         "keycloak.realm=${TestcontainersKeycloakInitializer.KEYCLOAK_REALM}",
         "keycloak.client-id=${TestcontainersKeycloakInitializer.KEYCLOAK_CLIENT_ID}",
+        "keycloak.principal-attribute=${StandardClaimNames.PREFERRED_USERNAME}",
     ],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
-class ReactiveResourceServerSpec(
+class ReactiveResourceServerPrincipalAttributeSpec(
     keycloakClient: Keycloak,
     webClient: WebTestClient,
 ) : StringSpec() {
@@ -49,37 +51,18 @@ class ReactiveResourceServerSpec(
     }
 
     init {
-        "Protected resource should be accessible with valid bearer token" {
+        "Principal name should be resolved from configured principal attribute in token claims" {
             val accessToken = keycloakClient.tokenManager().accessTokenString
             val bearerToken = "${TokenUtil.TOKEN_TYPE_BEARER} $accessToken"
             webClient
                 .get()
-                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+                .uri(TestReactiveController.REQUEST_MAPPING_PATH_PRINCIPAL_NAME)
                 .header(HttpHeaders.AUTHORIZATION, bearerToken)
                 .exchange()
                 .expectStatus()
                 .isOk
                 .expectBody<String>()
-                .isEqualTo(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
-        }
-
-        "Accessing protected resource with invalid bearer token should return HTTP 401 (Unauthorized)" {
-            webClient
-                .get()
-                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .header(HttpHeaders.AUTHORIZATION, "INVALID_TOKEN")
-                .exchange()
-                .expectStatus()
-                .isUnauthorized
-        }
-
-        "Accessing protected resource without bearer token should return HTTP 401 (Unauthorized)" {
-            webClient
-                .get()
-                .uri(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .exchange()
-                .expectStatus()
-                .isUnauthorized
+                .isEqualTo(TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME)
         }
     }
 }

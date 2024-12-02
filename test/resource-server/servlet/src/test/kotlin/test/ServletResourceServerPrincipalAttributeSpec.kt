@@ -11,13 +11,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
-import org.springframework.boot.test.web.client.getForEntity
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.oauth2.core.oidc.StandardClaimNames
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.toClient
 import test.servlet.TestController
@@ -27,11 +27,12 @@ import test.servlet.TestController
         "keycloak.auth-server-url=<placeholder>",
         "keycloak.realm=${TestcontainersKeycloakInitializer.KEYCLOAK_REALM}",
         "keycloak.client-id=${TestcontainersKeycloakInitializer.KEYCLOAK_CLIENT_ID}",
+        "keycloak.principal-attribute=${StandardClaimNames.PREFERRED_USERNAME}",
     ],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
-class ServletResourceServerSpec(
+class ServletResourceServerPrincipalAttributeSpec(
     keycloakClient: Keycloak,
     restTemplate: TestRestTemplate,
 ) : StringSpec() {
@@ -55,7 +56,7 @@ class ServletResourceServerSpec(
     }
 
     init {
-        "Protected resource should be accessible with valid bearer token" {
+        "Principal name should be resolved from configured principal attribute in token claims" {
             val accessToken = keycloakClient.tokenManager().accessTokenString
             val bearerToken = "${TokenUtil.TOKEN_TYPE_BEARER} $accessToken"
             val requestEntity =
@@ -66,36 +67,13 @@ class ServletResourceServerSpec(
                 )
             val response =
                 restTemplate.exchange<String>(
-                    TestController.REQUEST_MAPPING_PATH_HELLO_WORLD,
+                    TestController.REQUEST_MAPPING_PATH_PRINCIPAL_NAME,
                     HttpMethod.GET,
                     requestEntity,
                 )
 
             response.statusCode.shouldBeEqual(HttpStatus.OK)
-            response.body.shouldNotBeNull().shouldBeEqual(TestController.RESPONSE_BODY_HELLO_WORLD)
-        }
-
-        "Accessing protected resource with invalid bearer token should return HTTP 401 (Unauthorized)" {
-            val requestEntity =
-                HttpEntity<Unit>(
-                    HttpHeaders().apply {
-                        add(HttpHeaders.AUTHORIZATION, "INVALID_TOKEN")
-                    },
-                )
-            val response =
-                restTemplate.exchange<String>(
-                    TestController.REQUEST_MAPPING_PATH_HELLO_WORLD,
-                    HttpMethod.GET,
-                    requestEntity,
-                )
-
-            response.statusCode.shouldBeEqual(HttpStatus.UNAUTHORIZED)
-        }
-
-        "Accessing protected resource without bearer token should return HTTP 401 (Unauthorized)" {
-            val response = restTemplate.getForEntity<String>(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-
-            response.statusCode.shouldBeEqual(HttpStatus.UNAUTHORIZED)
+            response.body.shouldNotBeNull().shouldBeEqual(TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME)
         }
     }
 }

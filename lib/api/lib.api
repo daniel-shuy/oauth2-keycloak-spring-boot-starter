@@ -42,6 +42,7 @@ public class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties {
 	public fun getClientId ()Ljava/lang/String;
 	public fun getClientSecret ()Ljava/lang/String;
 	public fun getEnabled ()Z
+	public fun getPrincipalAttribute ()Ljava/lang/String;
 	public fun getRealm ()Ljava/lang/String;
 	public fun getSpringSecurityOauth2ClientProviderName ()Ljava/lang/String;
 	public fun getSpringSecurityOauth2ClientRegistrationName ()Ljava/lang/String;
@@ -50,6 +51,7 @@ public class com/github/daniel/shuy/oauth2/keycloak/KeycloakProperties {
 	public fun setClientId (Ljava/lang/String;)V
 	public fun setClientSecret (Ljava/lang/String;)V
 	public fun setEnabled (Z)V
+	public fun setPrincipalAttribute (Ljava/lang/String;)V
 	public fun setRealm (Ljava/lang/String;)V
 	public fun setSpringSecurityOauth2ClientProviderName (Ljava/lang/String;)V
 	public fun setSpringSecurityOauth2ClientRegistrationName (Ljava/lang/String;)V
@@ -130,8 +132,11 @@ public abstract interface class com/github/daniel/shuy/oauth2/keycloak/customize
 	public abstract fun configure (Lorg/springframework/security/config/web/server/ServerHttpSecurity;)V
 }
 
-public class com/github/daniel/shuy/oauth2/keycloak/server/resource/DefaultKeycloakJwtAuthenticationConverter : org/springframework/security/oauth2/server/resource/authentication/JwtAuthenticationConverter, com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter {
-	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter;)V
+public class com/github/daniel/shuy/oauth2/keycloak/server/resource/DefaultKeycloakJwtAuthenticationConverter : com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtAuthenticationConverter {
+	public fun <init> (Lcom/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter;Lcom/github/daniel/shuy/oauth2/keycloak/KeycloakProperties;)V
+	public synthetic fun convert (Ljava/lang/Object;)Ljava/lang/Object;
+	public fun convert (Lorg/springframework/security/oauth2/jwt/Jwt;)Lorg/springframework/security/authentication/AbstractAuthenticationToken;
+	protected fun getPrincipalName (Lorg/springframework/security/oauth2/jwt/Jwt;)Ljava/lang/String;
 }
 
 public class com/github/daniel/shuy/oauth2/keycloak/server/resource/DefaultKeycloakJwtGrantedAuthoritiesConverter : com/github/daniel/shuy/oauth2/keycloak/server/resource/KeycloakJwtGrantedAuthoritiesConverter {
