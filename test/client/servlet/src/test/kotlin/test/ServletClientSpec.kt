@@ -28,6 +28,7 @@ import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
 import test.Extensions.shouldRedirectToKeycloakLogin
 import test.Extensions.toClient
+import test.servlet.TestController
 
 @SpringBootTest(
     properties = [

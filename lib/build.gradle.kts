@@ -48,6 +48,8 @@ dependencies {
 
     testFixturesAnnotationProcessor(libs.spring.boot.configuration.processor)
     testFixturesImplementation(testLibs.spring.web)
+    testFixturesImplementation(testLibs.reactor.core)
+    testFixturesImplementation(testLibs.kotlinx.coroutines.reactor)
     testFixturesImplementation(testLibs.spring.boot.starter.validation)
     testFixturesImplementation(testLibs.slf4j.simple)
     testFixturesApi(testLibs.bundles.kotest)

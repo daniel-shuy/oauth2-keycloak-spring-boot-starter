@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
+import test.reactive.TestReactiveController
 
 @SpringBootTest(
     properties = [
@@ -45,16 +46,16 @@ class ReactiveClientRoleSpec(
                 KeycloakServerHttpSecurityCustomizer { http ->
                     http.authorizeExchange { exchanges ->
                         exchanges
-                            .pathMatchers(TestController.REQUEST_MAPPING_PATH_FOO)
+                            .pathMatchers(TestReactiveController.REQUEST_MAPPING_PATH_FOO)
                             .hasRole(TestcontainersKeycloakInitializer.KEYCLOAK_REALM_ROLE)
 
-                            .pathMatchers(TestController.REQUEST_MAPPING_PATH_BAR)
+                            .pathMatchers(TestReactiveController.REQUEST_MAPPING_PATH_BAR)
                             .hasAuthority(TestcontainersKeycloakInitializer.KEYCLOAK_CLIENT_ROLE)
 
-                            .pathMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_1)
+                            .pathMatchers(TestReactiveController.REQUEST_MAPPING_PATH_FAIL_1)
                             .hasRole("non-existent-role")
 
-                            .pathMatchers(TestController.REQUEST_MAPPING_PATH_FAIL_2)
+                            .pathMatchers(TestReactiveController.REQUEST_MAPPING_PATH_FAIL_2)
                             .hasAuthority("non-existent-authority")
 
                             .anyExchange()
@@ -74,28 +75,28 @@ class ReactiveClientRoleSpec(
     init {
         "Protected resource should be accessible with required role" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FOO)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_FOO)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_FOO)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_FOO)
         }
 
         "Protected resource should be accessible with required permission" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_BAR)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_BAR)
                 .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_BAR)
+                .shouldHaveText(TestReactiveController.RESPONSE_BODY_BAR)
         }
 
         "Protected resource should not be accessible without required role" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FAIL_1)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_FAIL_1)
                 .keycloakLogin()
                 .shouldHaveText("Access Denied")
         }
 
         "Protected resource should not be accessible without required permission" {
             alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FAIL_2)
+                .get(TestReactiveController.REQUEST_MAPPING_PATH_FAIL_2)
                 .keycloakLogin()
                 .shouldHaveText("Access Denied")
         }

@@ -1,9 +1,11 @@
-package test
+package test.servlet
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 class TestController {
     companion object {
         const val REQUEST_MAPPING_PATH_HELLO_WORLD = "/hello-world"

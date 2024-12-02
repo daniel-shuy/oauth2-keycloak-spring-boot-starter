@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.toClient
+import test.servlet.TestController
 
 @SpringBootTest(
     properties = [

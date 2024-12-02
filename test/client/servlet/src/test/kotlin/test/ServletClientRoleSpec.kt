@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.test.context.ContextConfiguration
 import test.Extensions.keycloakLogin
 import test.Extensions.keycloakLogout
+import test.servlet.TestController
 
 @SpringBootTest(
     properties = [

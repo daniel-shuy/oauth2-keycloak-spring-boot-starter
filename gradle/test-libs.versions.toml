@@ -14,6 +14,8 @@ kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", vers
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
 kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-spring = { group = "io.kotest.extensions", name = "kotest-extensions-spring", version.ref = "kotestSpring" }
+kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor" }
+reactor-core = { group = "io.projectreactor", name = "reactor-core" }
 selenium = { group = "org.seleniumhq.selenium", name = "selenium-java", version.ref = "selenium" }
 slf4j-simple = { group = "org.slf4j", name = "slf4j-simple", version.ref = "slf4j" }
 spring-boot-dependencies = { group = "org.springframework.boot",  name = "spring-boot-dependencies", version.ref = "springBoot" }
