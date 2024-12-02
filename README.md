@@ -93,7 +93,7 @@ Gradle (Kotlin):
 
 ```kotlin
 // build.gradle.kts
-implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
+implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 ```
 
 ### OAuth2 Resource Server
@@ -119,7 +119,7 @@ Gradle (Kotlin):
 
 ```kotlin
 // build.gradle.kts
-implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
+implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 ```
 
 **IMPORTANT: Do not configure any other OAuth2 Resource Server, as Spring Security OAuth2 Resource Server only supports
@@ -155,8 +155,8 @@ Gradle (Kotlin):
 
 ```kotlin
 // build.gradle.kts
-implementation("org.springframework.boot:ospring-boot-starter-oauth2-client")
-implementation("org.springframework.boot:ospring-boot-starter-oauth2-resource-server")
+implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 ```
 
 **IMPORTANT: Do not configure any other OAuth2 Resource Server, as Spring Security OAuth2 Resource Server only supports
@@ -190,7 +190,7 @@ public class WebSecurityConfig {
 **IMPORTANT: Do not override the `requestMatcher(RequestMatcher)` of the `HttpSecurity`.
 The filter(s) must be applied to the root path.**
 
-### Configure `ServerHttpSecurity (Spring WebFlux)
+### Configure `ServerHttpSecurity` (Spring WebFlux)
 
 The `SecurityWebFilterChain`(s) will be created automatically.
 Create a `KeycloakServerHttpSecurityCustomizer` to configure the `ServerHttpSecurity`.
