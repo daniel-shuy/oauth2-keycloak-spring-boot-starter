@@ -15,8 +15,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # required to merge branch
-      packages: write # required to publish to GitHub Packages
+      contents: write
+      packages: write
     steps:
       - name: Validate branch
         if: startsWith(env.BRANCH, 'hotfix/') != true && startsWith(env.BRANCH, 'release/') != true
@@ -56,9 +56,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-
-      - name: Merge to ${{ env.DEFAULT_BRANCH }}
-        if: startsWith(env.BRANCH, 'release/')
+  merge:
+    name: Merge to default branch
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - if: startsWith(env.BRANCH, 'release/')
         uses: devmasx/merge-branch@master
         with:
           type: now
@@ -66,6 +71,12 @@ jobs:
           target_branch: ${{ env.DEFAULT_BRANCH }}
           message: Merge branch '${{ env.BRANCH }}'
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Delete branch
-        run: git push origin --delete $BRANCH
+  delete:
+    name: Delete branch
+    needs: merge
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: git push origin --delete $BRANCH
