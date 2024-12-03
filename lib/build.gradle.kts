@@ -73,7 +73,6 @@ val javadocJar =
 release {
     git {
         requireBranch = "" // allow releasing from any branch
-        signTag = true
     }
 }
 
