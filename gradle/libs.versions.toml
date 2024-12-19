@@ -1,7 +1,7 @@
 [versions]
 dokka = "2.0.0"
 java = "17" # lowest Java version that is supported by Spring Boot
-kotlinBinaryCompatibilityValidator = "0.16.3"
+kotlinBinaryCompatibilityValidator = "0.17.0"
 kotlinLib = "1.7.21"         # Kotlin version that is supported by spring-boot-dependencies
 kotlinPlugin = "2.1.0"
 ktlint = "1.4.1"
