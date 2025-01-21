@@ -42,7 +42,7 @@ Maven:
 ```xml
 <!-- pom.xml -->
 <dependency>
-    <groupId>com.github.daniel.shuy</groupId>
+    <groupId>com.github.daniel-shuy</groupId>
     <artifactId>oauth2-keycloak-spring-boot-starter</artifactId>
     <version>${oauth2-keycloak-spring-boot-starter.version}</version>
 </dependency>
@@ -52,14 +52,14 @@ Gradle:
 
 ```groovy
 // build.gradle
-implementation "com.github.daniel.shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}"
+implementation "com.github.daniel-shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}"
 ```
 
 Gradle (Kotlin):
 
 ```kotlin
 // build.gradle.kts
-implementation("com.github.daniel.shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}")
+implementation("com.github.daniel-shuy:oauth2-keycloak-spring-boot-starter:${oauth2KeycloakSpringBootStarterVersion}")
 ```
 
 The service can be configured as either an OAuth2 client, an OAuth2 resource server, or both:
