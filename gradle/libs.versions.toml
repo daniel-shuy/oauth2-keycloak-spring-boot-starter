@@ -5,7 +5,7 @@ kotlinBinaryCompatibilityValidator = "0.17.0"
 kotlinLib = "1.7.21"         # Kotlin version that is supported by spring-boot-dependencies
 kotlinPlugin = "2.1.10"
 ktlint = "1.4.1"
-ktlintPlugin = "12.1.2"
+ktlintPlugin = "12.2.0"
 releasePlugin = "3.1.0"
 springBoot = "3.0.0" # lowest Spring Boot version with all required features
 
