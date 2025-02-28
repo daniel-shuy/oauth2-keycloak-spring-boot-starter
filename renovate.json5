@@ -23,8 +23,8 @@
       matchFileNames: [
         "gradle/libs.versions.toml",
       ],
-      matchPackagePrefixes: [
-        "org.springframework.boot",
+      matchPackageNames: [
+        "org.springframework.boot{.,:}**",
       ],
       allowedVersions: "/^[0-9]+\\.0\\.0$/", // only allow major version updates
       automerge: false,
