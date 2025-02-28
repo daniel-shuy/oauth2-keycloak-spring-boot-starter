@@ -13,9 +13,15 @@ on:
 jobs:
   validate-renovate-config:
     runs-on: ubuntu-latest
+    permissions:
+      statuses: write
     steps:
       - name: Checkout with GIT
         uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,7 +39,10 @@ jobs:
         run: npm run json5-lint
 
       - name: renovate-config-validator
-        run: npm run renovate-config-validator
+        uses: super-linter/super-linter@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VALIDATE_RENOVATE: true
   build:
     runs-on: ubuntu-latest
     permissions:
