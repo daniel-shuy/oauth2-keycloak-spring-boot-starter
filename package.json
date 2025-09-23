@@ -6,7 +6,7 @@
   },
   "devDependencies": {
     "@eslint/compat": "1.4.0",
-    "@stylistic/eslint-plugin": "4.4.1",
+    "@stylistic/eslint-plugin": "5.4.0",
     "eslint": "9.36.0",
     "eslint-plugin-jsonc": "2.20.1"
   },
