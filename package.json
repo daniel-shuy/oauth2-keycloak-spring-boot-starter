@@ -5,7 +5,7 @@
     "json5-format": "eslint --fix"
   },
   "devDependencies": {
-    "@eslint/compat": "1.2.7",
+    "@eslint/compat": "1.4.0",
     "@stylistic/eslint-plugin": "4.2.0",
     "eslint": "9.22.0",
     "eslint-plugin-jsonc": "2.19.1"
