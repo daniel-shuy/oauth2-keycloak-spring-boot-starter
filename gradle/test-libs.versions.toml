@@ -1,14 +1,11 @@
 [versions]
-alkemy = "1.0.5"
 kotest = "5.9.1"
 kotestSpring = "1.3.0"
-selenium = "4.29.0"
+selenide = "7.10.1"
 springBoot = "3.4.3"
 testcontainersKeycloak = "3.6.0"
 
 [libraries]
-alkemy = { group = "io.resoluteworks", name = "alkemy", version.ref = "alkemy" }
-alkemy-spring = { group = "io.resoluteworks", name = "alkemy-spring", version.ref = "alkemy" }
 apache-http-client = { group = "org.apache.httpcomponents.client5", name = "httpclient5" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
@@ -16,7 +13,7 @@ kotest-runner = { group = "io.kotest", name = "kotest-runner-junit5", version.re
 kotest-spring = { group = "io.kotest.extensions", name = "kotest-extensions-spring", version.ref = "kotestSpring" }
 kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor" }
 reactor-core = { group = "io.projectreactor", name = "reactor-core" }
-selenium = { group = "org.seleniumhq.selenium", name = "selenium-java", version.ref = "selenium" }
+selenide = { group = "com.codeborne", name = "selenide", version.ref = "selenide" }
 spring-boot-dependencies = { group = "org.springframework.boot",  name = "spring-boot-dependencies", version.ref = "springBoot" }
 spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client" }
 spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server" }

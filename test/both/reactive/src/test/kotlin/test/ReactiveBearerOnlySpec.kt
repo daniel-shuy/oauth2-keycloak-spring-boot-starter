@@ -13,7 +13,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
-import test.Extensions.toClient
+import test.KeycloakUtils.toClient
 import test.reactive.TestReactiveController
 
 @SpringBootTest(
