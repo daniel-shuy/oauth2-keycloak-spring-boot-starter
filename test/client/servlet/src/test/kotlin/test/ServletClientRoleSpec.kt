@@ -1,23 +1,17 @@
 package test
 
+import com.codeborne.selenide.Condition.text
+import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
-import io.alkemy.assertions.shouldHaveText
-import io.alkemy.extensions.text
-import io.alkemy.spring.AlkemyProperties
-import io.alkemy.spring.Extensions.alkemyContext
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.core.test.TestCase
-import io.kotest.core.test.TestResult
-import io.kotest.matchers.equals.shouldNotBeEqual
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.test.context.ContextConfiguration
-import test.Extensions.keycloakLogin
-import test.Extensions.keycloakLogout
+import test.KeycloakUtils.keycloakLogin
 import test.servlet.TestController
+import com.codeborne.selenide.Selenide.`$` as findElement
 
 @SpringBootTest(
     properties = [
@@ -29,16 +23,8 @@ import test.servlet.TestController
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ServletClientRoleSpec(
-    alkemyProperties: AlkemyProperties,
     @LocalServerPort serverPort: Number,
-) : StringSpec() {
-    val alkemyContext =
-        alkemyContext(
-            alkemyProperties.copy(
-                baseUrl = "http://localhost:$serverPort",
-            ),
-        )
-
+) : SelenideSpec(serverPort) {
     @TestConfiguration
     class Configuration {
         @TestConfiguration
@@ -68,42 +54,33 @@ class ServletClientRoleSpec(
         }
     }
 
-    override suspend fun afterEach(
-        testCase: TestCase,
-        result: TestResult,
-    ) {
-        alkemyContext.keycloakLogout()
-    }
-
     init {
         "Protected resource should be accessible with required role" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FOO)
-                .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_FOO)
+            open(TestController.REQUEST_MAPPING_PATH_FOO)
+            keycloakLogin()
+            findElement("body")
+                .shouldHave(text(TestController.RESPONSE_BODY_FOO))
         }
 
         "Protected resource should be accessible with required permission" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_BAR)
-                .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_BAR)
+            open(TestController.REQUEST_MAPPING_PATH_BAR)
+            keycloakLogin()
+            findElement("body")
+                .shouldHave(text(TestController.RESPONSE_BODY_BAR))
         }
 
         "Protected resource should not be accessible without required role" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FAIL_1)
-                .keycloakLogin()
-                .text
-                .shouldNotBeEqual(TestController.RESPONSE_BODY_FAIL)
+            open(TestController.REQUEST_MAPPING_PATH_FAIL_1)
+            keycloakLogin()
+            findElement("body")
+                .shouldNotHave(text(TestController.RESPONSE_BODY_FAIL))
         }
 
         "Protected resource should not be accessible without required permission" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_FAIL_2)
-                .keycloakLogin()
-                .text
-                .shouldNotBeEqual(TestController.RESPONSE_BODY_FAIL)
+            open(TestController.REQUEST_MAPPING_PATH_FAIL_2)
+            keycloakLogin()
+            findElement("body")
+                .shouldNotHave(text(TestController.RESPONSE_BODY_FAIL))
         }
     }
 }

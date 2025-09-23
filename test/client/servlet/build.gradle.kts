@@ -11,6 +11,4 @@ dependencies {
 
     testImplementation(testLibs.spring.boot.starter.oauth2.client)
     testImplementation(testLibs.spring.boot.starter.web)
-
-    testImplementation(testLibs.alkemy.spring)
 }

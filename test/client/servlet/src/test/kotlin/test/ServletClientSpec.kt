@@ -1,13 +1,9 @@
 package test
 
+import com.codeborne.selenide.Condition.text
+import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
-import io.alkemy.assertions.shouldHaveText
-import io.alkemy.spring.AlkemyProperties
-import io.alkemy.spring.Extensions.alkemyContext
-import io.kotest.core.spec.style.StringSpec
-import io.kotest.core.test.TestCase
-import io.kotest.core.test.TestResult
 import io.kotest.matchers.equals.shouldBeEqual
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
@@ -24,11 +20,12 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.test.context.ContextConfiguration
-import test.Extensions.keycloakLogin
-import test.Extensions.keycloakLogout
-import test.Extensions.shouldRedirectToKeycloakLogin
-import test.Extensions.toClient
+import test.KeycloakUtils.keycloakLogin
+import test.KeycloakUtils.keycloakLogout
+import test.KeycloakUtils.shouldRedirectToKeycloakLogin
+import test.KeycloakUtils.toClient
 import test.servlet.TestController
+import com.codeborne.selenide.Selenide.`$` as findElement
 
 @SpringBootTest(
     properties = [
@@ -40,18 +37,10 @@ import test.servlet.TestController
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ServletClientSpec(
-    alkemyProperties: AlkemyProperties,
     keycloakClient: Keycloak,
     restTemplate: TestRestTemplate,
     @LocalServerPort serverPort: Number,
-) : StringSpec() {
-    val alkemyContext =
-        alkemyContext(
-            alkemyProperties.copy(
-                baseUrl = "http://localhost:$serverPort",
-            ),
-        )
-
+) : SelenideSpec(serverPort) {
     @TestConfiguration
     class Configuration {
         @Bean
@@ -72,25 +61,17 @@ class ServletClientSpec(
         }
     }
 
-    override suspend fun afterEach(
-        testCase: TestCase,
-        result: TestResult,
-    ) {
-        alkemyContext.keycloakLogout()
-    }
-
     init {
         "Protected resource should be accessible after logging in" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+            open(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            keycloakLogin()
+            findElement("body")
+                .shouldHave(text(TestController.RESPONSE_BODY_HELLO_WORLD))
         }
 
         "Accessing protected resource without session should redirect to Keycloak login page" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .shouldRedirectToKeycloakLogin()
+            open(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            shouldRedirectToKeycloakLogin()
         }
 
         "Accessing protected resource with valid bearer token but without session should redirect to Keycloak login page" {
@@ -131,16 +112,15 @@ class ServletClientSpec(
         }
 
         "Logout should invalidate session" {
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .keycloakLogin()
-                .shouldHaveText(TestController.RESPONSE_BODY_HELLO_WORLD)
+            open(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            keycloakLogin()
+            findElement("body")
+                .shouldHave(text(TestController.RESPONSE_BODY_HELLO_WORLD))
 
-            alkemyContext.keycloakLogout()
+            keycloakLogout()
 
-            alkemyContext
-                .get(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-                .shouldRedirectToKeycloakLogin()
+            open(TestController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            shouldRedirectToKeycloakLogin()
         }
     }
 }
