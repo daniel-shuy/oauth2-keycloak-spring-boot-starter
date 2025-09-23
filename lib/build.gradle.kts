@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.binary.compatibility.validator)
     `java-test-fixtures`
     alias(libs.plugins.dokka)
+    alias(libs.plugins.dokkaJavadoc)
     alias(libs.plugins.release)
     `maven-publish`
     signing
@@ -64,10 +65,9 @@ java {
     withSourcesJar()
 }
 
-val javadocJar =
-    tasks.named<Jar>("javadocJar") {
-        from(tasks.named("dokkaJavadoc"))
-    }
+tasks.named<Jar>("javadocJar") {
+    from(tasks.named("dokkaGeneratePublicationJavadoc"))
+}
 
 release {
     git {
