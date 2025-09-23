@@ -3,7 +3,7 @@ kotest = "5.9.1"
 kotestSpring = "1.3.0"
 selenide = "7.10.1"
 springBoot = "3.4.3"
-testcontainersKeycloak = "3.6.0"
+testcontainersKeycloak = "3.8.0"
 
 [libraries]
 apache-http-client = { group = "org.apache.httpcomponents.client5", name = "httpclient5" }
