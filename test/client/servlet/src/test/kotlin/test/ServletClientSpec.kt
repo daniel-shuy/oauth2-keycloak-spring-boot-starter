@@ -4,6 +4,7 @@ import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
+import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
@@ -40,7 +41,9 @@ class ServletClientSpec(
     keycloakClient: Keycloak,
     restTemplate: TestRestTemplate,
     @LocalServerPort serverPort: Number,
-) : SelenideSpec(serverPort) {
+) : StringSpec() {
+    override val extensions = listOf(SelenideExtension(serverPort))
+
     @TestConfiguration
     class Configuration {
         @Bean

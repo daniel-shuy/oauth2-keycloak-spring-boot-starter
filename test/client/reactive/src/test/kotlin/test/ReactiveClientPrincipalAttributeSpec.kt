@@ -3,6 +3,7 @@ package test
 import com.codeborne.selenide.Condition.text
 import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
+import io.kotest.core.spec.style.StringSpec
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -26,7 +27,9 @@ import com.codeborne.selenide.Selenide.`$` as findElement
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ReactiveClientPrincipalAttributeSpec(
     @LocalServerPort serverPort: Number,
-) : SelenideSpec(serverPort) {
+) : StringSpec() {
+    override val extensions = listOf(SelenideExtension(serverPort))
+
     @TestConfiguration
     class Configuration {
         @TestConfiguration

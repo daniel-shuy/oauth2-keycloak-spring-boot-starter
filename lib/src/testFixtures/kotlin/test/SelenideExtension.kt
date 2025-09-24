@@ -1,13 +1,15 @@
 package test
 
 import com.codeborne.selenide.Selenide
-import io.kotest.core.spec.style.StringSpec
+import io.kotest.core.listeners.AfterEachListener
+import io.kotest.core.listeners.BeforeSpecListener
+import io.kotest.core.spec.Spec
 import io.kotest.core.test.TestCase
-import io.kotest.core.test.TestResult
+import io.kotest.engine.test.TestResult
 import com.codeborne.selenide.Configuration as SelenideConfiguration
 
-abstract class SelenideSpec(serverPort: Number) : StringSpec() {
-    init {
+class SelenideExtension(private val serverPort: Number) : BeforeSpecListener, AfterEachListener {
+    override suspend fun beforeSpec(spec: Spec) {
         SelenideConfiguration.baseUrl = "http://localhost:$serverPort"
     }
 
