@@ -47,7 +47,7 @@ class ServletResourceServerPrincipalAttributeSpec(
             @Bean
             fun keycloakHttpSecurityCustomizer() =
                 KeycloakHttpSecurityCustomizer { http ->
-                    http.authorizeRequests { authorize ->
+                    http.authorizeHttpRequests { authorize ->
                         authorize
                             .anyRequest()
                             .authenticated()
