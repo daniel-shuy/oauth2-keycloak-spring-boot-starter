@@ -33,6 +33,7 @@ jobs:
           VALIDATE_EDITORCONFIG: true
           VALIDATE_ENV: true
           FIX_ENV: true
+          VALIDATE_GIT_MERGE_CONFLICT_MARKERS: true
           VALIDATE_GITHUB_ACTIONS: true
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: true
           VALIDATE_JAVASCRIPT_PRETTIER: true
