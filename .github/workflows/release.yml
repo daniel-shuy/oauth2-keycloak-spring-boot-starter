@@ -80,4 +80,4 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v5
-      - run: git push origin --delete $BRANCH
+      - run: git push origin --delete "$BRANCH"
