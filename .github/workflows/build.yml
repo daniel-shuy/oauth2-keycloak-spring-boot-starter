@@ -11,38 +11,38 @@ on:
   workflow_dispatch:  # allow Action to be run manually
 
 jobs:
-  validate-renovate-config:
+  lint:
     runs-on: ubuntu-latest
     permissions:
+      contents: write
       statuses: write
     steps:
       - name: Checkout with GIT
         uses: actions/checkout@v5
         with:
+          token: ${{ secrets.SUPER_LINTER_TOKEN }}
           # super-linter needs the full git history to get the
           # list of files that changed across commits
           fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version-file: .tool-versions
-          cache: npm
-
-      - name: Update NPM
-        run: npm install --global npm@latest
-
-      - name: Install NPM dependencies
-        run: npm ci
-
-      - name: json5-lint
-        run: npm run json5-lint
-
-      - name: renovate-config-validator
+      - name: Lint
         uses: super-linter/super-linter@v8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IGNORE_GITIGNORED_FILES: true
+          VALIDATE_JSONC: true
+          FIX_JSONC: true
+          VALIDATE_JSONC_PRETTIER: true
+          FIX_JSONC_PRETTIER: true
           VALIDATE_RENOVATE: true
+
+      - name: Commit and push linting fixes
+        if: github.event_name == 'pull_request'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: ${{ github.event.pull_request.head.ref || github.head_ref || github.ref }}
+          commit_author: super-linter <super-linter@super-linter.dev>
+          commit_message: "chore: fix linting issues"
   build:
     runs-on: ubuntu-latest
     permissions:
