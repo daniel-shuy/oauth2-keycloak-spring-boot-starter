@@ -17,6 +17,6 @@ jobs:
       - uses: dorny/test-reporter@v2
         with:
           artifact: test-results
-          name: JUnit Tests
-          path: "**/*.xml"
+          name: Kotest Tests
+          path: "build/test-results/jvmKotest/*.xml"
           reporter: java-junit
