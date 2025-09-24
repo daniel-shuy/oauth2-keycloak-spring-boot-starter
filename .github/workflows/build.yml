@@ -97,3 +97,11 @@ jobs:
         with:
           name: build-reports
           path: "**/build/reports/"
+  test-report:
+    if: ${{ always() }}
+    needs: build
+    uses: ./.github/workflows/test-report.yml
+    permissions:
+      contents: read
+      actions: read
+      checks: write
