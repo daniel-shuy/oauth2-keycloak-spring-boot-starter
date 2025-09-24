@@ -19,6 +19,10 @@ spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot
 spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "springBoot" }
 spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux", version.ref = "springBoot" }
 
+# dummy dependency to force Renovate to update ktlint
+#noinspection UnusedVersionCatalogEntry
+ktlint = { group = "com.pinterest.ktlint", name = "ktlint-rule-engine", version.ref = "ktlint" }
+
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 dokkaJavadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }
