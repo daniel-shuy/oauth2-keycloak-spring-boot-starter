@@ -1,7 +1,7 @@
 [versions]
 kotest = "6.0.3"
 selenide = "7.10.1"
-springBoot = "3.4.3"
+springBoot = "3.5.6"
 testcontainersKeycloak = "3.8.0"
 
 [libraries]
