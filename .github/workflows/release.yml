@@ -50,8 +50,9 @@ jobs:
         run: >-
           ./gradlew release
           -Prelease.useAutomaticVersion=true
-          -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
+          -Prelease.releaseVersion="${RELEASE_VERSION}"
         env:
+          RELEASE_VERSION: ${{ steps.get_version_from_branch.outputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
