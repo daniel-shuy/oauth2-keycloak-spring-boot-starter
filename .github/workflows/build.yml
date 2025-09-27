@@ -24,6 +24,7 @@ jobs:
           # super-linter needs the full git history to get the
           # list of files that changed across commits
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Lint
         uses: super-linter/super-linter@ffde3b2b33b745cb612d787f669ef9442b1339a6 # v8
@@ -65,6 +66,8 @@ jobs:
     steps:
       - name: Checkout with GIT
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          persist-credentials: false
 
       - name: Set up Java
         uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5
