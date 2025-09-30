@@ -5,7 +5,7 @@ on:
     branches:
       - hotfix/*
       - release/*
-  workflow_dispatch:  # allow Action to be run manually
+  workflow_dispatch: # allow Action to be run manually
 
 env:
   BRANCH: ${{ github.ref_name }}
@@ -27,31 +27,35 @@ jobs:
         run: echo "version=${BRANCH##*/}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout with GIT
-        uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          persist-credentials: false
 
       - name: Set up JDK
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5
         with:
           distribution: temurin
           java-version-file: .tool-versions
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@48b5f213c81028ace310571dc5ec0fbbca0b2947 # v4
         with:
           build-scan-publish: true
           build-scan-terms-of-use-url: "https://gradle.com/terms-of-service"
           build-scan-terms-of-use-agree: "yes"
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+          cache-disabled: true # avoid cache poisoning of runtime artifacts
 
       - name: Set up GIT user
-        uses: fregante/setup-git-user@v2
+        uses: fregante/setup-git-user@024bc0b8e177d7e77203b48dab6fb45666854b35 # v2
 
       - name: Publish package with Gradle
         run: >-
           ./gradlew release
           -Prelease.useAutomaticVersion=true
-          -Prelease.releaseVersion=${{ steps.get_version_from_branch.outputs.version }}
+          -Prelease.releaseVersion="${RELEASE_VERSION}"
         env:
+          RELEASE_VERSION: ${{ steps.get_version_from_branch.outputs.version }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -65,7 +69,7 @@ jobs:
       contents: write
     steps:
       - if: startsWith(env.BRANCH, 'release/')
-        uses: devmasx/merge-branch@master
+        uses: devmasx/merge-branch@6ec8363d74aad4f1615d1234ae1908b4185c4313 # master
         with:
           type: now
           head_to_merge: ${{ env.BRANCH }}
@@ -79,5 +83,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v5
-      - run: git push origin --delete $BRANCH
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          persist-credentials: false
+      - run: git push origin --delete "$BRANCH"

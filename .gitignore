@@ -33,5 +33,9 @@ gradle-app.setting
 # Kotlin
 .kotlin/
 
-# Node
-node_modules/
+# Super-linter outputs
+super-linter-output
+super-linter.log
+
+# GitHub Actions leftovers
+github_conf

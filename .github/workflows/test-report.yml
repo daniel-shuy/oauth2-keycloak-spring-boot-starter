@@ -1,10 +1,7 @@
-name: 'Test Report'
+name: "Test Report"
 
 on:
-  workflow_run:
-    workflows: ['Build']
-    types:
-      - completed
+  workflow_call:
 
 jobs:
   report:
@@ -14,7 +11,7 @@ jobs:
       actions: read
       checks: write
     steps:
-      - uses: dorny/test-reporter@v2
+      - uses: dorny/test-reporter@dc3a92680fcc15842eef52e8c4606ea7ce6bd3f3 # v2
         with:
           artifact: test-results
           name: Kotest Tests
