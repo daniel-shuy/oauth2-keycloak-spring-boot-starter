@@ -1,7 +1,4 @@
 const eslintPluginJsonc = require("eslint-plugin-jsonc");
-const path = require("node:path");
-
-const gitignorePath = path.resolve(__dirname, ".gitignore");
 
 module.exports = [
   ...eslintPluginJsonc.configs["flat/recommended-with-json5"],
