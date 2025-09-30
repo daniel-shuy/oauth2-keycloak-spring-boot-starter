@@ -8,11 +8,13 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.equals.shouldBeEqual
 import org.keycloak.admin.client.Keycloak
 import org.keycloak.util.TokenUtil
+import org.springframework.boot.http.client.ClientHttpRequestFactorySettings
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.test.web.client.exchange
 import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -48,6 +50,11 @@ class ServletClientSpec(
     class Configuration {
         @Bean
         fun keycloakClient(keycloakProperties: KeycloakProperties): Keycloak = keycloakProperties.toClient()
+
+        @Bean
+        fun restTemplateBuilder(): RestTemplateBuilder =
+            RestTemplateBuilder()
+                .redirects(ClientHttpRequestFactorySettings.Redirects.DONT_FOLLOW)
 
         @TestConfiguration
         @EnableWebSecurity
