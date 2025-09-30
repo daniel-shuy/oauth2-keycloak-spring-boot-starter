@@ -5,7 +5,7 @@ on:
     branches:
       - hotfix/*
       - release/*
-  workflow_dispatch:  # allow Action to be run manually
+  workflow_dispatch: # allow Action to be run manually
 
 env:
   BRANCH: ${{ github.ref_name }}

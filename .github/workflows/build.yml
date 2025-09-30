@@ -8,7 +8,7 @@ on:
   pull_request:
   schedule:
     - cron: 0 0 * * *
-  workflow_dispatch:  # allow Action to be run manually
+  workflow_dispatch: # allow Action to be run manually
 
 jobs:
   lint:
@@ -89,14 +89,14 @@ jobs:
 
       - name: Upload test results
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: success() || failure()  # run this step even if previous step failed
+        if: success() || failure() # run this step even if previous step failed
         with:
           name: test-results
           path: "build/test-results/jvmKotest/TEST-*.xml"
 
       - name: Upload build reports
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: success() || failure()  # run this step even if previous step failed
+        if: success() || failure() # run this step even if previous step failed
         with:
           name: build-reports
           path: "**/build/reports/"
