@@ -1,7 +1,8 @@
-const eslintPluginJsonc = require("eslint-plugin-jsonc");
+import { defineConfig } from "eslint/config";
+import eslintPluginJsonc from "eslint-plugin-jsonc";
 
-module.exports = [
-  ...eslintPluginJsonc.configs["flat/recommended-with-json5"],
+export default defineConfig([
+  eslintPluginJsonc.configs["flat/recommended-with-json5"],
   {
     files: ["**/*.json5"],
     rules: {
@@ -18,4 +19,4 @@ module.exports = [
       "multiline-comment-style": ["error", "bare-block"],
     },
   },
-];
+]);
