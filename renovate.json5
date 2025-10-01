@@ -1,6 +1,8 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["config:best-practices"],
+  extends: [
+    "config:best-practices",
+  ],
   rebaseWhen: "behind-base-branch",
   prCreation: "not-pending",
   automerge: true,
@@ -11,8 +13,12 @@
     {
       // Spring Boot version should be the lowest supported minor version
       groupName: "Spring Boot",
-      matchFileNames: ["gradle/libs.versions.toml"],
-      matchPackageNames: ["org.springframework.boot{.,:}**"],
+      matchFileNames: [
+        "gradle/libs.versions.toml",
+      ],
+      matchPackageNames: [
+        "org.springframework.boot{.,:}**",
+      ],
       allowedVersions: "/^[0-9]+\\.0\\.0$/", // only allow major version updates
       automerge: false,
       minor: {
