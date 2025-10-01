@@ -1,6 +1,6 @@
 name: Build
 
-on:
+on: # yamllint disable-line rule:truthy
   push:
     branches-ignore:
       - hotfix/*
@@ -33,24 +33,22 @@ jobs:
           IGNORE_GITIGNORED_FILES: true
           VALIDATE_EDITORCONFIG: true
           VALIDATE_ENV: true
-          FIX_ENV: true
+          FIX_ENV: ${{ github.event_name == 'pull_request' }}
           VALIDATE_GIT_MERGE_CONFLICT_MARKERS: true
           VALIDATE_GITHUB_ACTIONS: true
           VALIDATE_GITHUB_ACTIONS_ZIZMOR: true
           VALIDATE_JAVASCRIPT_PRETTIER: true
-          FIX_JAVASCRIPT_PRETTIER: true
+          FIX_JAVASCRIPT_PRETTIER: ${{ github.event_name == 'pull_request' }}
           VALIDATE_JSONC: true
-          FIX_JSONC: true
-          VALIDATE_JSONC_PRETTIER: true
-          FIX_JSONC_PRETTIER: true
+          FIX_JSONC: ${{ github.event_name == 'pull_request' }}
           VALIDATE_MARKDOWN: true
-          FIX_MARKDOWN: true
+          FIX_MARKDOWN: ${{ github.event_name == 'pull_request' }}
           VALIDATE_MARKDOWN_PRETTIER: true
-          FIX_MARKDOWN_PRETTIER: true
+          FIX_MARKDOWN_PRETTIER: ${{ github.event_name == 'pull_request' }}
           VALIDATE_RENOVATE: true
           VALIDATE_YAML: true
           VALIDATE_YAML_PRETTIER: true
-          FIX_YAML_PRETTIER: true
+          FIX_YAML_PRETTIER: ${{ github.event_name == 'pull_request' }}
 
       - name: Commit and push linting fixes
         if: github.event_name == 'pull_request'
