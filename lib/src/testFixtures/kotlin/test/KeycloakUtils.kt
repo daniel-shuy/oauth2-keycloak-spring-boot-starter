@@ -1,12 +1,10 @@
 package test
 
-import com.codeborne.selenide.Condition.text
-import com.codeborne.selenide.Selenide
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
+import com.microsoft.playwright.Page
+import com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat
 import org.keycloak.admin.client.Keycloak
-import org.openqa.selenium.By
-import test.SelenideUtils.submit
-import com.codeborne.selenide.Selenide.`$` as findElement
+import test.playwright.PlaywrightUtils.submit
 
 object KeycloakUtils {
     fun KeycloakProperties.toClient(): Keycloak =
@@ -18,19 +16,19 @@ object KeycloakUtils {
             clientId,
         )
 
-    fun shouldRedirectToKeycloakLogin() =
-        findElement("body")
-            .shouldHave(text("Sign in to your account"))
+    fun Page.shouldRedirectToKeycloakLogin() =
+        assertThat(locator("body"))
+            .containsText("Sign in to your account")
 
-    fun keycloakLogin() {
-        findElement(By.name("username")).value = TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME
-        findElement(By.name("password")).value = TestcontainersKeycloakInitializer.KEYCLOAK_PASSWORD
+    fun Page.keycloakLogin() {
+        locator("[name='username']").fill(TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME)
+        locator("[name='password']").fill(TestcontainersKeycloakInitializer.KEYCLOAK_PASSWORD)
         submit()
     }
 
-    fun keycloakLogout(contextPath: String? = "") {
-        Selenide.open("$contextPath/logout")
-        if (findElement("form").exists()) {
+    fun Page.keycloakLogout(contextPath: String? = "") {
+        navigate("$contextPath/logout")
+        if (locator("form").isVisible) {
             submit()
         }
     }
