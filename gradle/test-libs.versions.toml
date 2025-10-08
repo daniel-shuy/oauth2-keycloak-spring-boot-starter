@@ -7,8 +7,8 @@ testcontainersKeycloak = "3.9.0"
 [libraries]
 apache-http-client = { group = "org.apache.httpcomponents.client5", name = "httpclient5" }
 kotest-assertions = { group = "io.kotest", name = "kotest-assertions-core", version.ref = "kotest" }
-kotest-framework-engine = { group = "io.kotest", name = "kotest-framework-engine", version.ref = "kotest" }
 kotest-property = { group = "io.kotest", name = "kotest-property", version.ref = "kotest" }
+kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-spring = { group = "io.kotest", name = "kotest-extensions-spring", version.ref = "kotest" }
 kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor" }
 reactor-core = { group = "io.projectreactor", name = "reactor-core" }
@@ -25,7 +25,4 @@ spring-web = { group = "org.springframework", name = "spring-web" }
 testcontainers-keycloak = { group = "com.github.dasniko", name = "testcontainers-keycloak", version.ref = "testcontainersKeycloak" }
 
 [bundles]
-kotest = ["kotest-assertions", "kotest-framework-engine", "kotest-property", "kotest-spring"]
-
-[plugins]
-kotest = { id = "io.kotest", version.ref = "kotest" }
+kotest = ["kotest-assertions", "kotest-property", "kotest-runner-junit5", "kotest-spring"]
