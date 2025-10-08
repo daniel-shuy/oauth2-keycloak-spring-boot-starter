@@ -1,6 +1,6 @@
 [versions]
 kotest = "6.0.3"
-selenide = "7.11.1"
+playwright = "1.55.0"
 springBoot = "3.5.6"
 testcontainersKeycloak = "3.9.0"
 
@@ -11,8 +11,8 @@ kotest-property = { group = "io.kotest", name = "kotest-property", version.ref =
 kotest-runner-junit5 = { group = "io.kotest", name = "kotest-runner-junit5", version.ref = "kotest" }
 kotest-spring = { group = "io.kotest", name = "kotest-extensions-spring", version.ref = "kotest" }
 kotlinx-coroutines-reactor = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-reactor" }
+playwright = { group = "com.microsoft.playwright", name = "playwright", version.ref = "playwright" }
 reactor-core = { group = "io.projectreactor", name = "reactor-core" }
-selenide = { group = "com.codeborne", name = "selenide", version.ref = "selenide" }
 spring-boot-dependencies = { group = "org.springframework.boot",  name = "spring-boot-dependencies", version.ref = "springBoot" }
 spring-boot-starter-oauth2-client = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-client" }
 spring-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server" }

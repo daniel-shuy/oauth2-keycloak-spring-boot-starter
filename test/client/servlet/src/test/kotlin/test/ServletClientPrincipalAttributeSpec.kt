@@ -1,7 +1,5 @@
 package test
 
-import com.codeborne.selenide.Condition.text
-import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
 import io.kotest.core.spec.style.StringSpec
 import org.springframework.boot.test.context.SpringBootTest
@@ -12,8 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames
 import org.springframework.test.context.ContextConfiguration
 import test.KeycloakUtils.keycloakLogin
+import test.playwright.PlaywrightConfigurationProperties
+import test.playwright.PlaywrightContext.Companion.getPage
+import test.playwright.PlaywrightUtils.assert
+import test.playwright.PlaywrightUtils.configurePlaywright
 import test.servlet.TestController
-import com.codeborne.selenide.Selenide.`$` as findElement
 
 @SpringBootTest(
     properties = [
@@ -26,9 +27,10 @@ import com.codeborne.selenide.Selenide.`$` as findElement
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ServletClientPrincipalAttributeSpec(
+    playwrightConfigurationProperties: PlaywrightConfigurationProperties,
     @LocalServerPort serverPort: Number,
 ) : StringSpec() {
-    override val extensions = listOf(SelenideExtension(serverPort))
+    val playwrightContext = configurePlaywright(playwrightConfigurationProperties, serverPort)
 
     @TestConfiguration
     class Configuration {
@@ -49,10 +51,12 @@ class ServletClientPrincipalAttributeSpec(
 
     init {
         "Principal name should be resolved from configured principal attribute in token claims" {
-            open(TestController.REQUEST_MAPPING_PATH_PRINCIPAL_NAME)
-            keycloakLogin()
-            findElement("body")
-                .shouldHave(text(TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME))
+            val page = getPage(playwrightContext)
+            page.navigate(TestController.REQUEST_MAPPING_PATH_PRINCIPAL_NAME)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                hasText(TestcontainersKeycloakInitializer.KEYCLOAK_USERNAME)
+            }
         }
     }
 }

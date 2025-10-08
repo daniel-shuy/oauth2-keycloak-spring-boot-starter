@@ -57,7 +57,7 @@ dependencies {
     testFixturesApi(testLibs.spring.boot.starter.test)
     testFixturesApi(testLibs.testcontainers.keycloak)
     testFixturesRuntimeOnly(testLibs.apache.http.client) // required for TestRestTemplate to ignore redirects
-    testFixturesApi(testLibs.selenide)
+    testFixturesApi(testLibs.playwright)
 }
 
 java {

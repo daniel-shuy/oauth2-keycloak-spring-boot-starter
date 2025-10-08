@@ -1,7 +1,5 @@
 package test
 
-import com.codeborne.selenide.Condition.text
-import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakHttpSecurityCustomizer
 import io.kotest.core.spec.style.StringSpec
 import org.springframework.boot.test.context.SpringBootTest
@@ -11,8 +9,11 @@ import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.test.context.ContextConfiguration
 import test.KeycloakUtils.keycloakLogin
+import test.playwright.PlaywrightConfigurationProperties
+import test.playwright.PlaywrightContext.Companion.getPage
+import test.playwright.PlaywrightUtils.assert
+import test.playwright.PlaywrightUtils.configurePlaywright
 import test.servlet.TestController
-import com.codeborne.selenide.Selenide.`$` as findElement
 
 @SpringBootTest(
     properties = [
@@ -24,9 +25,10 @@ import com.codeborne.selenide.Selenide.`$` as findElement
 )
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ServletClientRoleSpec(
+    playwrightConfigurationProperties: PlaywrightConfigurationProperties,
     @LocalServerPort serverPort: Number,
 ) : StringSpec() {
-    override val extensions = listOf(SelenideExtension(serverPort))
+    val playwrightContext = configurePlaywright(playwrightConfigurationProperties, serverPort)
 
     @TestConfiguration
     class Configuration {
@@ -59,31 +61,39 @@ class ServletClientRoleSpec(
 
     init {
         "Protected resource should be accessible with required role" {
-            open(TestController.REQUEST_MAPPING_PATH_FOO)
-            keycloakLogin()
-            findElement("body")
-                .shouldHave(text(TestController.RESPONSE_BODY_FOO))
+            val page = getPage(playwrightContext)
+            page.navigate(TestController.REQUEST_MAPPING_PATH_FOO)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                hasText(TestController.RESPONSE_BODY_FOO)
+            }
         }
 
         "Protected resource should be accessible with required permission" {
-            open(TestController.REQUEST_MAPPING_PATH_BAR)
-            keycloakLogin()
-            findElement("body")
-                .shouldHave(text(TestController.RESPONSE_BODY_BAR))
+            val page = getPage(playwrightContext)
+            page.navigate(TestController.REQUEST_MAPPING_PATH_BAR)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                hasText(TestController.RESPONSE_BODY_BAR)
+            }
         }
 
         "Protected resource should not be accessible without required role" {
-            open(TestController.REQUEST_MAPPING_PATH_FAIL_1)
-            keycloakLogin()
-            findElement("body")
-                .shouldNotHave(text(TestController.RESPONSE_BODY_FAIL))
+            val page = getPage(playwrightContext)
+            page.navigate(TestController.REQUEST_MAPPING_PATH_FAIL_1)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                not().containsText(TestController.RESPONSE_BODY_FAIL)
+            }
         }
 
         "Protected resource should not be accessible without required permission" {
-            open(TestController.REQUEST_MAPPING_PATH_FAIL_2)
-            keycloakLogin()
-            findElement("body")
-                .shouldNotHave(text(TestController.RESPONSE_BODY_FAIL))
+            val page = getPage(playwrightContext)
+            page.navigate(TestController.REQUEST_MAPPING_PATH_FAIL_2)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                not().containsText(TestController.RESPONSE_BODY_FAIL)
+            }
         }
     }
 }
