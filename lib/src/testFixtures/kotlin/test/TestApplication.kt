@@ -1,6 +1,9 @@
 package test
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.context.properties.EnableConfigurationProperties
+import test.playwright.PlaywrightConfigurationProperties
 
 @SpringBootApplication
+@EnableConfigurationProperties(PlaywrightConfigurationProperties::class)
 class TestApplication

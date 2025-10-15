@@ -1,7 +1,5 @@
 package test
 
-import com.codeborne.selenide.Condition.text
-import com.codeborne.selenide.Selenide.open
 import com.github.daniel.shuy.oauth2.keycloak.KeycloakProperties
 import com.github.daniel.shuy.oauth2.keycloak.customizer.KeycloakServerHttpSecurityCustomizer
 import io.kotest.core.spec.style.StringSpec
@@ -21,8 +19,11 @@ import test.KeycloakUtils.keycloakLogin
 import test.KeycloakUtils.keycloakLogout
 import test.KeycloakUtils.shouldRedirectToKeycloakLogin
 import test.KeycloakUtils.toClient
+import test.playwright.PlaywrightConfigurationProperties
+import test.playwright.PlaywrightContext.Companion.getPage
+import test.playwright.PlaywrightUtils.assert
+import test.playwright.PlaywrightUtils.configurePlaywright
 import test.reactive.TestReactiveController
-import com.codeborne.selenide.Selenide.`$` as findElement
 
 @SpringBootTest(
     properties = [
@@ -35,10 +36,11 @@ import com.codeborne.selenide.Selenide.`$` as findElement
 @ContextConfiguration(initializers = [TestcontainersKeycloakInitializer::class])
 class ReactiveSpec(
     keycloakClient: Keycloak,
+    playwrightConfigurationProperties: PlaywrightConfigurationProperties,
     @LocalServerPort serverPort: Number,
     webClient: WebTestClient,
 ) : StringSpec() {
-    override val extensions = listOf(SelenideExtension(serverPort))
+    val playwrightContext = configurePlaywright(playwrightConfigurationProperties, serverPort)
 
     @TestConfiguration
     class Configuration {
@@ -62,10 +64,12 @@ class ReactiveSpec(
 
     init {
         "Protected resource should be accessible after logging in" {
-            open(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-            keycloakLogin()
-            findElement("body")
-                .shouldHave(text(TestReactiveController.RESPONSE_BODY_HELLO_WORLD))
+            val page = getPage(playwrightContext)
+            page.navigate(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                hasText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
+            }
         }
 
         "Protected resource should be accessible with valid bearer token" {
@@ -93,8 +97,9 @@ class ReactiveSpec(
         }
 
         "Accessing protected resource without bearer token or session should redirect to Keycloak login page" {
-            open(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-            shouldRedirectToKeycloakLogin()
+            val page = getPage(playwrightContext)
+            page.navigate(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            page.shouldRedirectToKeycloakLogin()
         }
 
         "XHR request to protected resource without bearer token or session should return HTTP 401 (Unauthorized)" {
@@ -109,15 +114,18 @@ class ReactiveSpec(
         }
 
         "Logout should invalidate session" {
-            open(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-            keycloakLogin()
-            findElement("body")
-                .shouldHave(text(TestReactiveController.RESPONSE_BODY_HELLO_WORLD))
+            val page = getPage(playwrightContext)
 
-            keycloakLogout()
+            page.navigate(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            page.keycloakLogin()
+            page.locator("body").assert {
+                hasText(TestReactiveController.RESPONSE_BODY_HELLO_WORLD)
+            }
 
-            open(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
-            shouldRedirectToKeycloakLogin()
+            page.keycloakLogout()
+
+            page.navigate(TestReactiveController.REQUEST_MAPPING_PATH_HELLO_WORLD)
+            page.shouldRedirectToKeycloakLogin()
         }
     }
 }
