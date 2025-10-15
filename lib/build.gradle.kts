@@ -73,6 +73,10 @@ release {
     git {
         requireBranch = "" // allow releasing from any branch
     }
+    failOnCommitNeeded = false
+    failOnPublishNeeded = false
+    failOnUpdateNeeded = false
+    failOnSnapshotDependencies = false
 }
 
 tasks.named("afterReleaseBuild") {
@@ -118,18 +122,6 @@ publishing {
     }
 
     repositories {
-        maven {
-            name = "OSSRH"
-
-            val releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
-            url = uri(if (isReleaseVersion) releasesRepoUrl else snapshotsRepoUrl)
-
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
-            }
-        }
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/daniel-shuy/oauth2-keycloak-spring-boot-starter")

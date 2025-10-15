@@ -6,7 +6,7 @@ kotlinLib = "1.7.21"         # Kotlin version that is supported by spring-boot-d
 kotlinPlugin = "2.2.20"
 ktlint = "1.7.1"
 ktlintPlugin = "13.1.0"
-releasePlugin = "3.1.0"
+releasePlugin = "3.1.1-SNAPSHOT"
 springBoot = "3.0.0" # lowest Spring Boot version with all required features
 
 [libraries]
