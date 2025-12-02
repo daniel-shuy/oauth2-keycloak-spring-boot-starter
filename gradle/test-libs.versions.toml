@@ -1,6 +1,6 @@
 [versions]
 kotest = "6.0.5"
-selenide = "7.12.1"
+selenide = "7.12.3"
 springBoot = "3.5.8"
 testcontainersKeycloak = "4.0.0"
 
