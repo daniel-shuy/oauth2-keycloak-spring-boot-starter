@@ -69,7 +69,7 @@ jobs:
       contents: write
     steps:
       - if: startsWith(env.BRANCH, 'release/')
-        uses: devmasx/merge-branch@6ec8363d74aad4f1615d1234ae1908b4185c4313 # master
+        uses: devmasx/merge-branch@dd60e3efede0524f24d3b0e08222634430dddbdf # master
         with:
           type: now
           head_to_merge: ${{ env.BRANCH }}
